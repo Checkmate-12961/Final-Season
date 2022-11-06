@@ -37,7 +37,7 @@ import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants
-import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers.T265Localizer
+import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers.TrackingWheelLocalizer
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.SuperTrajectorySequenceRunner
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
@@ -152,7 +152,7 @@ class Drivetrain(hardwareMap: HardwareMap) : MecanumDrive(
         }
     }
 
-    val voltage
+    private val voltage
         get() = batteryVoltageSensor.voltage
 
     fun setWeightedDrivePower(drivePower: Pose2d) {
@@ -278,11 +278,7 @@ class Drivetrain(hardwareMap: HardwareMap) : MecanumDrive(
         }
 
         // DONE: if desired, use setLocalizer() to change the localization method
-        val t265Localizer = T265Localizer(
-            cameraRobotOffset.pose2d, .8, hardwareMap
-        )
-        subsystems.register(t265Localizer)
-        localizer = t265Localizer
+        localizer = TrackingWheelLocalizer(hardwareMap)
 
         trajectorySequenceRunner = SuperTrajectorySequenceRunner(follower, HEADING_PID)
         poseEstimate = persistentPoseEstimate.pose2d

@@ -42,6 +42,8 @@ import java.util.List;
 
 public class PermissionValidatorWrapper extends PermissionValidatorActivity {
 
+    private final String TAG = "PermissionValidatorWrapper";
+
     /*
      * The list of dangerous permissions the robot controller needs.
      */
@@ -57,19 +59,18 @@ public class PermissionValidatorWrapper extends PermissionValidatorActivity {
     private final static Class startApplication = FtcRobotControllerActivity.class;
 
     public String mapPermissionToExplanation(final String permission) {
-        switch (permission) {
-            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                return Misc.formatForUser(R.string.permRcWriteExternalStorageExplain);
-            case Manifest.permission.READ_EXTERNAL_STORAGE:
-                return Misc.formatForUser(R.string.permRcReadExternalStorageExplain);
-            case Manifest.permission.CAMERA:
-                return Misc.formatForUser(R.string.permRcCameraExplain);
-            case Manifest.permission.ACCESS_COARSE_LOCATION:
-                return Misc.formatForUser(R.string.permAccessLocationExplain);
-            case Manifest.permission.ACCESS_FINE_LOCATION:
-                return Misc.formatForUser(R.string.permAccessLocationExplain);
-            case Manifest.permission.READ_PHONE_STATE:
-                return Misc.formatForUser(R.string.permReadPhoneState);
+        if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            return Misc.formatForUser(R.string.permRcWriteExternalStorageExplain);
+        } else if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            return Misc.formatForUser(R.string.permRcReadExternalStorageExplain);
+        } else if (permission.equals(Manifest.permission.CAMERA)) {
+            return Misc.formatForUser(R.string.permRcCameraExplain);
+        } else if (permission.equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            return Misc.formatForUser(R.string.permAccessLocationExplain);
+        } else if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            return Misc.formatForUser(R.string.permAccessLocationExplain);
+        } else if (permission.equals(Manifest.permission.READ_PHONE_STATE)) {
+            return Misc.formatForUser(R.string.permReadPhoneState);
         }
         return Misc.formatForUser(R.string.permGenericExplain);
     }
