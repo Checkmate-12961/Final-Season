@@ -37,18 +37,11 @@ class HardwareNames {
      * @property get Get a [DcMotorEx] with this id from the [HardwareMap].
      */
     enum class Motors(val id: String, val reverse: Boolean) {
-
         // Drivetrain
         RIGHT_FRONT("rightFront", false),
         RIGHT_REAR("rightRear", false),
         LEFT_FRONT("leftFront",true),
-        LEFT_REAR("leftRear", true),
-        // Carousel mechanism
-        CAROUSEL("carousel", false),
-        // Intake mechanism
-        INTAKE("intake", true),
-        // Lift mechanism
-        LIFT("lift", false);
+        LEFT_REAR("leftRear", true);
 
         fun get(hardwareMap: HardwareMap): DcMotorEx {
             val motor = hardwareMap.get(DcMotorEx::class.java, id)
@@ -90,9 +83,7 @@ class HardwareNames {
      * @property get Get a [Servo] with this id from the [HardwareMap].
      */
     enum class Servos(val id: String, val reversed: Boolean) {
-        BUCKET("bucket", false),
-        CAP_SHOULDER("capShoulder", false),
-        CAP_ELBOW("capElbow", false);
+        ;
 
         fun get(hardwareMap: HardwareMap): Servo {
             val servo = hardwareMap.get(Servo::class.java, id)
@@ -112,7 +103,7 @@ class HardwareNames {
      * @property get Get a [CRServo] with this id from the [HardwareMap].
      */
     enum class CRServos(val id: String, val reverse: Boolean) {
-        DUMMY("", false);
+        ;
 
         fun get(hardwareMap: HardwareMap): CRServo {
             val crServo = hardwareMap.get(CRServo::class.java, id)
@@ -131,7 +122,7 @@ class HardwareNames {
      * @property get Get a [WebcamName] with this id from the [HardwareMap].
      */
     enum class Cameras(val id: String) {
-        WEBCAM("webcam");
+        ;
 
         fun get(hardwareMap: HardwareMap): WebcamName {
             return hardwareMap.get(WebcamName::class.java, id)
@@ -147,8 +138,7 @@ class HardwareNames {
      * @property get Get a [DigitalChannel] with this id from the [HardwareMap].
      */
     enum class DigitalChannels(val id: String, val mode: DigitalChannel.Mode) {
-        LEFT_LIMIT_SWITCH("leftLimitSwitch", DigitalChannel.Mode.INPUT),
-        RIGHT_LIMIT_SWITCH("rightLimitSwitch", DigitalChannel.Mode.INPUT);
+        ;
 
         fun get(hardwareMap: HardwareMap): DigitalChannel {
             val digitalChannel = hardwareMap.get(DigitalChannel::class.java, this.id)

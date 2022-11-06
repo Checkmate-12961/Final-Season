@@ -25,67 +25,10 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
-import org.firstinspires.ftc.teamcode.robot.abstracts.Triggerables.TriggerableCallback
-import org.firstinspires.ftc.teamcode.robot.subsystems.Lift
-import org.firstinspires.ftc.teamcode.robot.subsystems.Bucket
 
 @Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
-    override fun preSetup() {
-        telemetry.addData("SHOULD YOU INIT", false)
-        telemetry.update()
-    }
-
-    override fun setupLoop() {
-        telemetry.addData("SHOULD YOU INIT",
-            if (robot.barcode.isStreaming != null) robot.barcode.isStreaming
-            else false
-        )
-        telemetry.update()
-    }
-
-    override fun setup() {
-        // Right bumper runs the carousel
-        gp2.rightBumper.onActivate = TriggerableCallback { robot.carousel.power = 1.0 }
-        gp2.rightBumper.onDeactivate = TriggerableCallback { robot.carousel.power = 0.0 }
-
-        // Left bumper runs the carousel the other way
-        gp2.leftBumper.onActivate = TriggerableCallback { robot.carousel.power = -1.0 }
-        gp2.leftBumper.onDeactivate = TriggerableCallback { robot.carousel.power = 0.0 }
-
-        // Left stick Y axis runs the arm
-        gp2.leftStickY.activationThreshold = 0.4
-        gp2.leftStickY.whileActive =
-            TriggerableCallback { robot.lift.height = robot.lift.height - liftChangeSpeed }
-        gp2.leftStickY.whileActiveNeg =
-            TriggerableCallback { robot.lift.height = robot.lift.height + liftChangeSpeed }
-
-        // Dpad does set points
-        gp2.dpadUp.onActivate = TriggerableCallback { robot.lift.target = Lift.Points.HIGH }
-        gp2.dpadRight.onActivate = TriggerableCallback { robot.lift.target = Lift.Points.LOW }
-        gp2.dpadLeft.onActivate = TriggerableCallback { robot.lift.target = Lift.Points.LOW }
-        gp2.dpadDown.onActivate = TriggerableCallback { robot.lift.target = Lift.Points.MIN }
-
-        // X wiggles the bucket
-        gp2.x.onActivate = TriggerableCallback { robot.bucket.position = Bucket.Positions.REST }
-        gp2.x.onDeactivate =
-            TriggerableCallback { robot.bucket.position = Bucket.Positions.ZERO }
-
-        // Right trigger dumps the bucket
-        gp2.rightTrigger.activationThreshold = 0.5
-        gp2.rightTrigger.onActivate =
-            TriggerableCallback { robot.bucket.position = Bucket.Positions.DUMP }
-        gp2.rightTrigger.onDeactivate =
-            TriggerableCallback { robot.bucket.position = Bucket.Positions.REST }
-
-        // A & B run the intake
-        gp2.a.onActivate = TriggerableCallback { if (robot.lift.isDown) robot.intake.power = -1.0 }
-        gp2.a.onDeactivate = TriggerableCallback { if (robot.lift.isDown) robot.intake.power = 0.0 }
-        gp2.b.onActivate = TriggerableCallback { if (robot.lift.isDown) robot.intake.power = 1.0 }
-        gp2.b.onDeactivate = TriggerableCallback { if (robot.lift.isDown) robot.intake.power = 0.0 }
-    }
-
     override fun runLoop() {
         when (opModeType) {
             OpModeType.TeleOp ->
@@ -126,9 +69,5 @@ class MainTeleOp : BaseOpMode() {
                 //  it and move on.
                 opModeType = OpModeType.TeleOp
         }
-    }
-
-    companion object {
-        var liftChangeSpeed = 0.2
     }
 }

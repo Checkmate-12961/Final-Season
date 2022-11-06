@@ -20,13 +20,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.robot
 
+import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
-import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
-import com.qualcomm.hardware.lynx.LynxModule
-import org.firstinspires.ftc.teamcode.robot.subsystems.*
-import org.firstinspires.ftc.teamcode.robot.subsystems.Barcode
 import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain
+import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
 
 /**
  * Checkmate robot class to access subsystems.
@@ -44,31 +42,6 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val drivetrain: Drivetrain
         get() = subsystems["Drivetrain"] as Drivetrain
-    /**
-     * Access the [Carousel] subsystem from the registry.
-     */
-    val carousel: Carousel
-        get() = subsystems["Carousel"] as Carousel
-    /**
-     * Access the [Lift] subsystem from the registry.
-     */
-    val lift: Lift
-        get() = subsystems["Lift"] as Lift
-    /**
-     * Access the [Intake] subsystem from the registry.
-     */
-    val intake: Intake
-        get() = subsystems["Intake"] as Intake
-    /**
-     * Access the [Bucket] subsystem from the registry.
-     */
-    val bucket: Bucket
-        get() = subsystems["Bucket"] as Bucket
-    /**
-     * Access the [Barcode] subsystem from the registry.
-     */
-    val barcode: Barcode
-        get() = subsystems["Barcode"] as Barcode
 
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
@@ -78,20 +51,5 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the drivetrain
         subsystems.register(Drivetrain(hardwareMap))
-
-        // Set up the carousel motor
-        subsystems.register(Carousel(hardwareMap))
-
-        // Set up the intake
-        subsystems.register(Intake(hardwareMap))
-
-        // Set up the bucket
-        subsystems.register(Bucket(hardwareMap))
-
-        // Set up the lift (it needs access to the bucket and the intake)
-        subsystems.register(Lift(hardwareMap, bucket, intake))
-
-        // Set up the barcode stuff
-        subsystems.register(Barcode(hardwareMap))
     }
 }
