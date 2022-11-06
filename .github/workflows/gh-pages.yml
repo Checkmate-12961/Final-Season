@@ -7,13 +7,13 @@ on:
 
 jobs:
   docs:
-    if: github.repository == 'Checkmate-12961/Freight-Frenzy'
+    if: github.repository == 'Checkmate-12961/Final-Season'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Freight-Frenzy
+      - name: Checkout Final-Season
         uses: actions/checkout@v2
         with:
-          path: Freight-Frenzy
+          path: Final-Season
 
       - uses: actions/setup-java@v2
         with:
@@ -22,16 +22,16 @@ jobs:
 
       - name: Make gradlew executable
         run: 'chmod +x gradlew'
-        working-directory: ./Freight-Frenzy
+        working-directory: ./Final-Season
 
       - name: Build docs
         run: './gradlew TeamCode:dokkaHtml'
-        working-directory: ./Freight-Frenzy
+        working-directory: ./Final-Season
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./Freight-Frenzy/TeamCode/build/dokka/html
+          publish_dir: ./Final-Season/TeamCode/build/dokka/html
           keep_files: true
           full_commit_message: Publish documentation
