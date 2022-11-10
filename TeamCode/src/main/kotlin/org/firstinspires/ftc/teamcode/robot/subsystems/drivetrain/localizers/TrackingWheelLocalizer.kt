@@ -88,22 +88,22 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
 
     init {
         rightEncoder = Encoder(
-            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.RIGHT.id)
+            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.REAR.id)
         )
         leftEncoder = Encoder(
-            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.LEFT.id)
-        )
-        frontEncoder = Encoder(
             hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.FRONT.id)
         )
+        frontEncoder = Encoder(
+            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.CENTER.id)
+        )
 
-        if (HardwareNames.Encoders.RIGHT.reverse) {
+        if (HardwareNames.Encoders.REAR.reverse) {
             rightEncoder.direction = Encoder.Direction.REVERSE
         }
-        if (HardwareNames.Encoders.LEFT.reverse) {
+        if (HardwareNames.Encoders.FRONT.reverse) {
             leftEncoder.direction = Encoder.Direction.REVERSE
         }
-        if (HardwareNames.Encoders.FRONT.reverse) {
+        if (HardwareNames.Encoders.CENTER.reverse) {
             frontEncoder.direction = Encoder.Direction.REVERSE
         }
     }

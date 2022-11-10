@@ -61,9 +61,9 @@ class HardwareNames {
      * @property get Get an [Encoder] with this id from the [HardwareMap].
      */
     enum class Encoders(val id: String, val reverse: Boolean) {
-        LEFT("leftRear", true),
-        FRONT("leftFront", false),
-        RIGHT("rightRear", false);
+        FRONT("motor0", true),
+        CENTER("motor2", false),
+        REAR("motor1", false);
 
         fun get(hardwareMap: HardwareMap): Encoder {
             val encoder = Encoder(hardwareMap.get(DcMotorEx::class.java, id))
@@ -122,7 +122,7 @@ class HardwareNames {
      * @property get Get a [WebcamName] with this id from the [HardwareMap].
      */
     enum class Cameras(val id: String) {
-        ;
+        WEBCAM("webcam");
 
         fun get(hardwareMap: HardwareMap): WebcamName {
             return hardwareMap.get(WebcamName::class.java, id)

@@ -21,11 +21,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package org.firstinspires.ftc.teamcode.robot.abstracts
 
 import com.acmerobotics.dashboard.FtcDashboard
-import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.robot.util.DashboardUtil
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import java.util.*
 
 /**
@@ -114,8 +113,6 @@ abstract class BaseOpMode : LinearOpMode() {
     private val dash = FtcDashboard.getInstance()
 
     private fun updateTelemetry() {
-        telemetry.addData("Position", robot.barcode.position)
-        telemetry.addData("Analysis", robot.barcode.analysis)
         val position = robot.drivetrain.poseEstimate
         val velocity = robot.drivetrain.poseVelocity
         // Print pose to telemetry
