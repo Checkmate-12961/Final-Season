@@ -210,6 +210,20 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables.Trig
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables.TriggerableCallback/invoke/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/-triggerable-callback/invoke.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables/Triggerables/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/-triggerables.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/BarcodeConstants///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-barcode-constants/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/BarcodeConstants/leftBox/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-barcode-constants/left-box.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/BarcodeConstants/middleBox/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-barcode-constants/middle-box.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/DetectionBox/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/-detection-box.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/height/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/height.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/pointA/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/point-a.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/pointB/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/point-b.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/rectangle/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/rectangle.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/threshold/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/threshold.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/width/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/width.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/x/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/x.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/y/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/y.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/TrackingWheelLocalizer.Companion///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/-tracking-wheel-localizer/-companion/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/TrackingWheelLocalizer.Companion/FORWARD_OFFSET/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/-tracking-wheel-localizer/-companion/-f-o-r-w-a-r-d_-o-f-f-s-e-t.html
@@ -337,6 +351,22 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain/Drive
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain/DriveConstants/kV/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain/-drive-constants/k-v.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain/DriveConstants/rpmToVelocity/#kotlin.Double/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain/-drive-constants/rpm-to-velocity.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.LEFT///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-l-e-f-t/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.LEFT/name/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-l-e-f-t/name.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.LEFT/ordinal/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-l-e-f-t/ordinal.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.MIDDLE///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-m-i-d-d-l-e/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.MIDDLE/name/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-m-i-d-d-l-e/name.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.MIDDLE/ordinal/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-m-i-d-d-l-e/ordinal.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.RIGHT///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-r-i-g-h-t/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.RIGHT/name/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-r-i-g-h-t/name.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition.RIGHT/ordinal/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/-r-i-g-h-t/ordinal.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode.BarcodePosition///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode-position/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode/Barcode/#com.qualcomm.robotcore.hardware.HardwareMap/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/-barcode.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode/analysis/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/analysis.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode/isStreaming/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/is-streaming.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode/position/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/position.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Barcode/preLoop/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-barcode/pre-loop.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Drivetrain.Companion///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-drivetrain/-companion/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Drivetrain.Companion/ACCEL_CONSTRAINT/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-drivetrain/-companion/-a-c-c-e-l_-c-o-n-s-t-r-a-i-n-t.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Drivetrain.Companion/HEADING_PID/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-drivetrain/-companion/-h-e-a-d-i-n-g_-p-i-d.html
@@ -516,6 +546,7 @@ org.firstinspires.ftc.teamcode.robot
 org.firstinspires.ftc.teamcode.robot.abstracts
 org.firstinspires.ftc.teamcode.robot.abstracts.exceptions
 org.firstinspires.ftc.teamcode.robot.subsystems
+org.firstinspires.ftc.teamcode.robot.subsystems.barcode
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence
