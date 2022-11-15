@@ -22,9 +22,9 @@ package org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.qualcomm.robotcore.hardware.HardwareMap
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.util.Encoder
 
@@ -76,8 +76,8 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
         @JvmField var WHEEL_RADIUS = 1.0 // in
         @JvmField var GEAR_RATIO = 1.0 // output (wheel) speed / input (encoder) speed
         @JvmField
-        var LATERAL_DISTANCE = 8.12153 // in; distance between the left and right wheels
-        @JvmField var FORWARD_OFFSET = -4.0 // in; offset of the lateral wheel
+        var LATERAL_DISTANCE = 10.63 // in; distance between the left and right wheels
+        @JvmField var FORWARD_OFFSET = 3.55 // in; offset of the lateral wheel
         @JvmField var X_MULTIPLIER = 1.0 // Multiplier in the X direction
         @JvmField var Y_MULTIPLIER = 1.0 // Multiplier in the Y direction
 

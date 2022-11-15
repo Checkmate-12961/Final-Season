@@ -20,7 +20,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.robot.abstracts
 
-import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -110,8 +109,6 @@ abstract class BaseOpMode : LinearOpMode() {
         cleanup()
     }
 
-    private val dash = FtcDashboard.getInstance()
-
     private fun updateTelemetry() {
         val position = robot.drivetrain.poseEstimate
         val velocity = robot.drivetrain.poseVelocity
@@ -126,6 +123,10 @@ abstract class BaseOpMode : LinearOpMode() {
             telemetry.addData("vY", velocity.y)
             telemetry.addData("vH", Math.toDegrees(velocity.heading))
         }
+
+        telemetry.addData("colorCone", robot.colorCone.color)
+        telemetry.addData("colorConeRaw", robot.colorCone.analysis)
+
         telemetry.update()
     }
 }

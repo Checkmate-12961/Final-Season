@@ -21,7 +21,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
 
 import com.acmerobotics.dashboard.config.Config
-import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants
 
 /*
  * Constants shared between multiple drive types.
@@ -54,7 +53,7 @@ object DriveConstants {
      */
     @JvmField var WHEEL_RADIUS = 4.8 / 2.54 // in
     @JvmField var GEAR_RATIO = 1.0 // output (wheel) speed / input (motor) speed
-    @JvmField var TRACK_WIDTH = 12.0 // in
+    @JvmField var TRACK_WIDTH = 12.58 // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using

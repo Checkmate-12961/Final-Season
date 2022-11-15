@@ -23,6 +23,7 @@ package org.firstinspires.ftc.teamcode.robot
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
+import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain
 import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
 
@@ -43,6 +44,12 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     val drivetrain: Drivetrain
         get() = subsystems["Drivetrain"] as Drivetrain
 
+    /**
+     * Access the [ColorCone] subsystem
+     */
+    val colorCone: ColorCone
+        get() = subsystems["ColorCone"] as ColorCone
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {
@@ -51,5 +58,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the drivetrain
         subsystems.register(Drivetrain(hardwareMap))
+
+        // Set up the camera (ColorCone)
+        subsystems.register(ColorCone(hardwareMap))
     }
 }

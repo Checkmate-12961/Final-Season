@@ -1,31 +1,18 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems.barcode
 
-import com.acmerobotics.dashboard.config.Config
 import org.opencv.core.Point
 import org.opencv.core.Rect
 
 /**
  * Object to store detection box locations.
  */
-@Config
-object BarcodeConstants {
+object ColorConeConstants {
     /**
-     * [DetectionBox] for the left side.
+     * [DetectionBox] for the detection to occur in.
      */
-    @JvmField var leftBox = DetectionBox(
+    @JvmField var box = DetectionBox(
         80,
         130,
-        50,
-        50,
-        150
-    )
-
-    /**
-     * [DetectionBox] for the middle.
-     */
-    @JvmField var middleBox = DetectionBox(
-        255,
-        135,
         50,
         50,
         150
