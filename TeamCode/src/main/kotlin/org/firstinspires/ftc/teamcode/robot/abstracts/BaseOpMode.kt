@@ -124,11 +124,11 @@ abstract class BaseOpMode : LinearOpMode() {
             telemetry.addData("vH", Math.toDegrees(velocity.heading))
         }
 
-        telemetry.addData("colorCone", robot.colorCone.rightColor)
-        telemetry.addData("colorConeRaw", robot.colorCone.rightAnalysis)
+        telemetry.addData("colorCone(R)", robot.colorCone.rightColor)
+        telemetry.addData("colorConeRaw(R)", robot.colorCone.rightAnalysis)
 
-        telemetry.addData("colorCone", robot.colorCone.leftColor)
-        telemetry.addData("colorConeRaw", robot.colorCone.leftAnalysis)
+        telemetry.addData("colorCone(L)", robot.colorCone.leftColor)
+        telemetry.addData("colorConeRaw(L)", robot.colorCone.leftAnalysis)
         telemetry.update()
     }
 }
