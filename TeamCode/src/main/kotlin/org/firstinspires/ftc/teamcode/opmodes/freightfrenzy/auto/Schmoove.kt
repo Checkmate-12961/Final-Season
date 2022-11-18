@@ -13,11 +13,11 @@ class Schmoove : BaseOpMode() {
      */
     override fun preRunLoop() {
         // go
-        robot.drivetrain.setWeightedDrivePower(Pose2d(1.0, 0.0, 0.0))
+        robot.longSchlong.setWeightedDrivePower(Pose2d(1.0, 0.0, 0.0))
         // wait
         sleep(schmooveLength)
         // stop going
-        robot.drivetrain.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
+        robot.longSchlong.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
     }
 
     companion object {

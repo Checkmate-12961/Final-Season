@@ -24,7 +24,7 @@ import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong
 import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
 
 /**
@@ -39,10 +39,10 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     override val tag = "CheckmateRobot"
 
     /**
-     * Access the [Drivetrain] subsystem from the registry.
+     * Access the [LongSchlong] subsystem from the registry.
      */
-    val drivetrain: Drivetrain
-        get() = subsystems["Drivetrain"] as Drivetrain
+    val longSchlong: LongSchlong
+        get() = subsystems["Drivetrain"] as LongSchlong
 
     /**
      * Access the [ColorCone] subsystem
@@ -57,7 +57,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
         }
 
         // Set up the drivetrain
-        subsystems.register(Drivetrain(hardwareMap))
+        subsystems.register(LongSchlong(hardwareMap))
 
         // Set up the camera (ColorCone)
         subsystems.register(ColorCone(hardwareMap))

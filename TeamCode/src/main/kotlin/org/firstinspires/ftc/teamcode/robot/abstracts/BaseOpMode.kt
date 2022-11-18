@@ -110,8 +110,8 @@ abstract class BaseOpMode : LinearOpMode() {
     }
 
     private fun updateTelemetry() {
-        val position = robot.drivetrain.poseEstimate
-        val velocity = robot.drivetrain.poseVelocity
+        val position = robot.longSchlong.poseEstimate
+        val velocity = robot.longSchlong.poseVelocity
         // Print pose to telemetry
         //telemetry.addData("liftHeight", robot.lift.height)
         telemetry.addData("x", position.x)

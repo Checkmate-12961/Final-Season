@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -16,9 +16,9 @@ public class StraightTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
-        Trajectory trajectory = drivetrain.trajectoryBuilder(new Pose2d())
+        Trajectory trajectory = longSchlong.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
                 .build();
 
@@ -26,23 +26,23 @@ public class StraightTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        drivetrain.followTrajectoryAsync(trajectory);
+        longSchlong.followTrajectoryAsync(trajectory);
 
         while (!isStopRequested() && opModeIsActive()){
-            drivetrain.loop();
+            longSchlong.loop();
 
-            Pose2d poseEstimate = drivetrain.getPoseEstimate();
+            Pose2d poseEstimate = longSchlong.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.update();
 
-            if (!drivetrain.isBusy()){
+            if (!longSchlong.isBusy()){
                 break;
             }
         }
 
-        Pose2d poseEstimate = drivetrain.getPoseEstimate();
+        Pose2d poseEstimate = longSchlong.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());

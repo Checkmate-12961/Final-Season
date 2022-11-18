@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -17,9 +17,9 @@ public class StrafeTest extends LinearOpMode {
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
-        Trajectory trajectory = drivetrain.trajectoryBuilder(new Pose2d())
+        Trajectory trajectory = longSchlong.trajectoryBuilder(new Pose2d())
                 .strafeRight(DISTANCE)
                 .build();
 
@@ -27,9 +27,9 @@ public class StrafeTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        drivetrain.followTrajectory(trajectory);
+        longSchlong.followTrajectory(trajectory);
 
-        Pose2d poseEstimate = drivetrain.getPoseEstimate();
+        Pose2d poseEstimate = longSchlong.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());

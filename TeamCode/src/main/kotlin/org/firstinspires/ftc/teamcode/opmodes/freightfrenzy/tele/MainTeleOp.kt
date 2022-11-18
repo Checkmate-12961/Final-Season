@@ -33,7 +33,7 @@ class MainTeleOp : BaseOpMode() {
         when (opModeType) {
             OpModeType.TeleOp ->
                 // Moves the robot based on the GP1 left stick
-                robot.drivetrain.setWeightedDrivePower(
+                robot.longSchlong.setWeightedDrivePower(
                     Pose2d( // left stick X
                         -gp1.leftStickY.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),
@@ -60,8 +60,8 @@ class MainTeleOp : BaseOpMode() {
                 )
             OpModeType.Autonomous -> {
                 // Replace false here with a check to cancel the sequence
-                if (false) robot.drivetrain.cancelSequence()
-                if (!robot.drivetrain.isBusy) opModeType = OpModeType.TeleOp
+                if (false) robot.longSchlong.cancelSequence()
+                if (!robot.longSchlong.isBusy) opModeType = OpModeType.TeleOp
             }
             else ->
                 // If we end up here, something went horribly wrong.

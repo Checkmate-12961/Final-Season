@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.tuning;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 
 /**
  * This is a simple routine to test turning capabilities.
@@ -14,12 +14,12 @@ public class TurnTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        drivetrain.turn(Math.toRadians(ANGLE));
+        longSchlong.turn(Math.toRadians(ANGLE));
     }
 }

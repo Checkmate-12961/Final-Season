@@ -16,7 +16,7 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 
 import java.util.Objects;
 
@@ -59,7 +59,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
         Mode mode = Mode.TUNING_MODE;
 
@@ -101,10 +101,10 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     MotionState motionState = activeProfile.get(profileTime);
                     double targetPower = Kinematics.calculateMotorFeedforward(motionState.getV(), motionState.getA(), kV, kA, kStatic);
 
-                    drivetrain.setDrivePower(new Pose2d(targetPower, 0, 0));
-                    drivetrain.updatePoseEstimate();
+                    longSchlong.setDrivePower(new Pose2d(targetPower, 0, 0));
+                    longSchlong.updatePoseEstimate();
 
-                    Pose2d poseVelo = Objects.requireNonNull(drivetrain.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
+                    Pose2d poseVelo = Objects.requireNonNull(longSchlong.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
                     double currentVelo = poseVelo.getX();
 
                     // update telemetry
@@ -121,7 +121,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         profileStart = clock.seconds();
                     }
 
-                    drivetrain.setWeightedDrivePower(
+                    longSchlong.setWeightedDrivePower(
                             new Pose2d(
                                     -gamepad1.left_stick_y,
                                     -gamepad1.left_stick_x,

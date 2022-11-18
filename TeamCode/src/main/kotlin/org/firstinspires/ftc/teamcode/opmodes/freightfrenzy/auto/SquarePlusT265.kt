@@ -20,12 +20,12 @@ class SquarePlusT265: BaseOpMode() {
     private var doThing = false
 
     override fun setup() {
-        squareTrajectory = robot.drivetrain.trajectorySequenceBuilder(Pose2d())
+        squareTrajectory = robot.longSchlong.trajectorySequenceBuilder(Pose2d())
             .forward(squareLength)
             .turn(kotlin.math.PI / 2)
             .addDisplacementMarker {
                 if (!isStopRequested && doThing) {
-                    robot.drivetrain.followTrajectorySequenceAsync(squareTrajectory)
+                    robot.longSchlong.followTrajectorySequenceAsync(squareTrajectory)
                 }
             }
             .build()
@@ -33,7 +33,7 @@ class SquarePlusT265: BaseOpMode() {
 
     override fun preRunLoop() {
         doThing = true
-        robot.drivetrain.followTrajectorySequenceAsync(squareTrajectory)
+        robot.longSchlong.followTrajectorySequenceAsync(squareTrajectory)
     }
 
     companion object {

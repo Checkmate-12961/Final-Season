@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants;
 
 import java.util.Objects;
@@ -28,9 +28,9 @@ public class MaxVelocityTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
-        drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        longSchlong.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         VoltageSensor batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -45,19 +45,19 @@ public class MaxVelocityTuner extends LinearOpMode {
         telemetry.clearAll();
         telemetry.update();
 
-        drivetrain.setDrivePower(new Pose2d(1, 0, 0));
+        longSchlong.setDrivePower(new Pose2d(1, 0, 0));
         ElapsedTime timer = new ElapsedTime();
 
         while (!isStopRequested() && timer.seconds() < RUNTIME) {
-            drivetrain.loop();
-            drivetrain.updatePoseEstimate();
+            longSchlong.loop();
+            longSchlong.updatePoseEstimate();
 
-            Pose2d poseVelo = Objects.requireNonNull(drivetrain.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
+            Pose2d poseVelo = Objects.requireNonNull(longSchlong.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
 
             maxVelocity = Math.max(poseVelo.vec().norm(), maxVelocity);
         }
 
-        drivetrain.setDrivePower(new Pose2d());
+        longSchlong.setDrivePower(new Pose2d());
 
         double effectiveKf = DriveConstants.getMotorVelocityF(veloInchesToTicks(maxVelocity));
 

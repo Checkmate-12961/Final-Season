@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.MovingStatistics;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants;
 
 /**
@@ -30,7 +30,7 @@ public class TrackWidthTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
         // TODO: if you haven't already, set the localizer to something that doesn't depend on
         //  drive encoders for computing the heading
 
@@ -48,20 +48,20 @@ public class TrackWidthTuner extends LinearOpMode {
 
         MovingStatistics trackWidthStats = new MovingStatistics(NUM_TRIALS);
         for (int i = 0; i < NUM_TRIALS; i++) {
-            drivetrain.setPoseEstimate(new Pose2d());
+            longSchlong.setPoseEstimate(new Pose2d());
 
             // it is important to handle heading wraparounds
             double headingAccumulator = 0;
             double lastHeading = 0;
 
-            drivetrain.turnAsync(Math.toRadians(ANGLE));
+            longSchlong.turnAsync(Math.toRadians(ANGLE));
 
-            while (!isStopRequested() && drivetrain.isBusy()) {
-                double heading = drivetrain.getPoseEstimate().getHeading();
+            while (!isStopRequested() && longSchlong.isBusy()) {
+                double heading = longSchlong.getPoseEstimate().getHeading();
                 headingAccumulator += Angle.norm(heading - lastHeading);
                 lastHeading = heading;
 
-                drivetrain.loop();
+                longSchlong.loop();
             }
 
             double trackWidth = DriveConstants.TRACK_WIDTH * Math.toRadians(ANGLE) / headingAccumulator;

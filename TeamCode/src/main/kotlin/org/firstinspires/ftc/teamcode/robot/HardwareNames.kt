@@ -41,7 +41,8 @@ class HardwareNames {
         RIGHT_FRONT("rightFront", false),
         RIGHT_REAR("rightRear", false),
         LEFT_FRONT("leftFront",true),
-        LEFT_REAR("leftRear", true);
+        LEFT_REAR("leftRear", true),
+        LIFTY_LINKAGE("liftyLinkage", false);
 
         fun get(hardwareMap: HardwareMap): DcMotorEx {
             val motor = hardwareMap.get(DcMotorEx::class.java, id)
@@ -83,7 +84,7 @@ class HardwareNames {
      * @property get Get a [Servo] with this id from the [HardwareMap].
      */
     enum class Servos(val id: String, val reversed: Boolean) {
-        ;
+        CLUMSY_CLAW("clumsyClaw", false);
 
         fun get(hardwareMap: HardwareMap): Servo {
             val servo = hardwareMap.get(Servo::class.java, id)

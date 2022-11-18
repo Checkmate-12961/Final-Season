@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
 
 /**
  * This is a simple teleop routine for testing localization. Drive the robot around like a normal
@@ -18,14 +18,14 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        LongSchlong longSchlong = new LongSchlong(hardwareMap);
 
-        drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        longSchlong.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
         while (!isStopRequested()) {
-            drivetrain.setWeightedDrivePower(
+            longSchlong.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y,
                             -gamepad1.left_stick_x,
@@ -33,9 +33,9 @@ public class LocalizationTest extends LinearOpMode {
                     )
             );
 
-            drivetrain.loop();
+            longSchlong.loop();
 
-            Pose2d poseEstimate = drivetrain.getPoseEstimate();
+            Pose2d poseEstimate = longSchlong.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
