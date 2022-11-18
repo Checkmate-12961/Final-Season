@@ -83,9 +83,9 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         override fun init(firstFrame: Mat) {
             extractChannels(firstFrame)
 
-            boxR = r.submat(ColorConeConstants.box.rectangle)
-            boxG = g.submat(ColorConeConstants.box.rectangle)
-            boxB = b.submat(ColorConeConstants.box.rectangle)
+            boxR = r.submat(ColorConeConstants.boxLeft.rectangle)
+            boxG = g.submat(ColorConeConstants.boxLeft.rectangle)
+            boxB = b.submat(ColorConeConstants.boxLeft.rectangle)
         }
 
         override fun processFrame(input: Mat): Mat {
@@ -101,8 +101,8 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
 
             Imgproc.rectangle(
                 input,  // Buffer to draw on
-                ColorConeConstants.box.pointA,  // First point which defines the rectangle
-                ColorConeConstants.box.pointB,  // Second point which defines the rectangle
+                ColorConeConstants.boxLeft.pointA,  // First point which defines the rectangle
+                ColorConeConstants.boxLeft.pointB,  // Second point which defines the rectangle
                 color.scalar,  // The color the rectangle is drawn in
                 3 // Thickness of indicator rectangle
             )

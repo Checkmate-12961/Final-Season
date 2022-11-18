@@ -10,11 +10,22 @@ object ColorConeConstants {
     /**
      * [DetectionBox] for the detection to occur in.
      */
-    @JvmField var box = DetectionBox(
-        80,
+    @JvmField var boxRight = DetectionBox(
+        30,
         130,
-        50,
-        50,
+        80,
+        60,
+        150
+    )
+
+    /**
+     * [DetectionBox] for the detection to occur in.
+     */
+    @JvmField var boxLeft = DetectionBox(
+        160,
+        125,
+        60,
+        60,
         150
     )
 }
