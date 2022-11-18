@@ -35,8 +35,11 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         }
     }
 
-    val color: ConeColor get() = pipeline.color
-    val analysis: List<Int> get() = pipeline.analysis
+    val rightColor: ConeColor get() = pipeline.RightColor
+    val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
+
+    val leftColor: ConeColor get() = pipeline.RightColor
+    val leftAnalysis: List<Int> get() = pipeline.rightAnalysis
 
     // getPosition returns where the barcode is located in a BarcodePosition
     enum class ConeColor(val scalar: Scalar) {
@@ -54,19 +57,30 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         private val b = Mat()
 
         // cut out channel materials
-        private var boxR = Mat()
-        private var boxG = Mat()
-        private var boxB = Mat()
+        private var boxRightR = Mat()
+        private var boxRightG = Mat()
+        private var boxRightB = Mat()
+
+        private var boxLeftR = Mat()
+        private var boxLeftG = Mat()
+        private var boxLeftB = Mat()
 
         // raw values
-        private var redValue = 0
-        private var greenValue = 0
-        private var blueValue = 0
+        private var rightRedValue = 0
+        private var rightGreenValue = 0
+        private var rightBlueValue = 0
+
+        private var leftRedValue = 0
+        private var leftGreenValue = 0
+        private var leftBlueValue = 0
 
         // Volatile since accessed by OpMode thread w/o synchronization
         @Volatile
-        var color = ConeColor.RED; private set
-        val analysis: List<Int> get() = listOf(redValue, greenValue, blueValue)
+        var RightColor = ConeColor.RED; private set
+        val rightAnalysis: List<Int> get() = listOf(rightRedValue, rightGreenValue, rightBlueValue)
+
+        var LeftColor = ConeColor.RED; private set
+        val leftAnalysis: List<Int> get() = listOf(leftRedValue, leftGreenValue, leftBlueValue)
 
         /**
          * This function takes the RGB frame and extracts the R, G, and B channels to the variables
@@ -83,28 +97,47 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         override fun init(firstFrame: Mat) {
             extractChannels(firstFrame)
 
-            boxR = r.submat(ColorConeConstants.boxLeft.rectangle)
-            boxG = g.submat(ColorConeConstants.boxLeft.rectangle)
-            boxB = b.submat(ColorConeConstants.boxLeft.rectangle)
+            boxRightR = r.submat(ColorConeConstants.boxRight.rectangle)
+            boxRightG = g.submat(ColorConeConstants.boxRight.rectangle)
+            boxRightB = b.submat(ColorConeConstants.boxRight.rectangle)
+
+            boxLeftR = r.submat(ColorConeConstants.boxRight.rectangle)
+            boxLeftG = g.submat(ColorConeConstants.boxRight.rectangle)
+            boxLeftB = b.submat(ColorConeConstants.boxRight.rectangle)
         }
 
         override fun processFrame(input: Mat): Mat {
             extractChannels(input)
 
-            redValue = Core.mean(boxR).value[0].toInt()
-            greenValue = Core.mean(boxG).value[0].toInt()
-            blueValue = Core.mean(boxB).value[0].toInt()
+            rightRedValue = Core.mean(boxRightR).value[0].toInt()
+            rightGreenValue = Core.mean(boxRightG).value[0].toInt()
+            rightBlueValue = Core.mean(boxRightB).value[0].toInt()
 
-            color = if (redValue > greenValue && redValue > blueValue) ConeColor.RED
-            else if (greenValue > blueValue) ConeColor.GREEN
+            RightColor = if (rightRedValue > rightGreenValue && rightRedValue > rightBlueValue) ConeColor.RED
+            else if (rightGreenValue > rightBlueValue) ConeColor.GREEN
+            else ConeColor.BLUE
+
+            leftRedValue = Core.mean(boxLeftR).value[0].toInt()
+            leftGreenValue = Core.mean(boxLeftG).value[0].toInt()
+            leftBlueValue = Core.mean(boxLeftB).value[0].toInt()
+
+            LeftColor = if (leftRedValue > leftGreenValue && leftRedValue > leftBlueValue) ConeColor.RED
+            else if (leftGreenValue > leftBlueValue) ConeColor.GREEN
             else ConeColor.BLUE
 
             Imgproc.rectangle(
                 input,  // Buffer to draw on
-                ColorConeConstants.boxLeft.pointA,  // First point which defines the rectangle
-                ColorConeConstants.boxLeft.pointB,  // Second point which defines the rectangle
-                color.scalar,  // The color the rectangle is drawn in
+                ColorConeConstants.boxRight.pointA,  // First point which defines the rectangle
+                ColorConeConstants.boxRight.pointB,  // Second point which defines the rectangle
+                RightColor.scalar,  // The color the rectangle is drawn in
                 3 // Thickness of indicator rectangle
+            )
+            Imgproc.rectangle(
+                input,  // Buffer to draw on
+                ColorConeConstants.boxLeft.pointA,  //First point which defines the rectangle
+                ColorConeConstants.boxLeft.pointB,  // Second point which defines the rectangle
+                LeftColor.scalar, // Thickness of the indicator rectangle
+                3
             )
 
             return input
