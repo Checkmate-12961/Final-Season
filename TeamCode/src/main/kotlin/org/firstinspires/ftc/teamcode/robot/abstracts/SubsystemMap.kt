@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot.abstracts
 
-import android.util.Log
 import org.firstinspires.ftc.teamcode.robot.abstracts.exceptions.SubsystemException
 
 /**
@@ -9,79 +8,47 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.exceptions.SubsystemExcept
  * @property tag Callback to get the tag for logging.
  */
 class SubsystemMap(private val tag: () -> String) {
-    private val map: MutableMap<String, AbstractSubsystem> = mutableMapOf()
-    private val regex = Regex("([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*")
+    /**
+     * Please do not directly access this class. It is much safer to use [register] and [unregister].
+     */
+    val list: MutableList<AbstractSubsystem> = mutableListOf()
 
     /**
-     * Keys in the map.
+     * Get a subsystem.
      *
-     * @see MutableMap.keys
+     * @param S Type of subsystem to get.
+     *
+     * @return The subsystem (or null if not registered).
      */
-    val keys: MutableSet<String>
-        get() = map.keys
-
-    /**
-     * Values in the map.
-     *
-     * @see MutableMap.values
-     */
-    val values: MutableCollection<AbstractSubsystem>
-        get() = map.values
-
-    /**
-     * Set a value in the map.
-     *
-     * @param id Key to set the map at.
-     * @param subsystem Value to set it to.
-     *
-     * @see MutableMap.set
-     */
-    operator fun set(id: String, subsystem: AbstractSubsystem) {
-        if (id matches regex) {
-            map[id] = subsystem
-            Log.i(tag.invoke(), "Added subsystem $id")
-        } else {
-            throw SubsystemException("$id is not a valid subsystem name.")
-        }
-    }
-
-    /**
-     * Get a value in the map.
-     *
-     * @param id Key of the value.
-     * @return The value.
-     *
-     * @see MutableMap.get
-     */
-    operator fun get(id: String): AbstractSubsystem? {
-        return map[id]
-    }
+    inline fun <reified S : AbstractSubsystem> get() = list.filterIsInstance<S>().firstOrNull()
 
     /**
      * Register a subsystem.
      *
      * @param subsystem Subsystem to register.
      */
-    fun register(subsystem: AbstractSubsystem) {
-        this[subsystem.javaClass.simpleName] = subsystem
+    inline fun <reified S : AbstractSubsystem> register(subsystem: S) {
+        if (list.filterIsInstance<S>().isNotEmpty()) {
+            throw SubsystemException("Failed to register already registered subsystem: $subsystem")
+        } else {
+            list += subsystem
+        }
     }
 
     /**
      * De-register a subsystem.
      *
-     * @param id Simple name of the subsystem to de-register.
+     * @param S Type of the subsystem to de-register.
+     *
+     * @return Returns true if a subsystem was unregistered.
      */
-    fun deregister(id: String) {
-        if (id matches regex) {
-            map.remove(id)
-            try {
-                map[id]?.cleanup()
-            } catch (e: Error) {
-                Log.e(tag.invoke(), e.toString())
-            }
-            Log.i(tag.invoke(), "Removed subsystem $id")
-        } else {
-            throw SubsystemException("$id is not a valid subsystem name.")
+    inline fun <reified S : AbstractSubsystem> unregister(): Boolean {
+        var removed = false
+        list.filterIsInstance<S>().forEach { subsystem ->
+            subsystem.cleanup()
+            list.remove(subsystem)
+            removed = true
         }
+        return removed
     }
 }

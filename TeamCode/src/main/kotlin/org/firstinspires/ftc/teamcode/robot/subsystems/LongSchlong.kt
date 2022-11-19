@@ -29,19 +29,23 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.trajectory.Trajectory
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder
 import com.acmerobotics.roadrunner.trajectory.constraints.*
-import com.qualcomm.hardware.bosch.BNO055IMU
-import com.qualcomm.robotcore.hardware.*
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.util.OpModeUtil
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.util.toSuperPose2d
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode
+import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.PIDFCoefficients
+import com.qualcomm.robotcore.hardware.VoltageSensor
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants
+import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants.MOTOR_VELO_PID
+import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.DriveConstants.RUN_USING_ENCODER
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers.TrackingWheelLocalizer
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.SuperTrajectorySequenceRunner
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
 import kotlin.math.abs
+
 
 /**
  * Mecanum drive implementation to work with roadrunner
@@ -57,16 +61,15 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
     DriveConstants.TRACK_WIDTH,
     LATERAL_MULTIPLIER
 ), AbstractSubsystem {
-    override val tag = "Drivetrain"
+    override val tag = "LongSchlong"
     override val subsystems = SubsystemMap{ tag }
 
     private val trajectorySequenceRunner: SuperTrajectorySequenceRunner
-    private val leftFront = Motors.LEFT_FRONT.get(hardwareMap)
-    private val leftRear = Motors.LEFT_REAR.get(hardwareMap)
-    private val rightRear = Motors.RIGHT_REAR.get(hardwareMap)
-    private val rightFront = Motors.RIGHT_FRONT.get(hardwareMap)
+    val leftFront = Motors.LEFT_FRONT.get(hardwareMap)
+    val leftRear = Motors.LEFT_REAR.get(hardwareMap)
+    val rightRear = Motors.RIGHT_REAR.get(hardwareMap)
+    val rightFront = Motors.RIGHT_FRONT.get(hardwareMap)
     private val motors = listOf(leftFront, leftRear, rightRear, rightFront)
-    private val imu: BNO055IMU
     private val batteryVoltageSensor: VoltageSensor
 
     fun trajectoryBuilder(startPose: Pose2d): TrajectoryBuilder {
@@ -129,7 +132,6 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
 
     override fun loop() {
         updatePoseEstimate()
-        persistentPoseEstimate = poseEstimate.toSuperPose2d()
         trajectorySequenceRunner.update(poseEstimate, poseVelocity, voltage)?.let {
             setDriveSignal(it)
         }
@@ -172,6 +174,16 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
         setDrivePower(vel)
     }
 
+    fun setPIDFCoefficients(runMode: RunMode?, coefficients: PIDFCoefficients) {
+        val compensatedCoefficients = PIDFCoefficients(
+            coefficients.p, coefficients.i, coefficients.d,
+            coefficients.f * 12 / batteryVoltageSensor.voltage
+        )
+        for (motor in motors) {
+            motor.setPIDFCoefficients(runMode, compensatedCoefficients)
+        }
+    }
+
     override fun getWheelPositions(): List<Double> {
         val wheelPositions: MutableList<Double> = ArrayList()
         for (motor in motors) {
@@ -196,35 +208,11 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
         rightFront.power = frontRight
     }
 
-    override val rawExternalHeading: Double
-        get() = imu.angularOrientation.firstAngle.toDouble()
+    override val rawExternalHeading = 0.0
 
-    override fun getExternalHeadingVelocity(): Double {
-        // DONE: This must be changed to match your configuration
-        //                           | Z axis
-        //                           |
-        //     (Motor Port Side)     |   / X axis
-        //                       ____|__/____
-        //          Y axis     / *   | /    /|   (IO Side)
-        //          _________ /______|/    //      I2C
-        //                   /___________ //     Digital
-        //                  |____________|/      Analog
-        //
-        //                 (Servo Port Side)
-        //
-        // The positive x axis points toward the USB port(s)
-        //
-        // Adjust the axis rotation rate as necessary
-        // Rotate about the z axis is the default assuming your REV Hub/Control Hub is laying
-        // flat on a surface
-        return imu.angularVelocity.xRotationRate.toDouble()
-    }
+    override fun getExternalHeadingVelocity() = 0.0
 
     companion object {
-        @JvmField var cameraRobotOffset = OpModeUtil.SuperPose2d(-6.0, -6.0, 90.0)
-
-        @JvmField var persistentPoseEstimate = OpModeUtil.SuperPose2d()
-
         @JvmField var TRANSLATIONAL_PID = PIDCoefficients(8.0, 0.0, 1.0)
         @JvmField var HEADING_PID = PIDCoefficients(8.0, 0.0, 1.0)
         @JvmField var LATERAL_MULTIPLIER = 1.0
@@ -264,12 +252,12 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
             Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5
         )
 
+        if (RUN_USING_ENCODER) {
+            setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+        }
+
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next()
 
-        imu = hardwareMap.get(BNO055IMU::class.java, "imu")
-        val parameters = BNO055IMU.Parameters()
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
-        imu.initialize(parameters)
         for (motor in motors) {
             val motorConfigurationType = motor.motorType.clone()
             motorConfigurationType.achieveableMaxRPMFraction = 1.0
@@ -277,10 +265,13 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
             motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         }
 
+        if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
+            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
+        }
+
         // DONE: if desired, use setLocalizer() to change the localization method
         localizer = TrackingWheelLocalizer(hardwareMap)
 
         trajectorySequenceRunner = SuperTrajectorySequenceRunner(follower, HEADING_PID)
-        poseEstimate = persistentPoseEstimate.pose2d
     }
 }

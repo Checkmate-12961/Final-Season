@@ -35,7 +35,7 @@ import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 
 public class TuningMode {
     // true for tuning mode on and false for tuning mode off
-    public static final boolean isTuning = false;
+    public static final boolean isTuning = true;
 
     /**
      * Registers tuning OpModes

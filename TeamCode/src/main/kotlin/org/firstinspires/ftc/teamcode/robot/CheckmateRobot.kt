@@ -41,14 +41,12 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     /**
      * Access the [LongSchlong] subsystem from the registry.
      */
-    val longSchlong: LongSchlong
-        get() = subsystems["Drivetrain"] as LongSchlong
+    val longSchlong: LongSchlong get() = subsystems.get<LongSchlong>()!!
 
     /**
      * Access the [ColorCone] subsystem
      */
-    val colorCone: ColorCone
-        get() = subsystems["ColorCone"] as ColorCone
+    val colorCone: ColorCone get() = subsystems.get<ColorCone>()!!
 
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)

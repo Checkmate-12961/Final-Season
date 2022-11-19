@@ -24,17 +24,28 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
+import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
+import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
+import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 
 @Config
-@TeleOp(name = "TeleOp")
-class MainTeleOp : BaseOpMode() {
-    override fun runLoop() {
-        telemetry.addData("LF", robot.longSchlong.leftFront.velocity)
-        telemetry.addData("RF", robot.longSchlong.rightFront.velocity)
-        telemetry.addData("LB", robot.longSchlong.leftRear.velocity)
-        telemetry.addData("RB", robot.longSchlong.rightRear.velocity)
+@TeleOp(name = "DevTeleOp")
+class DevTeleOp : BaseOpMode() {
+    override fun preSetup() {
+        robot.subsystems.register(ClumsyClaw(hardwareMap))
+        robot.subsystems.register(LiftyLinkage(hardwareMap))
+    }
 
+    override fun setup() {
+        gp2.dpadUp.onActivate = { robot.liftyLinkage.position = LiftyLinkage.Position.MAX }
+        gp2.dpadDown.onActivate = { robot.liftyLinkage.position = LiftyLinkage.Position.MIN }
+
+        gp2.a.onActivate = { robot.clumsyClaw.grasping = true }
+        gp2.b.onActivate = { robot.clumsyClaw.grasping = false }
+    }
+
+    override fun runLoop() {
         when (opModeType) {
             OpModeType.TeleOp ->
                 // Moves the robot based on the GP1 left stick
@@ -76,3 +87,13 @@ class MainTeleOp : BaseOpMode() {
         }
     }
 }
+
+/**
+ * Access the [ClumsyClaw] subsystem from the registry.
+ */
+val CheckmateRobot.clumsyClaw: ClumsyClaw get() = subsystems.get<ClumsyClaw>()!!
+
+/**
+ * Access the [LiftyLinkage] subsystem from the registry.
+ */
+val CheckmateRobot.liftyLinkage: LiftyLinkage get() = subsystems.get<LiftyLinkage>()!!

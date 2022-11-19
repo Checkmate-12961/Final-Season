@@ -32,13 +32,6 @@ class Triggerables {
     }
 
     /**
-     * Interface to manage callbacks for triggerables
-     */
-    fun interface TriggerableCallback {
-        operator fun invoke()
-    }
-
-    /**
      * Triggerable class to manage callbacks and states
      */
     abstract class AbstractTriggerable {
@@ -49,31 +42,31 @@ class Triggerables {
             protected set
 
         @JvmField
-        var onToggle: TriggerableCallback? = null
+        var onToggle: (() -> Unit)? = null
 
         /**
          * Callback for when the button is pressed
          */
         @JvmField
-        var onActivate: TriggerableCallback? = null
+        var onActivate: (() -> Unit)? = null
 
         /**
          * Callback for while the button is pressed
          */
         @JvmField
-        var whileActive: TriggerableCallback? = null
+        var whileActive: (() -> Unit)? = null
 
         /**
          * Callback for when the button is released
          */
         @JvmField
-        var onDeactivate: TriggerableCallback? = null
+        var onDeactivate: (() -> Unit)? = null
 
         /**
          * Callback for while the triggerable is deactivated
          */
         @JvmField
-        var whileInactive: TriggerableCallback? = null
+        var whileInactive: (() -> Unit)? = null
 
         /**
          * Updates the triggerable state
@@ -228,19 +221,19 @@ class Triggerables {
          * Callback for when the stick is activated negatively
          */
         @JvmField
-        var onActivateNeg: TriggerableCallback? = null
+        var onActivateNeg: (() -> Unit)? = null
 
         /**
          * Callback for when the stick is deactivated negatively
          */
         @JvmField
-        var onDeactivateNeg: TriggerableCallback? = null
+        var onDeactivateNeg: (() -> Unit)? = null
 
         /**
          * Callback for while the stick is active negatively
          */
         @JvmField
-        var whileActiveNeg: TriggerableCallback? = null
+        var whileActiveNeg: (() -> Unit)? = null
 
         /**
          * Updates the stick state

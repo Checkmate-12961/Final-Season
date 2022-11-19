@@ -21,6 +21,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
 
 import com.acmerobotics.dashboard.config.Config
+import com.qualcomm.robotcore.hardware.PIDFCoefficients
 
 /*
  * Constants shared between multiple drive types.
@@ -43,6 +44,9 @@ object DriveConstants {
     @JvmField var TICKS_PER_REV = 537.7
     @JvmField var MAX_RPM = 312.0
 
+    const val RUN_USING_ENCODER = true;
+    @JvmField var MOTOR_VELO_PID = PIDFCoefficients(0.0, 0.0, 0.0, 14.376)
+
     /*
      * These are physical constants that can be determined from your robot (including the track
      * width; it will be tune empirically later although a rough estimate is important). Users are
@@ -51,7 +55,7 @@ object DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    @JvmField var WHEEL_RADIUS = 4.8 / 2.54 // in
+    @JvmField var WHEEL_RADIUS = 1.97 // in
     @JvmField var GEAR_RATIO = 1.0 // output (wheel) speed / input (motor) speed
     @JvmField var TRACK_WIDTH = 12.58 // in
 
@@ -62,8 +66,8 @@ object DriveConstants {
      * empirically tuned.
      */
     // TODO: tune for the robot
-    @JvmField var kV = 0.021
-    @JvmField var kA = 0.004
+    @JvmField var kV = 0.0165
+    @JvmField var kA = 0.00416
     @JvmField var kStatic = 0.0
 
     /*
@@ -95,10 +99,12 @@ object DriveConstants {
 
      */
     // TODO: re-tune the robot
-    @JvmField var MAX_VEL = 35.0
+    @JvmField var MAX_VEL = 30.0
     @JvmField var MAX_ACCEL = 30.0
-    @JvmField var MAX_ANG_VEL = 3.0
-    @JvmField var MAX_ANG_ACCEL = Math.toRadians(180.0)
+    @JvmField var MAX_ANG_VEL = Math.toRadians(60.0)
+    @JvmField var MAX_ANG_ACCEL = Math.toRadians(60.0)
+
+
     @JvmStatic fun encoderTicksToInches(ticks: Double): Double {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
     }

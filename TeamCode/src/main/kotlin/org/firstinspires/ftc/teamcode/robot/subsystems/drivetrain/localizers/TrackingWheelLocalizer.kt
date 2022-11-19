@@ -43,20 +43,24 @@ import org.firstinspires.ftc.teamcode.robot.util.Encoder
  */
 @Config
 class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocalizer(
+    /*
+     * Our robot this season has the dead wheels rotated 90 degrees from the normal setup. The
+     * changes made here are to reflect that rotation.
+     */
     listOf(
-        Pose2d(0.0, LATERAL_DISTANCE / 2.0, 0.0),  // left
-        Pose2d(0.0, -LATERAL_DISTANCE / 2.0, 0.0),  // right
-        Pose2d(FORWARD_OFFSET, 0.0, Math.toRadians(90.0)) // front
+        Pose2d(LATERAL_DISTANCE / 2.0, 0.0, kotlin.math.PI / 2),  // front
+        Pose2d(-LATERAL_DISTANCE / 2.0, 0.0, kotlin.math.PI / 2),  // rear
+        Pose2d(0.0, Y_OFFSET, 0.0) // center
     )
 ) {
-    private val leftEncoder: Encoder
-    private val rightEncoder: Encoder
     private val frontEncoder: Encoder
+    private val rearEncoder: Encoder
+    private val centerEncoder: Encoder
     override fun getWheelPositions(): List<Double> {
         return listOf(
-            encoderTicksToInches(leftEncoder.currentPosition.toDouble()) * X_MULTIPLIER,
-            encoderTicksToInches(rightEncoder.currentPosition.toDouble()) * X_MULTIPLIER,
-            encoderTicksToInches(frontEncoder.currentPosition.toDouble()) * Y_MULTIPLIER
+            encoderTicksToInches(frontEncoder.currentPosition.toDouble()) * Y_MULTIPLIER,
+            encoderTicksToInches(rearEncoder.currentPosition.toDouble()) * Y_MULTIPLIER,
+            encoderTicksToInches(centerEncoder.currentPosition.toDouble()) * X_MULTIPLIER
         )
     }
 
@@ -65,21 +69,20 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
         //  competing magnetic encoders), change Encoder.getRawVelocity() to Encoder.getCorrectedVelocity() to enable a
         //  compensation method
         return listOf(
-            encoderTicksToInches(leftEncoder.correctedVelocity),
-            encoderTicksToInches(rightEncoder.correctedVelocity),
-            encoderTicksToInches(frontEncoder.correctedVelocity)
+            encoderTicksToInches(frontEncoder.correctedVelocity * Y_MULTIPLIER),
+            encoderTicksToInches(rearEncoder.correctedVelocity * Y_MULTIPLIER),
+            encoderTicksToInches(centerEncoder.correctedVelocity * X_MULTIPLIER)
         )
     }
 
     companion object {
-        @JvmField var TICKS_PER_REV = 8192.0
-        @JvmField var WHEEL_RADIUS = 1.0 // in
+        @JvmField var TICKS_PER_REV = 8192.0 // we use REV through bore encoders
+        @JvmField var WHEEL_RADIUS = 1.96 / 2 // inches. this is from the andymark listing
         @JvmField var GEAR_RATIO = 1.0 // output (wheel) speed / input (encoder) speed
-        @JvmField
-        var LATERAL_DISTANCE = 10.63 // in; distance between the left and right wheels
-        @JvmField var FORWARD_OFFSET = 3.55 // in; offset of the lateral wheel
-        @JvmField var X_MULTIPLIER = 1.0 // Multiplier in the X direction
-        @JvmField var Y_MULTIPLIER = 1.0 // Multiplier in the Y direction
+        @JvmField var LATERAL_DISTANCE = 10.69 // in; distance between the left and right wheels
+        @JvmField var Y_OFFSET = -3.55 // in; offset of the lateral wheel
+        @JvmField var X_MULTIPLIER = 1.0023 // Multiplier in the X direction
+        @JvmField var Y_MULTIPLIER = 1.0047 // Multiplier in the Y direction
 
         fun encoderTicksToInches(ticks: Double): Double {
             return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
@@ -87,24 +90,24 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
     }
 
     init {
-        rightEncoder = Encoder(
+        rearEncoder = Encoder(
             hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.REAR.id)
         )
-        leftEncoder = Encoder(
+        frontEncoder = Encoder(
             hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.FRONT.id)
         )
-        frontEncoder = Encoder(
+        centerEncoder = Encoder(
             hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.CENTER.id)
         )
 
         if (HardwareNames.Encoders.REAR.reverse) {
-            rightEncoder.direction = Encoder.Direction.REVERSE
+            rearEncoder.direction = Encoder.Direction.REVERSE
         }
         if (HardwareNames.Encoders.FRONT.reverse) {
-            leftEncoder.direction = Encoder.Direction.REVERSE
+            frontEncoder.direction = Encoder.Direction.REVERSE
         }
         if (HardwareNames.Encoders.CENTER.reverse) {
-            frontEncoder.direction = Encoder.Direction.REVERSE
+            centerEncoder.direction = Encoder.Direction.REVERSE
         }
     }
 }

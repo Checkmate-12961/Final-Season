@@ -15,10 +15,21 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     private val liftMotor = Motors.LIFTY_LINKAGE.get(hardwareMap)
 
+    enum class Position(val height: () -> Double) {
+        MIN({ liftBounds.min }),
+        MAX({ liftBounds.max })
+    }
+
     var height: Double
         get() = liftMotor.targetPosition / ticksPerRev
         set(value) {
             liftMotor.targetPosition = (value * ticksPerRev).roundToInt()
+        }
+
+    var position: Position? = null
+        set(value) {
+            field = value
+            value?.let { height = value.height() }
         }
 
     data class LiftBounds(@JvmField var min: Double, @JvmField var max: Double)

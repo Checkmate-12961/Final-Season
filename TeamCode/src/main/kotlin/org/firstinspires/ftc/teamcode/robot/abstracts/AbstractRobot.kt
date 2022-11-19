@@ -69,7 +69,7 @@ abstract class AbstractRobot {
     private fun recursiveAction(
         subsystemMap: SubsystemMap, action: (AbstractSubsystem) -> Unit
     ) {
-        for (subsystem in subsystemMap.values) {
+        for (subsystem in subsystemMap.list) {
             action.invoke(subsystem)
             recursiveAction(subsystem.subsystems, action)
         }

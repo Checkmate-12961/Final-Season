@@ -57,14 +57,14 @@ class HardwareNames {
      * Contains hardware info for encoders.
      *
      * @property id Hardware ID defined in the config.
-     * @property reverse Whether the encoder should be reversed.
+     * @property reverse Whether the encoder should be reversed.false
      *
      * @property get Get an [Encoder] with this id from the [HardwareMap].
      */
     enum class Encoders(val id: String, val reverse: Boolean) {
-        FRONT("motor0", true),
-        CENTER("motor2", false),
-        REAR("motor1", false);
+        FRONT("motor0", false),
+        CENTER("motor2", true),
+        REAR("motor1", true);
 
         fun get(hardwareMap: HardwareMap): Encoder {
             val encoder = Encoder(hardwareMap.get(DcMotorEx::class.java, id))
