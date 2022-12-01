@@ -39,7 +39,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
     val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
 
     val leftColor: ConeColor get() = pipeline.RightColor
-    val leftAnalysis: List<Int> get() = pipeline.rightAnalysis
+    val leftAnalysis: List<Int> get() = pipeline.leftAnalysis
 
     // getPosition returns where the barcode is located in a BarcodePosition
     enum class ConeColor(val scalar: Scalar) {
