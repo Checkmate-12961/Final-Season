@@ -17,7 +17,7 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
 
     override fun setup() {
         // Make an array of the poses so we can iterate over them
-        val poses = arrayOf(pose1, pose2, poseIntake, pose3, poseIntake, pose4, pose5, pose6, pose7, pose8, pose9)
+        val poses = arrayOf(pose1, pose2, poseIntake, pose3, poseIntake, pose4, pose5)
 
         // Dimensions for blue left
         pose0.x = 31.5
@@ -38,18 +38,18 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
         // pose3 scores high across blue-left/red-right wall
         pose3.x = 62.0
         pose3.y = 48.0
-        pose3.h = Math.PI
+        pose3.h = 90.0
 
         // Add intake exe
         // pose4 scores high across blue wall
         pose4.x = 48.0
         pose4.y = 62.0
-        pose4.h = Math.toRadians(270.0)
+        pose4.h = 270.0
 
         // pose5 avoids obstacles
         pose5.x = 60.0
         pose5.y = 60.0
-        pose5.h = Math.toRadians(270.0)
+        pose5.h = 270.0
 
         // pose*colour* parks for vision
         poseRed.x = 12.0
@@ -67,25 +67,21 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
         val trajBuilder = robot.longSchlong.trajectorySequenceBuilder(pose0.toPose2d())
 
 
+        for (pose in poses) {
+            if (pose.x != 0.0 || pose.y != 0.0 || pose.h != 0.0) {
+                trajBuilder.splineTo(pose.toVector2d(), pose.hR)
+            } else break
+        }
         pose1.y = 1.0
         if (robot.colorCone.leftColor == ColorCone.ConeColor.RED) {
-            pose1.x = -28.0
-            pose1.h = 20.0
+            trajBuilder.splineTo(poseRed.toVector2d(), poseRed.hR)
         }
-        else if (robot.colorCone.leftColor == ColorCone.ConeColor.BLUE) {
-            pose1.x = 40.0
-            pose1.h = -20.0
+        else if (robot.colorCone.leftColor == ColorCone.ConeColor.GREEN) {
+            trajBuilder.splineTo(poseGreen.toVector2d(), poseGreen.hR)
         }
         else {
-            pose1.x = 6.0
-            pose1.h = -5.0
+            trajBuilder.splineTo(poseBlue.toVector2d(), poseBlue.hR)
         }
-        pose2.y = -50.0
-        pose2.x = pose1.x
-        pose2.h = 0.0
-
-        pose1.y = -50.0
-        pose1.x = 8.0
         // Add poses that have been set to the trajectory builder
 
         trajBuilder.splineTo(pose1.toVector2d(), pose1.hR)
