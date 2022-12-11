@@ -66,8 +66,8 @@ object DriveConstants {
      * empirically tuned.
      */
     // TODO: tune for the robot
-    @JvmField var kV = 0.0165
-    @JvmField var kA = 0.00416
+    @JvmField var kV = 0.017
+    @JvmField var kA = 0.00456
     @JvmField var kStatic = 0.0
 
     /*
