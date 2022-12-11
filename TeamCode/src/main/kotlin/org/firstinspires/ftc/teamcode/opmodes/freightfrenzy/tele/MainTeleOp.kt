@@ -25,6 +25,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
+import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 
 @Config
 @TeleOp(name = "TeleOp")
@@ -34,6 +35,11 @@ class MainTeleOp : BaseOpMode() {
         telemetry.addData("RF", robot.longSchlong.rightFront.velocity)
         telemetry.addData("LB", robot.longSchlong.leftRear.velocity)
         telemetry.addData("RB", robot.longSchlong.rightRear.velocity)
+
+        gp1.leftTrigger.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
+        gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
+
+        gp1.leftBumper.whileInactive = { if (!gp1.leftTrigger.active) robot.liftyLinkage.action(LiftyLinkage.Action.HOLD) }
 
         when (opModeType) {
             OpModeType.TeleOp ->
@@ -65,8 +71,8 @@ class MainTeleOp : BaseOpMode() {
                 )
             OpModeType.Autonomous -> {
                 // Replace false here with a check to cancel the sequence
-                if (false) robot.longSchlong.cancelSequence()
-                if (!robot.longSchlong.isBusy) opModeType = OpModeType.TeleOp
+                // if (false) robot.longSchlong.cancelSequence()
+                // if (!robot.longSchlong.isBusy) opModeType = OpModeType.TeleOp
             }
             else ->
                 // If we end up here, something went horribly wrong.

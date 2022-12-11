@@ -24,6 +24,7 @@ import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong
 import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
 
@@ -48,6 +49,11 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val colorCone: ColorCone get() = subsystems.get<ColorCone>()!!
 
+    /**
+     * Access the [LiftyLinkage] subsystem
+     */
+    val liftyLinkage: LiftyLinkage get() = subsystems.get<LiftyLinkage>()!!
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {
@@ -59,5 +65,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the camera (ColorCone)
         subsystems.register(ColorCone(hardwareMap))
+
+        // Set up the lift mechanism
+        subsystems.register(LiftyLinkage(hardwareMap))
     }
 }
