@@ -7,7 +7,7 @@ on:
 
 jobs:
   docs:
-    if: github.repository == 'Checkmate-12961/Final-Season'
+    if: github.repository == 'Checkmate-12961/PP'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Final-Season
