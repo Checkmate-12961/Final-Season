@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
@@ -35,10 +35,10 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         }
     }
 
-    val rightColor: ConeColor get() = pipeline.RightColor
+    val rightColor: ConeColor get() = pipeline.rightColor
     val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
 
-    val leftColor: ConeColor get() = pipeline.RightColor
+    val leftColor: ConeColor get() = pipeline.rightColor
     val leftAnalysis: List<Int> get() = pipeline.leftAnalysis
 
     // getPosition returns where the barcode is located in a BarcodePosition
@@ -76,10 +76,10 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
 
         // Volatile since accessed by OpMode thread w/o synchronization
         @Volatile
-        var RightColor = ConeColor.RED; private set
+        var rightColor = ConeColor.RED; private set
         val rightAnalysis: List<Int> get() = listOf(rightRedValue, rightGreenValue, rightBlueValue)
 
-        var LeftColor = ConeColor.RED; private set
+        var leftColor = ConeColor.RED; private set
         val leftAnalysis: List<Int> get() = listOf(leftRedValue, leftGreenValue, leftBlueValue)
 
         /**
@@ -113,7 +113,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
             rightGreenValue = Core.mean(boxRightG).value[0].toInt()
             rightBlueValue = Core.mean(boxRightB).value[0].toInt()
 
-            RightColor = if (rightRedValue > rightGreenValue && rightRedValue > rightBlueValue) ConeColor.RED
+            rightColor = if (rightRedValue > rightGreenValue && rightRedValue > rightBlueValue) ConeColor.RED
             else if (rightGreenValue > rightBlueValue) ConeColor.GREEN
             else ConeColor.BLUE
 
@@ -121,7 +121,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
             leftGreenValue = Core.mean(boxLeftG).value[0].toInt()
             leftBlueValue = Core.mean(boxLeftB).value[0].toInt()
 
-            LeftColor = if (leftRedValue > leftGreenValue && leftRedValue > leftBlueValue) ConeColor.RED
+            leftColor = if (leftRedValue > leftGreenValue && leftRedValue > leftBlueValue) ConeColor.RED
             else if (leftGreenValue > leftBlueValue) ConeColor.GREEN
             else ConeColor.BLUE
 
@@ -129,14 +129,14 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
                 input,  // Buffer to draw on
                 ColorConeConstants.boxRight.pointA,  // First point which defines the rectangle
                 ColorConeConstants.boxRight.pointB,  // Second point which defines the rectangle
-                RightColor.scalar,  // The color the rectangle is drawn in
+                rightColor.scalar,  // The color the rectangle is drawn in
                 3 // Thickness of indicator rectangle
             )
             Imgproc.rectangle(
                 input,  // Buffer to draw on
                 ColorConeConstants.boxLeft.pointA,  //First point which defines the rectangle
                 ColorConeConstants.boxLeft.pointB,  // Second point which defines the rectangle
-                LeftColor.scalar, // Thickness of the indicator rectangle
+                leftColor.scalar, // Thickness of the indicator rectangle
                 3
             )
 
@@ -144,10 +144,18 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
         }
     }
 
+    override fun generateTelemetry(telemetry: Telemetry) {
+        telemetry.addData("colorCone(R)", rightColor)
+        telemetry.addData("colorConeRaw(R)", rightAnalysis)
+
+        telemetry.addData("colorCone(L)", leftColor)
+        telemetry.addData("colorConeRaw(L)", leftAnalysis)
+    }
+
     init {
         // Instantiates the webcam "webcam" for OpenCv to use
         webcam = OpenCvCameraFactory.getInstance().createWebcam(
-            hardwareMap.get(WebcamName::class.java, HardwareNames.Cameras.WEBCAM.id),
+            HardwareNames.Cameras.WEBCAM.get(hardwareMap),
             hardwareMap.appContext.resources.getIdentifier(
                 "cameraMonitorViewId",
                 "id",

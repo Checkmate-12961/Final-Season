@@ -36,15 +36,15 @@ class HardwareNames {
      *
      * @property get Get a [DcMotorEx] with this id from the [HardwareMap].
      */
-    enum class Motors(private val id: String, private val reverse: Boolean) {
+    enum class Motors(private val id: String, private val reverse: Boolean = false) {
         // Drivetrain
-        RIGHT_FRONT("rightFront", false),
-        RIGHT_REAR("rightRear", false),
+        RIGHT_FRONT("rightFront"),
+        RIGHT_REAR("rightRear"),
         LEFT_FRONT("leftFront",true),
         LEFT_REAR("leftRear", true),
 
         // Lift system
-        LIFTY_LINKAGE_A("motor3", false),
+        LIFTY_LINKAGE_A("motor3"),
         LIFTY_LINKAGE_B("motor2", true);
 
         fun get(hardwareMap: HardwareMap): DcMotorEx {
@@ -64,8 +64,8 @@ class HardwareNames {
      *
      * @property get Get an [Encoder] with this id from the [HardwareMap].
      */
-    enum class Encoders(val id: String, val reverse: Boolean) {
-        FRONT("motor0", false),
+    enum class Encoders(private val id: String, private val reverse: Boolean = false) {
+        FRONT("motor0"),
         CENTER("motor2", true),
         REAR("motor1", true);
 
@@ -86,8 +86,15 @@ class HardwareNames {
      *
      * @property get Get a [Servo] with this id from the [HardwareMap].
      */
-    enum class Servos(val id: String, val reversed: Boolean) {
-        CLUMSY_CLAW("clumsyClaw", false);
+    enum class Servos(private val id: String, private val reversed: Boolean = false) {
+        // CHub servos
+        WRIST("servo_c0"),
+        GRIPPER("servo_c1"),
+
+        // EHub servos
+        SLIDE("servo_e0"),
+        PIVOT_A("servo_e1"),
+        PIVOT_B("servo_e2", true);
 
         fun get(hardwareMap: HardwareMap): Servo {
             val servo = hardwareMap.get(Servo::class.java, id)
@@ -106,7 +113,7 @@ class HardwareNames {
      *
      * @property get Get a [CRServo] with this id from the [HardwareMap].
      */
-    enum class CRServos(val id: String, val reverse: Boolean) {
+    enum class CRServos(private val id: String, private val reverse: Boolean = false) {
         ;
 
         fun get(hardwareMap: HardwareMap): CRServo {
@@ -125,7 +132,7 @@ class HardwareNames {
      *
      * @property get Get a [WebcamName] with this id from the [HardwareMap].
      */
-    enum class Cameras(val id: String) {
+    enum class Cameras(private val id: String) {
         WEBCAM("webcam");
 
         fun get(hardwareMap: HardwareMap): WebcamName {
@@ -141,7 +148,7 @@ class HardwareNames {
      *
      * @property get Get a [DigitalChannel] with this id from the [HardwareMap].
      */
-    enum class DigitalChannels(val id: String, val mode: DigitalChannel.Mode) {
+    enum class DigitalChannels(private val id: String, private val mode: DigitalChannel.Mode) {
         ;
 
         fun get(hardwareMap: HardwareMap): DigitalChannel {
