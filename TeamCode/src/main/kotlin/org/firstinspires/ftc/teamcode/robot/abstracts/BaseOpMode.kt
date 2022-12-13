@@ -110,25 +110,13 @@ abstract class BaseOpMode : LinearOpMode() {
     }
 
     private fun updateTelemetry() {
-        val position = robot.longSchlong.poseEstimate
-        val velocity = robot.longSchlong.poseVelocity
-        // Print pose to telemetry
-        //telemetry.addData("liftHeight", robot.lift.height)
-        telemetry.addData("x", position.x)
-        telemetry.addData("y", position.y)
-        telemetry.addData("h", Math.toDegrees(position.heading))
+        // Print stuff to telemetry
         telemetry.addData("runtime", String.format(Locale.ENGLISH, "%fs", runtime))
-        if (velocity != null) {
-            telemetry.addData("vX", velocity.x)
-            telemetry.addData("vY", velocity.y)
-            telemetry.addData("vH", Math.toDegrees(velocity.heading))
+
+        robot.subsystems.list.forEach {
+            telemetry.addLine("\n${it.tag}")
+            it.generateTelemetry(telemetry)
         }
-
-        telemetry.addData("colorCone(R)", robot.colorCone.rightColor)
-        telemetry.addData("colorConeRaw(R)", robot.colorCone.rightAnalysis)
-
-        telemetry.addData("colorCone(L)", robot.colorCone.leftColor)
-        telemetry.addData("colorConeRaw(L)", robot.colorCone.leftAnalysis)
         telemetry.update()
     }
 }

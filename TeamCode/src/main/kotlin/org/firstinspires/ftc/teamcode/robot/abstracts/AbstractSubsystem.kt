@@ -20,6 +20,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.robot.abstracts
 
+import org.firstinspires.ftc.robotcore.external.Telemetry
+
 /**
  * Interface that all subsystems should implement.
  */
@@ -43,6 +45,11 @@ interface AbstractSubsystem {
      * Runs once at the end.
      */
     fun cleanup() {}
+
+    /**
+     * Runs when telemetry is being generated.
+     */
+    fun generateTelemetry(telemetry: Telemetry) {}
 
     /**
      * Storage for added subsystems.
