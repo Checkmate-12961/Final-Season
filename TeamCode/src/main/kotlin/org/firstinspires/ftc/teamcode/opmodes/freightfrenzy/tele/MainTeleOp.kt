@@ -25,21 +25,96 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
+import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 
 @Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
-    override fun runLoop() {
-        telemetry.addData("LF", robot.longSchlong.leftFront.velocity)
-        telemetry.addData("RF", robot.longSchlong.rightFront.velocity)
-        telemetry.addData("LB", robot.longSchlong.leftRear.velocity)
-        telemetry.addData("RB", robot.longSchlong.rightRear.velocity)
+    //private var position = 0
 
-        gp1.leftTrigger.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
+    override fun runLoop() {
+        gp1.leftTrigger.whileActive = { if (!gp1.leftBumper.active) robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
         gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
 
         gp1.leftBumper.whileInactive = { if (!gp1.leftTrigger.active) robot.liftyLinkage.action(LiftyLinkage.Action.HOLD) }
+
+        // Move the mechanism to the grab position.
+        // If the slide is extended, do nothing.
+        gp1.dpadDown.onActivate = {
+            if (
+                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.CAP
+                && robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED
+            ) {
+                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.GRAB
+                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
+            }
+        }
+
+        // Move the mechanism to the rest position.
+        // If the slide is extended, do nothing.
+        gp1.dpadLeft.onActivate = {
+            if (robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED) {
+                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.REST
+                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+            }
+        }
+
+        // Move the mechanism to the rest position with the wrist in the grab position
+        // If the pivot is not in the rest position, do nothing.
+        gp1. dpadRight.onActivate = {
+            if (robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.CAP) {
+                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.GRAB
+                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+            }
+        }
+
+        // Move the mechanism to the cap position.
+        // If anything is not in the rest position, do nothing.
+        gp1.dpadUp.onActivate = {
+            if (
+                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
+                && robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED
+                && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
+            ) {
+                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
+                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.CAP
+            }
+        }
+
+        // Toggle the gripper when B is pressed.
+        // If the pivot is in the rest position, do nothing.
+        gp1.b.onActivate = {
+            if (robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.REST) {
+                robot.clumsyClaw.gripper =
+                    if (
+                        robot.clumsyClaw.gripper == ClumsyClaw.GripperPosition.OPEN
+                    ) ClumsyClaw.GripperPosition.CLOSED
+                    else ClumsyClaw.GripperPosition.OPEN
+            }
+        }
+
+        // Contract the slide when the right bumper is pressed.
+        // If the pivot is NOT in the rest position, do nothing.
+        gp1.rightBumper.onActivate = {
+            if (
+                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
+                && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
+            ) {
+                robot.clumsyClaw.slide = ClumsyClaw.SlidePosition.CONTRACTED
+            }
+        }
+
+        // Extend the slide when the right bumper is pressed.
+        // If the pivot is NOT in the rest position, do nothing.
+        gp1.rightTrigger.onActivate = {
+            if (
+                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
+                && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
+            ) {
+                robot.clumsyClaw.slide = ClumsyClaw.SlidePosition.EXTENDED
+            }
+        }
 
         when (opModeType) {
             OpModeType.TeleOp ->

@@ -23,6 +23,7 @@ package org.firstinspires.ftc.teamcode.robot
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
+import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong
@@ -40,19 +41,24 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     override val tag = "CheckmateRobot"
 
     /**
-     * Access the [LongSchlong] subsystem from the registry.
+     * Access the [LongSchlong] subsystem.
      */
     val longSchlong: LongSchlong get() = subsystems.get<LongSchlong>()!!
 
     /**
-     * Access the [ColorCone] subsystem
+     * Access the [ColorCone] subsystem.
      */
     val colorCone: ColorCone get() = subsystems.get<ColorCone>()!!
 
     /**
-     * Access the [LiftyLinkage] subsystem
+     * Access the [LiftyLinkage] subsystem.
      */
     val liftyLinkage: LiftyLinkage get() = subsystems.get<LiftyLinkage>()!!
+
+    /**
+     * Access the [ClumsyClaw] subsystem.
+     */
+    val clumsyClaw: ClumsyClaw get() = subsystems.get<ClumsyClaw>()!!
 
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
@@ -68,5 +74,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the lift mechanism
         subsystems.register(LiftyLinkage(hardwareMap))
+
+        // Set up the claw mechanism
+        subsystems.register(ClumsyClaw(hardwareMap))
     }
 }
