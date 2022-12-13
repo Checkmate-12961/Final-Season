@@ -23,10 +23,8 @@ package org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer
-import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
-import org.firstinspires.ftc.teamcode.robot.util.Encoder
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -53,9 +51,10 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
         Pose2d(0.0, Y_OFFSET, 0.0) // center
     )
 ) {
-    private val frontEncoder: Encoder
-    private val rearEncoder: Encoder
-    private val centerEncoder: Encoder
+    private val frontEncoder = HardwareNames.Encoders.FRONT.get(hardwareMap)
+    private val rearEncoder = HardwareNames.Encoders.REAR.get(hardwareMap)
+    private val centerEncoder = HardwareNames.Encoders.CENTER.get(hardwareMap)
+
     override fun getWheelPositions(): List<Double> {
         return listOf(
             encoderTicksToInches(frontEncoder.currentPosition.toDouble()) * Y_MULTIPLIER,
@@ -86,28 +85,6 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
 
         fun encoderTicksToInches(ticks: Double): Double {
             return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV
-        }
-    }
-
-    init {
-        rearEncoder = Encoder(
-            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.REAR.id)
-        )
-        frontEncoder = Encoder(
-            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.FRONT.id)
-        )
-        centerEncoder = Encoder(
-            hardwareMap.get(DcMotorEx::class.java, HardwareNames.Encoders.CENTER.id)
-        )
-
-        if (HardwareNames.Encoders.REAR.reverse) {
-            rearEncoder.direction = Encoder.Direction.REVERSE
-        }
-        if (HardwareNames.Encoders.FRONT.reverse) {
-            frontEncoder.direction = Encoder.Direction.REVERSE
-        }
-        if (HardwareNames.Encoders.CENTER.reverse) {
-            centerEncoder.direction = Encoder.Direction.REVERSE
         }
     }
 }
