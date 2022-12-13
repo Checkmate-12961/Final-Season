@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.RunMode
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.VoltageSensor
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
@@ -244,6 +245,25 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
         private fun getAccelerationConstraint(maxAccel: Double): TrajectoryAccelerationConstraint {
             return ProfileAccelerationConstraint(maxAccel)
         }
+    }
+
+    override fun generateTelemetry(telemetry: Telemetry) {
+        poseEstimate.let {
+            telemetry.addData("x", it.x)
+            telemetry.addData("y", it.y)
+            telemetry.addData("h", Math.toDegrees(it.heading))
+        }
+
+        poseVelocity?.let {
+            telemetry.addData("vX", it.x)
+            telemetry.addData("vY", it.y)
+            telemetry.addData("vH", Math.toDegrees(it.heading))
+        }
+
+        telemetry.addData("LF", leftFront.velocity)
+        telemetry.addData("RF", rightFront.velocity)
+        telemetry.addData("LB", leftRear.velocity)
+        telemetry.addData("RB", rightRear.velocity)
     }
 
     init {
