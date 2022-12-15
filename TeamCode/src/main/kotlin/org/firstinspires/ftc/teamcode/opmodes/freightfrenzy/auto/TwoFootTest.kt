@@ -11,16 +11,16 @@ import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companio
 import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose3
 import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose4
 import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose5
+import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.TerribleMeetOneThatDoesntWork.Companion.poseIntake
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 
-@Disabled
-@Autonomous(name = "TerribleMeetOne", preselectTeleOp = "TeleOp")
+@Autonomous(name = "TwoFootTest", preselectTeleOp = "TeleOp")
 @Config
-class TerribleMeetOneThatDoesntWork : BaseOpMode() {
+class TwoFootTest : BaseOpMode() {
     lateinit var traj: TrajectorySequence
 
     /*fun lift(up: Boolean, level: String) {
@@ -32,18 +32,18 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
 
     override fun setup() {
         // Make an array of the poses so we can iterate over them
-        val poses = arrayOf(pose1, pose2, poseIntake, pose3, poseIntake, pose4, pose5)
+        val poses = arrayOf(pose1/*, pose2, poseIntake, pose3, poseIntake, pose4, pose5*/)
 
         // Dimensions for blue left
-        pose0.x = 31.5
-        pose0.y = 7.5
+        pose0.x = 0.0
+        pose0.y = 0.0
 
         // pose1 scores low
-        pose1.x = 48.0
-        pose1.y = 13.0
-        pose1.h = 0.0
+        pose1.x = 0.0
+        pose1.y = 24.0
+        pose1.h = 180.0
 
-        pose2.x = 36.0
+        /*pose2.x = 36.0
         pose2.y = 50.0
 
         poseIntake.x = 10.0
@@ -74,7 +74,7 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
         poseGreen.y = 60.0
 
         poseBlue.x = 59.0
-        poseBlue.y = 60.0
+        poseBlue.y = 60.0*/
 
         //val poses = arrayOf(pose1, pose2)
 
@@ -87,8 +87,7 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
                 trajBuilder.splineTo(pose.toVector2d(), pose.hR)
             } else break
         }
-        pose1.y = 1.0
-        if (robot.colorCone.leftColor == ColorCone.ConeColor.RED) {
+        /*if (robot.colorCone.leftColor == ColorCone.ConeColor.RED) {
             trajBuilder.splineTo(poseRed.toVector2d(), poseRed.hR)
         }
         else if (robot.colorCone.leftColor == ColorCone.ConeColor.GREEN) {
@@ -96,10 +95,10 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
         }
         else {
             trajBuilder.splineTo(poseBlue.toVector2d(), poseBlue.hR)
-        }
+        }*/
         // Add poses that have been set to the trajectory builder
 
-        trajBuilder.splineTo(pose1.toVector2d(), pose1.hR)
+        //trajBuilder.splineTo(pose1.toVector2d(), pose1.hR)
 
 
         // Build the trajectory
