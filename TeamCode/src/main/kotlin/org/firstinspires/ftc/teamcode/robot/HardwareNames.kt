@@ -87,14 +87,12 @@ class HardwareNames {
      * @property get Get a [Servo] with this id from the [HardwareMap].
      */
     enum class Servos(private val id: String, private val reversed: Boolean = false) {
-        // CHub servos
-        WRIST("servo_c0"),
-        GRIPPER("servo_c1"),
-
-        // EHub servos
-        SLIDE("servo_e0"),
-        PIVOT_A("servo_e1"),
-        PIVOT_B("servo_e2", true);
+        // CHub servos in port order 0-4
+        WRIST("wrist"),
+        GRIPPER("gripper"),
+        SLIDE("slide"),
+        PIVOT_A("pivotA"),
+        PIVOT_B("pivotB", true);
 
         fun get(hardwareMap: HardwareMap): Servo {
             val servo = hardwareMap.get(Servo::class.java, id)
