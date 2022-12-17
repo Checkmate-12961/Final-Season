@@ -78,7 +78,7 @@ class MainTeleOp : BaseOpMode() {
                         || robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.REST)) {
                 robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.REST
                 robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
-                sleep(800)
+                sleep(1000)
             }
             if (
                 robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB

@@ -121,7 +121,7 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     init {
         wrist = WristPosition.CAP
-        gripper = GripperPosition.OPEN
+        gripper = GripperPosition.CLOSED
         slide = SlidePosition.CONTRACTED
         pivot = PivotPosition.START
     }
@@ -130,6 +130,6 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
         @JvmField var wristPositions = WristPositions(0.33, 0.67, 1.0)
         @JvmField var gripperPositions = GripperPositions(0.3, 0.0)
         @JvmField var slidePositions = SlidePositions(0.41, 0.71)
-        @JvmField var pivotPositions = PivotPositions(0.9, 0.6, 0.3, 0.2)
+        @JvmField var pivotPositions = PivotPositions(1.0, 0.65, 0.31, 0.3)
     }
 }
