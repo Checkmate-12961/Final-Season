@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
+import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
@@ -113,7 +114,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
             rightGreenValue = Core.mean(boxRightG).value[0].toInt()
             rightBlueValue = Core.mean(boxRightB).value[0].toInt()
 
-            val rightColor = if (rightRedValue > rightGreenValue && rightRedValue > rightBlueValue) ConeColor.RED
+            rightColor = if (rightRedValue > rightGreenValue && rightRedValue > rightBlueValue) ConeColor.RED
             else if (rightGreenValue > rightBlueValue) ConeColor.GREEN
             else ConeColor.BLUE
 
@@ -121,7 +122,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
             leftGreenValue = Core.mean(boxLeftG).value[0].toInt()
             leftBlueValue = Core.mean(boxLeftB).value[0].toInt()
 
-            val leftColor = if (leftRedValue > leftGreenValue && leftRedValue > leftBlueValue) ConeColor.RED
+            leftColor = if (leftRedValue > leftGreenValue && leftRedValue > leftBlueValue) ConeColor.RED
             else if (leftGreenValue > leftBlueValue) ConeColor.GREEN
             else ConeColor.BLUE
 
