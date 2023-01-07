@@ -24,23 +24,35 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
+import org.checkerframework.checker.units.UnitsTools.h
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
+import org.firstinspires.ftc.teamcode.robot.subsystems.NightmareSlide
 
 @Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
     //private var position = 0
 
+    /* TODO Need to be able to read:
+            Nightmare frame
+            LiftyLinkage action
+            Whether Nightmare can be moved gradually*/
+
     override fun runLoop() {
-        gp1.leftTrigger.whileActive = { if (!gp1.leftBumper.active) robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
-        gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
-        // TODO Unlock Nightmare when LiftyLinkage.action is the real HOLD
+
         gp1.x.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.HOLD) }
-        if (!gp1.leftBumper.active && !gp1.leftTrigger.active && !gp1.x.active) {
-            robot.liftyLinkage.action(LiftyLinkage.Action.REST)
-        }
+        // TODO implement next line
+        // if Nightmare is on frame 1B { // Failsafe to prevent lift from damaging Nightmare
+            gp1.leftTrigger.whileActive = { if (!gp1.leftBumper.active) robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
+            gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
+
+
+            if (!gp1.leftBumper.active && !gp1.leftTrigger.active && !gp1.x.active) {
+                robot.liftyLinkage.action(LiftyLinkage.Action.REST)
+            }
+
 
         // Move the mechanism to the grab position.
         // If the slide is extended, do nothing.
@@ -98,13 +110,21 @@ class MainTeleOp : BaseOpMode() {
                     else ClumsyClaw.GripperPosition.OPEN
             }
         }
-
-        gp2.rightBumper.onActivate = {
-            robot.nightmareSlide.currentFrame += 1
-        }
+        // Player 2 right and left bumpers progress and regress Nightmare respectively
+        // TODO implement comment prototypes here
         gp2.leftBumper.onActivate = {
+            // If currentFrame - 1 in [0,1] { center turret }
             robot.nightmareSlide.currentFrame -= 1
         }
+        // if LiftyLinkage action is HOLD or nightmareSlide frame is 1B/-1 { // Failsafe to prevent moving Nightmare into Lift hardware
+            gp2.rightBumper.onActivate = {
+                // If currentFrame + 1 in [0,1] { center turret }
+                robot.nightmareSlide.currentFrame += 1
+            }
+
+        // TODO implement turret (locked unless Nightmare frame IN [1B,2,3] or Nightmare is free)
+
+
 
         when (opModeType) {
             OpModeType.TeleOp ->
