@@ -18,23 +18,21 @@ import kotlin.reflect.KProperty
 @Config
 @Suppress("unused")
 class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
-    override val tag = "ClumsyClaw"
+    override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
 
     // Servos
     private val wristServo = Servos.WRIST.get(hardwareMap)
     private val gripperServo = Servos.GRIPPER.get(hardwareMap)
-    private val slideServo = Servos.SLIDE.get(hardwareMap)
     private val pivotServoA = Servos.PIVOT_A.get(hardwareMap)
     private val pivotServoB = Servos.PIVOT_B.get(hardwareMap)
 
     private val pivotServos = listOf(pivotServoA, pivotServoB)
-    private val servos = listOf(wristServo, gripperServo, slideServo, pivotServoA, pivotServoB)
+    private val servos = listOf(wristServo, gripperServo, pivotServoA, pivotServoB)
 
     // Use these to interact with the servos
     var wrist: WristPosition by ServoDelegate(wristServo, WristPosition.REST)
     var gripper: GripperPosition by ServoDelegate(gripperServo, GripperPosition.OPEN)
-    var slide: SlidePosition by ServoDelegate(slideServo, SlidePosition.CONTRACTED)
     var pivot: PivotPosition by ServoDelegate(pivotServos, PivotPosition.REST)
 
     /**
@@ -90,15 +88,6 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
         @JvmField var open: Double
     )
 
-    enum class SlidePosition(override val position: () -> Double): PositionEnum {
-        CONTRACTED({ slidePositions.contracted }),
-        EXTENDED({ slidePositions.extended })
-    }
-    data class SlidePositions(
-        @JvmField var contracted: Double,
-        @JvmField var extended: Double
-    )
-
     enum class PivotPosition(override val position: () -> Double): PositionEnum {
         GRAB({ pivotPositions.grab }),
         REST({ pivotPositions.rest }),
@@ -115,21 +104,18 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     override fun generateTelemetry(telemetry: Telemetry) {
         telemetry.addData("wrist", wrist)
         telemetry.addData("gripper", gripper)
-        telemetry.addData("slide", slide)
         telemetry.addData("pivot", pivot)
     }
 
     init {
         wrist = WristPosition.CAP
         gripper = GripperPosition.CLOSED
-        slide = SlidePosition.CONTRACTED
         pivot = PivotPosition.START
     }
 
     companion object {
-        @JvmField var wristPositions = WristPositions(0.33, 0.67, 1.0)
-        @JvmField var gripperPositions = GripperPositions(0.3, 0.0)
-        @JvmField var slidePositions = SlidePositions(0.41, 0.71)
+        @JvmField var wristPositions = WristPositions(0.65, 0.65, 1.0)
+        @JvmField var gripperPositions = GripperPositions(0.8, 0.4)
         @JvmField var pivotPositions = PivotPositions(1.0, 0.65, 0.31, 0.3)
     }
 }

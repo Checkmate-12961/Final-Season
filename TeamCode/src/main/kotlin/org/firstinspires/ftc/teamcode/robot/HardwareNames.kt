@@ -90,7 +90,9 @@ class HardwareNames {
         // CHub servos in port order 0-4
         WRIST("wrist"),
         GRIPPER("gripper"),
-        SLIDE("slide"),
+        SLIDE_A("slide", true),
+        SLIDE_B("slide2", true),
+        TURRET("turret"),
         PIVOT_A("pivotA"),
         PIVOT_B("pivotB", true);
 

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
@@ -19,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation
 import org.openftc.easyopencv.OpenCvPipeline
 
 class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
-    override val tag = "ColorCone"
+    override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap{ tag }
     private val webcam: OpenCvCamera
 

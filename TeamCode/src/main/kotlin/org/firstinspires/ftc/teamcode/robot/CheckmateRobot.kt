@@ -23,10 +23,7 @@ package org.firstinspires.ftc.teamcode.robot
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
-import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
-import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong
+import org.firstinspires.ftc.teamcode.robot.subsystems.*
 import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
 
 /**
@@ -60,6 +57,11 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val clumsyClaw: ClumsyClaw get() = subsystems.get<ClumsyClaw>()!!
 
+    /**
+     * Access the [NightmareSlide] subsystem.
+     */
+    val nightmareSlide: NightmareSlide get() = subsystems.get<NightmareSlide>()!!
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {
@@ -77,5 +79,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the claw mechanism
         subsystems.register(ClumsyClaw(hardwareMap))
+
+        // Set up the nightmare of a slide mechanism
+        subsystems.register(NightmareSlide(hardwareMap))
     }
 }

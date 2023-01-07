@@ -12,7 +12,7 @@ import kotlin.math.sign
 
 @Config
 class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
-    override val tag = "LiftyLinkage"
+    override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
 
     private val liftMotorA = Motors.LIFTY_LINKAGE_A.get(hardwareMap)
