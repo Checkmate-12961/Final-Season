@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems
 
+import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
 import org.firstinspires.ftc.teamcode.robot.util.DumbassProgrammerError
 import kotlin.reflect.KProperty
 
+@Config
 class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
@@ -100,7 +102,7 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
         @JvmField var FRAME_A3 = Keyframe(0.0, 270.0)
 
-        @JvmField var bottomServoIntrinsic = 60.0
+        @JvmField var bottomServoIntrinsic = 50.0
         @JvmField var topServoIntrinsic = 185.0
     }
 
