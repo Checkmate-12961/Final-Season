@@ -36,9 +36,10 @@ class MainTeleOp : BaseOpMode() {
     override fun runLoop() {
         gp1.leftTrigger.whileActive = { if (!gp1.leftBumper.active) robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
         gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
-        gp1.x.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.HOLD2) }
+        // TODO Unlock Nightmare when LiftyLinkage.action is the real HOLD
+        gp1.x.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.HOLD) }
         if (!gp1.leftBumper.active && !gp1.leftTrigger.active && !gp1.x.active) {
-            robot.liftyLinkage.action(LiftyLinkage.Action.HOLD)
+            robot.liftyLinkage.action(LiftyLinkage.Action.REST)
         }
 
         // Move the mechanism to the grab position.

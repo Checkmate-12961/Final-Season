@@ -16,7 +16,7 @@ object ColorConeConstants {
     @JvmField var boxRight = DetectionBox(
         30,
         90,
-        50,
+        50  ,
         75,
         150
     )

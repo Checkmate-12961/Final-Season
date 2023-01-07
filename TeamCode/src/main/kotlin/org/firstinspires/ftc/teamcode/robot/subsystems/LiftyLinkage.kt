@@ -23,8 +23,8 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
     enum class Action(val power: () -> Double) {
         DOWN({ downPower }),
         UP({ upPower }),
-        HOLD({ holdPower }),
-        HOLD2({ holdPower2})
+        REST({ restPower }),
+        HOLD({ holdPower})
     }
 
     var speed = 0.0
@@ -69,8 +69,8 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
     companion object {
         @JvmField var adjustmentRate = 0.03
         @JvmField var upPower = .6
-        @JvmField var holdPower = .0
-        @JvmField var holdPower2 = .2
+        @JvmField var restPower = .0
+        @JvmField var holdPower = .2
         @JvmField var downPower = -.3
     }
 }
