@@ -18,22 +18,19 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     private var bottom: Double by ServoDelegate(
         bottomServo,
-        Math.toRadians(60.0),
+        Math.toRadians(bottomServoIntrinsic),
         Math.toRadians(270.0),
         Math.toRadians(90.0)
     )
     private var top: Double by ServoDelegate(
         topServo,
-        Math.toRadians(185.0),
+        Math.toRadians(topServoIntrinsic),
         Math.toRadians(270.0),
         Math.toRadians(90.0)
     )
 
     data class Keyframe(@JvmField var bottomPos: Double = 0.0, @JvmField var topPos: Double = 0.0) {
-        companion object {
-            fun fromDegrees(bottomPos: Double, topPos: Double) =
-                Keyframe(Math.toRadians(bottomPos), Math.toRadians(topPos))
-        }
+        fun toRadians() = Keyframe(Math.toRadians(bottomPos), Math.toRadians(topPos))
     }
 
     /**
@@ -82,7 +79,7 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         set(value) {
             field = value
 
-            val frame = keyframes[value]
+            val frame = keyframes[value].toRadians()
 
             top = frame.topPos
             bottom = frame.bottomPos
@@ -97,11 +94,14 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
     )
 
     companion object {
-        @JvmField var FRAME_B1 = Keyframe.fromDegrees(135.0, 90.0)
-        @JvmField var FRAME_0 = Keyframe.fromDegrees(90.0, 90.0)
-        @JvmField var FRAME_A1 = Keyframe.fromDegrees(45.0, 135.0)
-        @JvmField var FRAME_A2 = Keyframe.fromDegrees(45.0, 180.0)
-        @JvmField var FRAME_A3 = Keyframe.fromDegrees(0.0, 270.0)
+        @JvmField var FRAME_B1 = Keyframe(135.0, 90.0)
+        @JvmField var FRAME_0 = Keyframe(90.0, 90.0)
+        @JvmField var FRAME_A1 = Keyframe(45.0, 135.0)
+        @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
+        @JvmField var FRAME_A3 = Keyframe(0.0, 270.0)
+
+        @JvmField var bottomServoIntrinsic = 60.0
+        @JvmField var topServoIntrinsic = 185.0
     }
 
     override fun generateTelemetry(telemetry: Telemetry) {
