@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation
 import org.openftc.easyopencv.OpenCvPipeline
 
 class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
-    override val tag = "ColorCone"
+    override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap{ tag }
     private val webcam: OpenCvCamera
 
@@ -38,7 +38,7 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
     val rightColor: ConeColor get() = pipeline.rightColor
     val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
 
-    val leftColor: ConeColor get() = pipeline.rightColor
+    val leftColor: ConeColor get() = pipeline.leftColor
     val leftAnalysis: List<Int> get() = pipeline.leftAnalysis
 
     // getPosition returns where the barcode is located in a BarcodePosition
@@ -101,9 +101,9 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
             boxRightG = g.submat(ColorConeConstants.boxRight.rectangle)
             boxRightB = b.submat(ColorConeConstants.boxRight.rectangle)
 
-            boxLeftR = r.submat(ColorConeConstants.boxRight.rectangle)
-            boxLeftG = g.submat(ColorConeConstants.boxRight.rectangle)
-            boxLeftB = b.submat(ColorConeConstants.boxRight.rectangle)
+            boxLeftR = r.submat(ColorConeConstants.boxLeft.rectangle)
+            boxLeftG = g.submat(ColorConeConstants.boxLeft.rectangle)
+            boxLeftB = b.submat(ColorConeConstants.boxLeft.rectangle)
         }
 
         override fun processFrame(input: Mat): Mat {

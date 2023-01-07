@@ -62,7 +62,7 @@ class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
     DriveConstants.TRACK_WIDTH,
     LATERAL_MULTIPLIER
 ), AbstractSubsystem {
-    override val tag = "LongSchlong"
+    override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap{ tag }
 
     private val trajectorySequenceRunner: SuperTrajectorySequenceRunner

@@ -36,15 +36,16 @@ class MainTeleOp : BaseOpMode() {
     override fun runLoop() {
         gp1.leftTrigger.whileActive = { if (!gp1.leftBumper.active) robot.liftyLinkage.action(LiftyLinkage.Action.DOWN) }
         gp1.leftBumper.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.UP) }
-
-        gp1.leftBumper.whileInactive = { if (!gp1.leftTrigger.active) robot.liftyLinkage.action(LiftyLinkage.Action.HOLD) }
+        gp1.x.whileActive = { robot.liftyLinkage.action(LiftyLinkage.Action.HOLD2) }
+        if (!gp1.leftBumper.active && !gp1.leftTrigger.active && !gp1.x.active) {
+            robot.liftyLinkage.action(LiftyLinkage.Action.HOLD)
+        }
 
         // Move the mechanism to the grab position.
         // If the slide is extended, do nothing.
         gp1.dpadDown.onActivate = {
             if (
                 robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.CAP
-                && robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED
             ) {
                 robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.GRAB
                 robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
@@ -54,10 +55,8 @@ class MainTeleOp : BaseOpMode() {
         // Move the mechanism to the rest position.
         // If the slide is extended, do nothing.
         gp1.dpadLeft.onActivate = {
-            if (robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED) {
-                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.REST
-                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
-            }
+            robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.REST
+            robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
         }
 
         // Move the mechanism to the rest position with the wrist in the grab position
@@ -72,9 +71,14 @@ class MainTeleOp : BaseOpMode() {
         // Move the mechanism to the cap position.
         // If anything is not in the rest position, do nothing.
         gp1.dpadUp.onActivate = {
+            if (robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.REST
+                        || robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.REST) {
+                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.REST
+                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+                sleep(1000)
+            }
             if (
                 robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
-                && robot.clumsyClaw.slide != ClumsyClaw.SlidePosition.EXTENDED
                 && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
             ) {
                 robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
@@ -94,26 +98,11 @@ class MainTeleOp : BaseOpMode() {
             }
         }
 
-        // Contract the slide when the right bumper is pressed.
-        // If the pivot is NOT in the rest position, do nothing.
-        gp1.rightBumper.onActivate = {
-            if (
-                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
-                && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
-            ) {
-                robot.clumsyClaw.slide = ClumsyClaw.SlidePosition.CONTRACTED
-            }
+        gp2.rightBumper.onActivate = {
+            robot.nightmareSlide.currentFrame += 1
         }
-
-        // Extend the slide when the right bumper is pressed.
-        // If the pivot is NOT in the rest position, do nothing.
-        gp1.rightTrigger.onActivate = {
-            if (
-                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
-                && robot.clumsyClaw.wrist != ClumsyClaw.WristPosition.GRAB
-            ) {
-                robot.clumsyClaw.slide = ClumsyClaw.SlidePosition.EXTENDED
-            }
+        gp2.leftBumper.onActivate = {
+            robot.nightmareSlide.currentFrame -= 1
         }
 
         when (opModeType) {
