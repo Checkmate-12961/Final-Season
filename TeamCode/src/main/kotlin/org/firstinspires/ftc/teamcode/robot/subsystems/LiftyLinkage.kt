@@ -3,74 +3,63 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
-import kotlin.math.abs
-import kotlin.math.sign
+import kotlin.math.roundToInt
 
 @Config
 class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
 
-    private val liftMotorA = Motors.LIFTY_LINKAGE_A.get(hardwareMap)
-    private val liftMotorB = Motors.LIFTY_LINKAGE_B.get(hardwareMap)
+    private val liftMotor = Motors.LIFTY_LINKAGE.get(hardwareMap)
 
-    private val motors = listOf(liftMotorA, liftMotorB)
-
-    enum class Action(val power: () -> Double) {
-        DOWN({ downPower }),
-        UP({ upPower }),
-        HOLD({ holdPower }),
-        HOLD2({ holdPower2})
-    }
-
-    var speed = 0.0
-
-    var currentSpeed = 0.0
-        private set
-
-    fun action(action: Action) {
-        speed = action.power()
-    }
-
-    override fun loop() {
-        // makes the robot not shit itself as badly
-
-        currentSpeed = liftMotorA.power
-
-        val delta = sign(speed - currentSpeed) * adjustmentRate
-        val newPower = if (
-                abs(abs(currentSpeed + delta) - abs(speed)) > adjustmentRate
-            ) currentSpeed + delta
-            else speed
-
-        if (delta != 0.0) {
-            motors.forEach { it.power = newPower }
+    var targetPosition: Double
+        get() = Range.scale(liftMotor.targetPosition / ticksPerRevolution, lowerBound, upperBound, 0.0, 1.0)
+        set(value) {
+            liftMotor.targetPosition = kotlin.math.max(
+                Range.scale(
+                    kotlin.math.min(value, 1.0),
+                    0.0, 1.0,
+                    lowerBound, upperBound
+                ) * ticksPerRevolution,
+                0.0
+            ).roundToInt()
         }
-    }
+
+    val currentPosition: Double get() = liftMotor.currentPosition / ticksPerRevolution
 
     override fun generateTelemetry(telemetry: Telemetry) {
-        telemetry.addData("liftTargetVel", speed)
-        telemetry.addData("liftRealVel", currentSpeed)
-        telemetry.addData("liftVelDelta", currentSpeed - speed)
+        telemetry.addData("targetPosition", targetPosition)
+        telemetry.addData("currentPosition", currentPosition)
+        liftMotor.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
+        }
     }
 
     init {
-        // Initialize the motors
-        motors.forEach { motor ->
-            motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-            motor.power = 0.0
-        }
+        // Initialize the motor
+        liftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        liftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+        targetPosition = 0.0
+        liftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+        liftMotor.power = maxPower
     }
 
     companion object {
-        @JvmField var adjustmentRate = 0.03
-        @JvmField var upPower = .6
-        @JvmField var holdPower = .0
-        @JvmField var holdPower2 = .2
-        @JvmField var downPower = -.3
+        @JvmField var upperBound = 0.7
+        @JvmField var lowerBound = 0.0
+
+        @JvmField var maxPower = 0.9
+
+        @JvmField var ticksPerRevolution = 1425.1
     }
 }

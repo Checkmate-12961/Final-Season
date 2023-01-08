@@ -62,6 +62,11 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val nightmareSlide: NightmareSlide get() = subsystems.get<NightmareSlide>()!!
 
+    /**
+     * Access the [T] subsystem.
+     */
+    val t: T get() = subsystems.get<T>()!!
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {
@@ -82,5 +87,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the nightmare of a slide mechanism
         subsystems.register(NightmareSlide(hardwareMap))
+
+        // Set up the t
+        subsystems.register(T(hardwareMap))
     }
 }
