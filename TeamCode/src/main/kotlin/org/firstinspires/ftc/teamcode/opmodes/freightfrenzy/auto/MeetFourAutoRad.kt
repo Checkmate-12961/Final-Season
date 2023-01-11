@@ -9,16 +9,21 @@ class MeetFourAutoRUtils {
         robot: CheckmateRobot,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
-        return robot.zelda.trajectorySequenceBuilder(change(startPose))
+        return robot.zelda.trajectorySequenceBuilder(change(startPose.toPose2d()))
     }
 
+    data class StupidPose(@JvmField var x: Double, @JvmField var y: Double, @JvmField var heading: Double) {
+        fun toPose2d(): Pose2d = Pose2d(x, y, Math.toRadians(heading))
+    }
+
+
     companion object {
-        var startPose = Pose2d(0.0, 0.0, 0.0)
-        var temp1 = Pose2d(0.0, 0.0, 0.0)
-        var temp2 = Pose2d(0.0, 0.0, 0.0)
-        var temp3 = Pose2d(0.0, 0.0, 0.0)
-        var temp4 = Pose2d(0.0, 0.0, 0.0)
-        var temp5 = Pose2d(0.0, 0.0, 0.0)
-        var temp6 = Pose2d(0.0, 0.0, 0.0)
+        var startPose = StupidPose(0.0, 0.0, 0.0)
+        var temp1 = StupidPose(0.0, 0.0, 0.0)
+        var temp2 = StupidPose(0.0, 0.0, 0.0)
+        var temp3 = StupidPose(0.0, 0.0, 0.0)
+        var temp4 = StupidPose(0.0, 0.0, 0.0)
+        var temp5 = StupidPose(0.0, 0.0, 0.0)
+        var temp6 = StupidPose(0.0, 0.0, 0.0)
     }
 }

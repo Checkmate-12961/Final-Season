@@ -18,7 +18,6 @@ class BlueLeft : BaseOpMode() {
         val colour = robot.colorCone.leftColor
         // Make an array of the poses so we can iterate over them
         val poses = arrayOf(/*pose1, */pose2, poseRed/*, poseIntake, pose3, poseIntake, pose4, pose5*/)
-
         // Dimensions for blue left
         pose0.x = 7.5
         pose0.y = 144-31.5
