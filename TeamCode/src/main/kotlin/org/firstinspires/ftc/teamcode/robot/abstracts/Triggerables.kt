@@ -248,7 +248,6 @@ class Triggerables {
                 0f
             }
 
-
             when (state) {
                 // if it thinks it's up
                 TriggerDirection.UP -> {
@@ -289,7 +288,7 @@ class Triggerables {
                         whileInactive?.invoke()
                     }
                 }
-                // if it thinks it's down
+                // if it thinks it's downa
                 TriggerDirection.DOWN -> {
                     // but it isn't
                     if (rawValue() > -activationThreshold) {

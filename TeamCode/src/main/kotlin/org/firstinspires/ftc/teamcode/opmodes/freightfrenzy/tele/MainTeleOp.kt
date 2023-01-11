@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
+import org.firstinspires.ftc.teamcode.robot.subsystems.T
 
 @Config
 @TeleOp(name = "TeleOp")
@@ -113,7 +114,10 @@ class MainTeleOp : BaseOpMode() {
         robot.liftyLinkage.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
 
         robot.nightmareSlide.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
-        robot.t.position = (-gp2.rightStickX.rawValue() + 1.0) / 2.0
+        robot.t.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
+            if (value >= 0) Range.scale(value, 0.0, 1.0, T.center, 1.0)
+            else Range.scale(value, -1.0, 0.0, 0.0, T.center)
+        }
 
         when (opModeType) {
             OpModeType.TeleOp ->

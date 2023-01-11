@@ -109,7 +109,6 @@ abstract class BaseOpMode : LinearOpMode() {
             }
             robot.update()
             runLoop()
-            while (tps - 200 > 5) continue
             updateTelemetry()
             loopStartTime = runtime
         }
