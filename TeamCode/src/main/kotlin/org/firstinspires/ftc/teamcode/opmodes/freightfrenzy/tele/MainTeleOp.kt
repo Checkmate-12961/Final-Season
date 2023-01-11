@@ -30,34 +30,69 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 @Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
+    enum class LinkState {
+        SNIFF, REST, CAP
+    }
+
+    private var currentLinkState = LinkState.REST
+        set(value) {
+            // Checks
+            if (currentLinkState != LinkState.REST && value != LinkState.REST) return
+            if (value == LinkState.CAP && !robot.liftyLinkage.isAboveMid) return
+
+            field = value
+
+            when (value) {
+                LinkState.SNIFF -> {
+                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
+                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
+                    robot.t.locked = false
+                    robot.nightmareSlide.currentFrame = -1
+                    robot.liftyLinkage.lockedAboveMid = false
+                }
+                LinkState.REST -> {
+                    robot.t.locked = true
+                    if (currentLinkState == LinkState.CAP) {
+                        robot.nightmareSlide.currentFrame = 2
+                        sleep(300)
+                        robot.nightmareSlide.currentFrame = 1
+                        sleep(300)
+                    }
+                    robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+                    robot.nightmareSlide.currentFrame = 0
+                    robot.liftyLinkage.lockedAboveMid = false
+                }
+                LinkState.CAP -> {
+                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
+                    robot.t.locked = false
+                    robot.nightmareSlide.currentFrame = 1
+                    robot.liftyLinkage.lockedAboveMid = true
+
+                    sleep(300)
+                    robot.nightmareSlide.currentFrame = 2
+                    sleep(300)
+                    robot.nightmareSlide.currentFrame = 3
+                }
+            }
+        }
+
     override fun preRunLoop() {
         // Move the mechanism to the grab position.
-        // If the slide is extended, do nothing.
         gp2.dpadDown.onActivate = {
-            if (
-                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.CAP
-            ) {
-                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.GRAB
-                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
-            }
+            currentLinkState = LinkState.SNIFF
         }
 
         // Move the mechanism to the rest position.
-        // If the slide is extended, do nothing.
         gp2.dpadLeft.onActivate = {
-            robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.GRAB
-            robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+            currentLinkState = LinkState.REST
         }
 
         // Move the mechanism to the cap position.
-        // If anything is not in the rest position, do nothing.
         gp2.dpadUp.onActivate = {
-            if (
-                robot.clumsyClaw.pivot != ClumsyClaw.PivotPosition.GRAB
-            ) {
-                robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
-                robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.CAP
-            }
+            currentLinkState = LinkState.CAP
         }
 
         // Toggle the gripper when B is pressed.
@@ -67,16 +102,10 @@ class MainTeleOp : BaseOpMode() {
                 robot.clumsyClaw.gripper =
                     if (
                         robot.clumsyClaw.gripper == ClumsyClaw.GripperPosition.OPEN
+                        || currentLinkState == LinkState.REST
                     ) ClumsyClaw.GripperPosition.CLOSED
                     else ClumsyClaw.GripperPosition.OPEN
             }
-        }
-
-        gp2.rightBumper.onActivate = {
-            robot.nightmareSlide.currentFrame += 1
-        }
-        gp2.leftBumper.onActivate = {
-            robot.nightmareSlide.currentFrame -= 1
         }
     }
 
@@ -89,7 +118,7 @@ class MainTeleOp : BaseOpMode() {
         when (opModeType) {
             OpModeType.TeleOp ->
                 // Moves the robot based on the GP1 left stick
-                robot.longSchlong.setWeightedDrivePower(
+                robot.zelda.setWeightedDrivePower(
                     Pose2d( // left stick X
                         -gp1.leftStickY.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),

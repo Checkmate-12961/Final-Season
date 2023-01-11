@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Zelda;
 
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base
@@ -29,22 +29,22 @@ public class BackAndForth extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        LongSchlong longSchlong = new LongSchlong(hardwareMap);
+        Zelda zelda = new Zelda(hardwareMap);
 
-        Trajectory trajectoryForward = longSchlong.trajectoryBuilder(new Pose2d())
+        Trajectory trajectoryForward = zelda.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
                 .build();
 
-        Trajectory trajectoryBackward = longSchlong.trajectoryBuilder(trajectoryForward.end())
+        Trajectory trajectoryBackward = zelda.trajectoryBuilder(trajectoryForward.end())
                 .back(DISTANCE)
                 .build();
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
-            longSchlong.loop();
-            longSchlong.followTrajectory(trajectoryForward);
-            longSchlong.followTrajectory(trajectoryBackward);
+            zelda.loop();
+            zelda.followTrajectory(trajectoryForward);
+            zelda.followTrajectory(trajectoryBackward);
         }
     }
 }

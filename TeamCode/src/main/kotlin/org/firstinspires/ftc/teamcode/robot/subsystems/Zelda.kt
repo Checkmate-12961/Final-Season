@@ -54,7 +54,7 @@ import kotlin.math.abs
  * @see org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
  */
 @Config
-class LongSchlong(hardwareMap: HardwareMap) : MecanumDrive(
+class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
     DriveConstants.kV,
     DriveConstants.kA,
     DriveConstants.kStatic,

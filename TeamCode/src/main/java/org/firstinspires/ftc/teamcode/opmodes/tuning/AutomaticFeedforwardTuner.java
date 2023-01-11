@@ -10,7 +10,7 @@ import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Zelda;
 import org.firstinspires.ftc.teamcode.robot.util.LoggingUtil;
 import org.firstinspires.ftc.teamcode.robot.util.RegressionUtil;
 
@@ -37,7 +37,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        LongSchlong longSchlong = new LongSchlong(hardwareMap);
+        Zelda zelda = new Zelda(hardwareMap);
 
         NanoClock clock = NanoClock.system();
 
@@ -55,7 +55,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
 
         boolean fitIntercept = false;
         while (!isStopRequested()) {
-            longSchlong.loop();
+            zelda.loop();
             if (gamepad1.a) {
                 fitIntercept = true;
                 while (!isStopRequested() && gamepad1.a) {
@@ -97,7 +97,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
         List<Double> positionSamples = new ArrayList<>();
         List<Double> powerSamples = new ArrayList<>();
 
-        longSchlong.setPoseEstimate(new Pose2d());
+        zelda.setPoseEstimate(new Pose2d());
 
         double startTime = clock.seconds();
         while (!isStopRequested()) {
@@ -109,13 +109,13 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
             double power = vel / maxVel;
 
             timeSamples.add(elapsedTime);
-            positionSamples.add(longSchlong.getPoseEstimate().getX());
+            positionSamples.add(zelda.getPoseEstimate().getX());
             powerSamples.add(power);
 
-            longSchlong.setDrivePower(new Pose2d(power, 0.0, 0.0));
-            longSchlong.updatePoseEstimate();
+            zelda.setDrivePower(new Pose2d(power, 0.0, 0.0));
+            zelda.updatePoseEstimate();
         }
-        longSchlong.setDrivePower(new Pose2d(0.0, 0.0, 0.0));
+        zelda.setDrivePower(new Pose2d(0.0, 0.0, 0.0));
 
         RegressionUtil.RampResult rampResult = RegressionUtil.fitRampData(
                 timeSamples, positionSamples, powerSamples, fitIntercept,
@@ -175,8 +175,8 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
             positionSamples.clear();
             powerSamples.clear();
 
-            longSchlong.setPoseEstimate(new Pose2d());
-            longSchlong.setDrivePower(new Pose2d(MAX_POWER, 0.0, 0.0));
+            zelda.setPoseEstimate(new Pose2d());
+            zelda.setDrivePower(new Pose2d(MAX_POWER, 0.0, 0.0));
 
             startTime = clock.seconds();
             while (!isStopRequested()) {
@@ -186,12 +186,12 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
                 }
 
                 timeSamples.add(elapsedTime);
-                positionSamples.add(longSchlong.getPoseEstimate().getX());
+                positionSamples.add(zelda.getPoseEstimate().getX());
                 powerSamples.add(MAX_POWER);
 
-                longSchlong.updatePoseEstimate();
+                zelda.updatePoseEstimate();
             }
-            longSchlong.setDrivePower(new Pose2d(0.0, 0.0, 0.0));
+            zelda.setDrivePower(new Pose2d(0.0, 0.0, 0.0));
 
             RegressionUtil.AccelResult accelResult = RegressionUtil.fitAccelData(
                     timeSamples, positionSamples, powerSamples, rampResult,

@@ -19,11 +19,19 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
     private val liftMotor = Motors.LIFTY_LINKAGE.get(hardwareMap)
 
     var targetPosition: Double
-        get() = Range.scale(liftMotor.targetPosition / ticksPerRevolution, lowerBound, upperBound, 0.0, 1.0)
+        get() = Range.scale(
+            liftMotor.targetPosition / ticksPerRevolution,
+            lowerBound,
+            upperBound,
+            0.0,1.0
+        )
         set(value) {
             liftMotor.targetPosition = kotlin.math.max(
                 Range.scale(
-                    kotlin.math.min(value, 1.0),
+                    kotlin.math.min(
+                        if (value < middleBound && lockedAboveMid) middleBound else value,
+                        1.0
+                    ),
                     0.0, 1.0,
                     lowerBound, upperBound
                 ) * ticksPerRevolution,
@@ -31,11 +39,29 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
             ).roundToInt()
         }
 
-    val currentPosition: Double get() = liftMotor.currentPosition / ticksPerRevolution
+    val isAboveMid: Boolean get() = currentPosition >= middleBound
+
+    var lockedAboveMid = false
+        set(value) {
+            field = value
+
+            if (value) {
+                targetPosition = kotlin.math.max(targetPosition, middleBound)
+            }
+        }
+
+    private val currentPosition: Double get() = Range.scale(
+        liftMotor.currentPosition / ticksPerRevolution,
+        lowerBound,
+        upperBound,
+        0.0,
+        1.0
+    )
 
     override fun generateTelemetry(telemetry: Telemetry) {
         telemetry.addData("targetPosition", targetPosition)
         telemetry.addData("currentPosition", currentPosition)
+        telemetry.addData("currentRawPosition", liftMotor.currentPosition / ticksPerRevolution)
         liftMotor.getCurrent(CurrentUnit.AMPS).let { current ->
             telemetry.addData(
                 "current",
@@ -49,14 +75,21 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
         // Initialize the motor
         liftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         liftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
-        targetPosition = 0.0
-        liftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
-        liftMotor.power = maxPower
+        if (!tuningMode) {
+            targetPosition = 0.0
+            liftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+            liftMotor.power = maxPower
+        } else {
+            liftMotor.mode = DcMotor.RunMode.RUN_USING_ENCODER
+        }
     }
 
     companion object {
         @JvmField var upperBound = 0.7
+        @JvmField var middleBound = 0.32
         @JvmField var lowerBound = 0.0
+
+        @JvmField var tuningMode = false
 
         @JvmField var maxPower = 0.9
 
