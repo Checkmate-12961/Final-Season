@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Zelda;
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers.TrackingWheelLocalizer;
 
 /**
@@ -66,9 +66,9 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        LongSchlong longSchlong = new LongSchlong(hardwareMap);
+        Zelda zelda = new Zelda(hardwareMap);
 
-        if (!(longSchlong.getLocalizer() instanceof TrackingWheelLocalizer)) {
+        if (!(zelda.getLocalizer() instanceof TrackingWheelLocalizer)) {
             RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "
                     + "drive class. Ensure that \"setLocalizer(new StandardTrackingWheelLocalizer"
                     + "(hardwareMap));\" is called in SampleMecanumDrive.java");
@@ -95,11 +95,11 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
 
         while (!isStopRequested() && !tuningFinished) {
             Pose2d vel = new Pose2d(0, 0, -gamepad1.right_stick_x);
-            longSchlong.setDrivePower(vel);
+            zelda.setDrivePower(vel);
 
-            longSchlong.loop();
+            zelda.loop();
 
-            double heading = longSchlong.getPoseEstimate().getHeading();
+            double heading = zelda.getPoseEstimate().getHeading();
             double deltaHeading = heading - lastHeading;
 
             headingAccumulator += Angle.normDelta(deltaHeading);

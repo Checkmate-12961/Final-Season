@@ -3,74 +3,96 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
-import kotlin.math.abs
-import kotlin.math.sign
+import kotlin.math.roundToInt
 
 @Config
 class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
 
-    private val liftMotorA = Motors.LIFTY_LINKAGE_A.get(hardwareMap)
-    private val liftMotorB = Motors.LIFTY_LINKAGE_B.get(hardwareMap)
+    private val liftMotor = Motors.LIFTY_LINKAGE.get(hardwareMap)
 
-    private val motors = listOf(liftMotorA, liftMotorB)
+    var targetPosition: Double
+        get() = Range.scale(
+            liftMotor.targetPosition / ticksPerRevolution,
+            lowerBound,
+            upperBound,
+            0.0,1.0
+        )
+        set(value) {
+            liftMotor.targetPosition = kotlin.math.max(
+                Range.scale(
+                    kotlin.math.min(
+                        if (value < middleBound && lockedAboveMid) middleBound else value,
+                        1.0
+                    ),
+                    0.0, 1.0,
+                    lowerBound, upperBound
+                ) * ticksPerRevolution,
+                0.0
+            ).roundToInt()
+        }
 
-    enum class Action(val power: () -> Double) {
-        DOWN({ downPower }),
-        UP({ upPower }),
-        HOLD({ holdPower }),
-        HOLD2({ holdPower2})
-    }
+    val isAboveMid: Boolean get() = currentPosition >= middleBound
 
-    var speed = 0.0
+    var lockedAboveMid = false
+        set(value) {
+            field = value
 
-    var currentSpeed = 0.0
-        private set
+            if (value) {
+                targetPosition = kotlin.math.max(targetPosition, middleBound)
+            }
+        }
 
-    fun action(action: Action) {
-        speed = action.power()
-    }
+    private val currentPosition: Double get() = Range.scale(
+        liftMotor.currentPosition / ticksPerRevolution,
+        lowerBound,
+        upperBound,
+        0.0,
+        1.0
+    )
 
-    override fun loop() {
-        // makes the robot not shit itself as badly
-
-        currentSpeed = liftMotorA.power
-
-        val delta = sign(speed - currentSpeed) * adjustmentRate
-        val newPower = if (
-                abs(abs(currentSpeed + delta) - abs(speed)) > adjustmentRate
-            ) currentSpeed + delta
-            else speed
-
-        if (delta != 0.0) {
-            motors.forEach { it.power = newPower }
+    override fun generateTelemetry(telemetry: Telemetry) {
+        telemetry.addData("targetPosition", targetPosition)
+        telemetry.addData("currentPosition", currentPosition)
+        telemetry.addData("currentRawPosition", liftMotor.currentPosition / ticksPerRevolution)
+        liftMotor.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
         }
     }
 
-    override fun generateTelemetry(telemetry: Telemetry) {
-        telemetry.addData("liftTargetVel", speed)
-        telemetry.addData("liftRealVel", currentSpeed)
-        telemetry.addData("liftVelDelta", currentSpeed - speed)
-    }
-
     init {
-        // Initialize the motors
-        motors.forEach { motor ->
-            motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-            motor.power = 0.0
+        // Initialize the motor
+        liftMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        liftMotor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.FLOAT
+        if (!tuningMode) {
+            targetPosition = 0.0
+            liftMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+            liftMotor.power = maxPower
+        } else {
+            liftMotor.mode = DcMotor.RunMode.RUN_USING_ENCODER
         }
     }
 
     companion object {
-        @JvmField var adjustmentRate = 0.03
-        @JvmField var upPower = .6
-        @JvmField var holdPower = .0
-        @JvmField var holdPower2 = .2
-        @JvmField var downPower = -.3
+        @JvmField var upperBound = 0.7
+        @JvmField var middleBound = 0.32
+        @JvmField var lowerBound = 0.0
+
+        @JvmField var tuningMode = false
+
+        @JvmField var maxPower = 0.9
+
+        @JvmField var ticksPerRevolution = 1425.1
     }
 }

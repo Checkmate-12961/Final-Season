@@ -197,7 +197,7 @@ class Triggerables {
         /**
          * The threshold for stick activation
          */
-        override var activationThreshold: Double = 0.3
+        override var activationThreshold: Double = 0.2
 
         /**
          * Get the value of the stick from the controller

@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.robot.subsystems
 import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
+import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
-import org.firstinspires.ftc.teamcode.robot.util.DumbassProgrammerError
 import kotlin.reflect.KProperty
 
 @Config
@@ -35,6 +35,8 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         fun toRadians() = Keyframe(Math.toRadians(bottomPos), Math.toRadians(topPos))
     }
 
+    data class Bounds(@JvmField var lowerBound: Double = 0.0, @JvmField var upperBound: Double = 0.0)
+
     /**
      * Manages applying values from the enum to the servos.
      *
@@ -61,7 +63,7 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
             while (normalized > upperBound) normalized -= 2 * kotlin.math.PI
             while (normalized < lowerBound) normalized += 2 * kotlin.math.PI
 
-            if (normalized > upperBound) throw DumbassProgrammerError("Angle out of servo bounds. upper: $upperBound, lower: $lowerBound, value: $normalized")
+            normalized = kotlin.math.min(normalized, upperBound)
 
             return normalized
         }
@@ -77,30 +79,61 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         }
     }
 
-    var currentFrame: Int = 0
+    var adjustment: Double = 0.0
         set(value) {
-            field = value
+            field = Range.clip(value, 0.0, 1.0)
+            currentFrame = currentFrame
+        }
 
-            val frame = keyframes[value].toRadians()
+    var currentFrame: Int = -1
+        set(value) {
+            field = Range.clip(value, -1, keyframes.size)
+
+            val frame = when (field) {
+                -1 -> Keyframe(
+                    Range.scale(
+                        adjustment,
+                        0.0,
+                        1.0,
+                        B_LOCK_BOUNDS.lowerBound,
+                        B_LOCK_BOUNDS.upperBound
+                    ),
+                    FRAME_B1.topPos
+                )
+                keyframes.size -> Keyframe(
+                    FRAME_A3.bottomPos,
+                    Range.scale(
+                        1.0 - adjustment,
+                        0.0,
+                        1.0,
+                        A_LOCK_BOUNDS.lowerBound,
+                        A_LOCK_BOUNDS.upperBound
+                    )
+                )
+                else -> keyframes[field]
+            }.toRadians()
 
             top = frame.topPos
             bottom = frame.bottomPos
         }
 
     private val keyframes = listOf(
-        FRAME_B1,
         FRAME_0,
         FRAME_A1,
-        FRAME_A2,
-        FRAME_A3
+        FRAME_A2
     )
 
     companion object {
-        @JvmField var FRAME_B1 = Keyframe(135.0, 90.0)
+        @JvmField var FRAME_B1 = Keyframe(-1.0, 90.0)
         @JvmField var FRAME_0 = Keyframe(90.0, 90.0)
         @JvmField var FRAME_A1 = Keyframe(45.0, 135.0)
         @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
-        @JvmField var FRAME_A3 = Keyframe(0.0, 270.0)
+        @JvmField var FRAME_A3 = Keyframe(0.0, -1.0)
+
+        @JvmField var A_LOCK_BOUNDS = Bounds(190.0, 300.0)
+        @JvmField var B_LOCK_BOUNDS = Bounds(100.0, 135.0)
+
+        @JvmField var FRAME_INIT = Keyframe(90.0, 90.0)
 
         @JvmField var bottomServoIntrinsic = 50.0
         @JvmField var topServoIntrinsic = 185.0
@@ -110,9 +143,15 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         telemetry.addData("bottomAngle", Math.toDegrees(bottom))
         telemetry.addData("topAngle", Math.toDegrees(top))
         telemetry.addData("frame", currentFrame)
+        telemetry.addData("adjustment", adjustment)
     }
 
     init {
-        currentFrame = 1
+        top = FRAME_INIT.topPos
+        bottom = FRAME_INIT.bottomPos
+    }
+
+    override fun preLoop() {
+        currentFrame = 0
     }
 }

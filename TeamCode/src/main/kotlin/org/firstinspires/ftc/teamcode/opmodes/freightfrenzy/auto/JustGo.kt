@@ -19,7 +19,7 @@ class JustGo : BaseOpMode() {
         val poses = arrayOf(pose1, pose2, pose3, pose4, pose5, pose6, pose7, pose8, pose9)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.longSchlong.trajectorySequenceBuilder(pose0.toPose2d())
+        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
 
         // Add poses that have been set to the trajectory builder
         for (pose in poses) {
@@ -34,7 +34,7 @@ class JustGo : BaseOpMode() {
 
     override fun preRunLoop() {
         // Follow the trajectory
-        robot.longSchlong.followTrajectorySequenceAsync(traj)
+        robot.zelda.followTrajectorySequenceAsync(traj)
     }
 
     companion object {

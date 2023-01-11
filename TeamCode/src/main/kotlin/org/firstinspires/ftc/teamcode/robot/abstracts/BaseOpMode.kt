@@ -24,7 +24,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
-import java.util.*
 
 /**
  * Basic OpMode class that all OpModes should extend
@@ -33,6 +32,12 @@ abstract class BaseOpMode : LinearOpMode() {
     protected lateinit var robot: CheckmateRobot
     protected lateinit var gp1: SuperController
     protected lateinit var gp2: SuperController
+
+    private var startTime = 0.0
+
+    private var loopStartTime = 0.0
+    private val mspt: Double get() = (runtime - loopStartTime) * 1000
+    private val tps: Double get() = 1000.0 / mspt
 
     /**
      * Type of the op mode.
@@ -96,6 +101,7 @@ abstract class BaseOpMode : LinearOpMode() {
         }
         robot.preLoop()
         preRunLoop()
+        startTime = runtime
         while (opModeIsActive() && !isStopRequested) {
             if (opModeType == OpModeType.TeleOp) {
                 gp1.update()
@@ -103,7 +109,9 @@ abstract class BaseOpMode : LinearOpMode() {
             }
             robot.update()
             runLoop()
+            while (tps - 200 > 5) continue
             updateTelemetry()
+            loopStartTime = runtime
         }
         robot.cleanup()
         cleanup()
@@ -111,7 +119,11 @@ abstract class BaseOpMode : LinearOpMode() {
 
     private fun updateTelemetry() {
         // Print stuff to telemetry
-        telemetry.addData("runtime", String.format(Locale.ENGLISH, "%fs", runtime))
+        if (opModeIsActive()) {
+            telemetry.addData("runtime", "%.2f seconds", runtime - startTime)
+            telemetry.addData("tps", "%.2f", tps)
+            telemetry.addData("mspt", "%.2f", mspt)
+        }
 
         robot.subsystems.list.forEach {
             telemetry.addLine("\n${it.tag}")

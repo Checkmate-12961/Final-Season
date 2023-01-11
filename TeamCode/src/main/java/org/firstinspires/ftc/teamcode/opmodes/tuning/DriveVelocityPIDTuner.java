@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Zelda;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        LongSchlong drive = new LongSchlong(hardwareMap);
+        Zelda drive = new Zelda(hardwareMap);
 
         Mode mode = Mode.TUNING_MODE;
 

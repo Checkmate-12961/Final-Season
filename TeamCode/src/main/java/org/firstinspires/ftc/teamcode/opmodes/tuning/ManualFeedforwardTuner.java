@@ -18,7 +18,7 @@ import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.robot.subsystems.LongSchlong;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Zelda;
 
 import java.util.Objects;
 
@@ -62,7 +62,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        LongSchlong longSchlong = new LongSchlong(hardwareMap);
+        Zelda zelda = new Zelda(hardwareMap);
 
         Mode mode = Mode.TUNING_MODE;
 
@@ -104,10 +104,10 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     MotionState motionState = activeProfile.get(profileTime);
                     double targetPower = Kinematics.calculateMotorFeedforward(motionState.getV(), motionState.getA(), kV, kA, kStatic);
 
-                    longSchlong.setDrivePower(new Pose2d(targetPower, 0, 0));
-                    longSchlong.updatePoseEstimate();
+                    zelda.setDrivePower(new Pose2d(targetPower, 0, 0));
+                    zelda.updatePoseEstimate();
 
-                    Pose2d poseVelo = Objects.requireNonNull(longSchlong.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
+                    Pose2d poseVelo = Objects.requireNonNull(zelda.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
                     double currentVelo = poseVelo.getX();
 
                     // update telemetry
@@ -124,7 +124,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         profileStart = clock.seconds();
                     }
 
-                    longSchlong.setWeightedDrivePower(
+                    zelda.setWeightedDrivePower(
                             new Pose2d(
                                     -gamepad1.left_stick_y,
                                     -gamepad1.left_stick_x,

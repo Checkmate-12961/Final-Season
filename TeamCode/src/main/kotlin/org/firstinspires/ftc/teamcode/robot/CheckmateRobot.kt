@@ -38,9 +38,9 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     override val tag = "CheckmateRobot"
 
     /**
-     * Access the [LongSchlong] subsystem.
+     * Access the [Zelda] subsystem.
      */
-    val longSchlong: LongSchlong get() = subsystems.get<LongSchlong>()!!
+    val zelda: Zelda get() = subsystems.get<Zelda>()!!
 
     /**
      * Access the [ColorCone] subsystem.
@@ -62,6 +62,11 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val nightmareSlide: NightmareSlide get() = subsystems.get<NightmareSlide>()!!
 
+    /**
+     * Access the [T] subsystem.
+     */
+    val t: T get() = subsystems.get<T>()!!
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {
@@ -69,7 +74,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
         }
 
         // Set up the drivetrain
-        subsystems.register(LongSchlong(hardwareMap))
+        subsystems.register(Zelda(hardwareMap))
 
         // Set up the camera (ColorCone)
         subsystems.register(ColorCone(hardwareMap))
@@ -82,5 +87,8 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
         // Set up the nightmare of a slide mechanism
         subsystems.register(NightmareSlide(hardwareMap))
+
+        // Set up the t
+        subsystems.register(T(hardwareMap))
     }
 }

@@ -79,7 +79,7 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
         //val poses = arrayOf(pose1, pose2)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.longSchlong.trajectorySequenceBuilder(pose0.toPose2d())
+        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
 
 
         for (pose in poses) {
@@ -108,7 +108,7 @@ class TerribleMeetOneThatDoesntWork : BaseOpMode() {
 
     override fun preRunLoop() {
         // Follow the trajectory
-        robot.longSchlong.followTrajectorySequenceAsync(traj)
+        robot.zelda.followTrajectorySequenceAsync(traj)
     }
 
     companion object {

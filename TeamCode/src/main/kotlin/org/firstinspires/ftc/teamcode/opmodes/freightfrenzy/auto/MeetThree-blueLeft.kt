@@ -65,8 +65,8 @@ class BlueLeft : BaseOpMode() {
         //val poses = arrayOf(pose1, pose2)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.longSchlong.trajectorySequenceBuilder(pose0.toPose2d())
-        robot.longSchlong.poseEstimate = pose0.toPose2d()
+        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
+        robot.zelda.poseEstimate = pose0.toPose2d()
 
 
         for (pose in poses) {
@@ -86,19 +86,19 @@ class BlueLeft : BaseOpMode() {
         val colour = robot.colorCone.leftColor
 
         // Follow the trajectory
-        robot.longSchlong.followTrajectorySequenceAsync(traj)
+        robot.zelda.followTrajectorySequenceAsync(traj)
 
         var moveLength = 100
 
         if (colour == ColorCone.ConeColor.GREEN) {
-            robot.longSchlong.setWeightedDrivePower(Pose2d(-1.0, 0.0, 0.0))
+            robot.zelda.setWeightedDrivePower(Pose2d(-1.0, 0.0, 0.0))
             sleep(moveLength.toLong())
-            robot.longSchlong.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
+            robot.zelda.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
         }
         if (colour == ColorCone.ConeColor.BLUE) {
-            robot.longSchlong.setWeightedDrivePower(Pose2d(-1.0, 0.0, 0.0))
+            robot.zelda.setWeightedDrivePower(Pose2d(-1.0, 0.0, 0.0))
             sleep(moveLength.toLong()*2)
-            robot.longSchlong.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
+            robot.zelda.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
         }
     }
 

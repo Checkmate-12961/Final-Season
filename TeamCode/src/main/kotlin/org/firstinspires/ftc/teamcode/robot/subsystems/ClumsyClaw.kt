@@ -31,7 +31,7 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     private val servos = listOf(wristServo, gripperServo, pivotServoA, pivotServoB)
 
     // Use these to interact with the servos
-    var wrist: WristPosition by ServoDelegate(wristServo, WristPosition.REST)
+    var wrist: WristPosition by ServoDelegate(wristServo, WristPosition.BIG_EYES)
     var gripper: GripperPosition by ServoDelegate(gripperServo, GripperPosition.OPEN)
     var pivot: PivotPosition by ServoDelegate(pivotServos, PivotPosition.REST)
 
@@ -69,13 +69,11 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     enum class WristPosition(override val position: () -> Double): PositionEnum {
-        GRAB({ wristPositions.grab }),
-        REST({ wristPositions.rest }),
-        CAP({ wristPositions.cap })
+        BIG_EYES({ wristPositions.grab }),
+        SMALL_EYES({ wristPositions.cap })
     }
     data class WristPositions(
         @JvmField var grab: Double,
-        @JvmField var rest: Double,
         @JvmField var cap: Double
     )
 
@@ -108,14 +106,14 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     init {
-        wrist = WristPosition.CAP
+        wrist = WristPosition.SMALL_EYES
         gripper = GripperPosition.CLOSED
         pivot = PivotPosition.START
     }
 
     companion object {
-        @JvmField var wristPositions = WristPositions(0.65, 0.65, 1.0)
-        @JvmField var gripperPositions = GripperPositions(0.8, 0.4)
-        @JvmField var pivotPositions = PivotPositions(1.0, 0.65, 0.31, 0.3)
+        @JvmField var wristPositions = WristPositions(0.33, 1.0)
+        @JvmField var gripperPositions = GripperPositions(0.96, 0.7)
+        @JvmField var pivotPositions = PivotPositions(0.9, 0.65, 0.31, 0.15)
     }
 }
