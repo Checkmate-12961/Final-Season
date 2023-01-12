@@ -50,7 +50,7 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
             }
         }
 
-    private val currentPosition: Double get() = Range.scale(
+    val currentPosition: Double get() = Range.scale(
         liftMotor.currentPosition / ticksPerRevolution,
         lowerBound,
         upperBound,

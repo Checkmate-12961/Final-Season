@@ -67,6 +67,75 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     val t: T get() = subsystems.get<T>()!!
 
+    /**
+     * Puts the thread to sleep.
+     *
+     * @param milliseconds Duration (milliseconds) to sleep for.
+     */
+    fun sleep(milliseconds: Long) {
+        try {
+            Thread.sleep(milliseconds)
+        } catch (e: InterruptedException) {
+            Thread.currentThread().interrupt()
+        }
+    }
+
+    /**
+     * Busy loops until [callback] is true.
+     *
+     * @param callback
+     */
+    fun waitFor(callback: () -> Boolean) { while (!callback()) continue }
+
+    var currentLinkState = LinkState.REST
+        set(value) {
+            // Checks
+            if (currentLinkState != LinkState.REST && value != LinkState.REST) return
+            if (value == LinkState.CAP && !this.liftyLinkage.isAboveMid) return
+
+            field = value
+
+            when (value) {
+                LinkState.SNIFF -> {
+                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
+                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
+                    this.t.locked = false
+                    this.nightmareSlide.currentFrame = -1
+                    this.liftyLinkage.lockedAboveMid = false
+                }
+                LinkState.REST -> {
+                    this.t.locked = true
+                    if (currentLinkState == LinkState.CAP) {
+                        this.nightmareSlide.currentFrame = 2
+                        sleep(300)
+                        this.nightmareSlide.currentFrame = 1
+                        sleep(400)
+                    }
+                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+                    this.nightmareSlide.currentFrame = 0
+                    this.liftyLinkage.lockedAboveMid = false
+                }
+                LinkState.CAP -> {
+                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
+                    this.t.locked = false
+                    this.nightmareSlide.currentFrame = 1
+                    this.liftyLinkage.lockedAboveMid = true
+
+                    sleep(300)
+                    this.nightmareSlide.currentFrame = 2
+                    sleep(400)
+                    this.nightmareSlide.currentFrame = 3
+                }
+            }
+        }
+
+    enum class LinkState {
+        SNIFF, REST, CAP
+    }
+
     init {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap)
         for (module in hardwareMap.getAll(LynxModule::class.java)) {

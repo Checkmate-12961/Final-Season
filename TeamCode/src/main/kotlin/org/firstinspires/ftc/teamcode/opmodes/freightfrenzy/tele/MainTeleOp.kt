@@ -24,6 +24,7 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
+import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.T
@@ -31,69 +32,20 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.T
 @Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
-    enum class LinkState {
-        SNIFF, REST, CAP
-    }
-
-    private var currentLinkState = LinkState.REST
-        set(value) {
-            // Checks
-            if (currentLinkState != LinkState.REST && value != LinkState.REST) return
-            if (value == LinkState.CAP && !robot.liftyLinkage.isAboveMid) return
-
-            field = value
-
-            when (value) {
-                LinkState.SNIFF -> {
-                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
-                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
-                    robot.t.locked = false
-                    robot.nightmareSlide.currentFrame = -1
-                    robot.liftyLinkage.lockedAboveMid = false
-                }
-                LinkState.REST -> {
-                    robot.t.locked = true
-                    if (currentLinkState == LinkState.CAP) {
-                        robot.nightmareSlide.currentFrame = 2
-                        sleep(300)
-                        robot.nightmareSlide.currentFrame = 1
-                        sleep(300)
-                    }
-                    robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
-                    robot.nightmareSlide.currentFrame = 0
-                    robot.liftyLinkage.lockedAboveMid = false
-                }
-                LinkState.CAP -> {
-                    robot.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-                    robot.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
-                    robot.t.locked = false
-                    robot.nightmareSlide.currentFrame = 1
-                    robot.liftyLinkage.lockedAboveMid = true
-
-                    sleep(300)
-                    robot.nightmareSlide.currentFrame = 2
-                    sleep(300)
-                    robot.nightmareSlide.currentFrame = 3
-                }
-            }
-        }
-
     override fun preRunLoop() {
         // Move the mechanism to the grab position.
         gp2.dpadDown.onActivate = {
-            currentLinkState = LinkState.SNIFF
+            robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
         }
 
         // Move the mechanism to the rest position.
         gp2.dpadLeft.onActivate = {
-            currentLinkState = LinkState.REST
+            robot.currentLinkState = CheckmateRobot.LinkState.REST
         }
 
         // Move the mechanism to the cap position.
         gp2.dpadUp.onActivate = {
-            currentLinkState = LinkState.CAP
+            robot.currentLinkState = CheckmateRobot.LinkState.CAP
         }
 
         // Toggle the gripper when B is pressed.
@@ -103,7 +55,7 @@ class MainTeleOp : BaseOpMode() {
                 robot.clumsyClaw.gripper =
                     if (
                         robot.clumsyClaw.gripper == ClumsyClaw.GripperPosition.OPEN
-                        || currentLinkState == LinkState.REST
+                        || robot.currentLinkState == CheckmateRobot.LinkState.REST
                     ) ClumsyClaw.GripperPosition.CLOSED
                     else ClumsyClaw.GripperPosition.OPEN
             }

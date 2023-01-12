@@ -4,24 +4,13 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose0
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose1
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose2
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose3
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose4
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.JustGo.Companion.pose5
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.TerribleMeetOneThatDoesntWork.Companion.poseIntake
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
-import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
-import org.firstinspires.ftc.teamcode.robot.subsystems.LiftyLinkage
 
 @Autonomous(name = "TwoFootTest", preselectTeleOp = "TeleOp")
 @Config
 class TwoFootTest : BaseOpMode() {
-    lateinit var traj: TrajectorySequence
+    private lateinit var traj: TrajectorySequence
 
     /*fun lift(up: Boolean, level: String) {
         val levelTimes = mapOf("1" to 100, "2" to 200, "3" to 300)
@@ -79,7 +68,7 @@ class TwoFootTest : BaseOpMode() {
         //val poses = arrayOf(pose1, pose2)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.longSchlong.trajectorySequenceBuilder(pose0.toPose2d())
+        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
 
 
         for (pose in poses) {
@@ -107,7 +96,7 @@ class TwoFootTest : BaseOpMode() {
 
     override fun preRunLoop() {
         // Follow the trajectory
-        robot.longSchlong.followTrajectorySequenceAsync(traj)
+        robot.zelda.followTrajectorySequenceAsync(traj)
     }
 
     companion object {

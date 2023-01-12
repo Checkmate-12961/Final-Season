@@ -35,6 +35,20 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     var gripper: GripperPosition by ServoDelegate(gripperServo, GripperPosition.OPEN)
     var pivot: PivotPosition by ServoDelegate(pivotServos, PivotPosition.REST)
 
+    data class BulkClawData(
+        @JvmField var wrist: WristPosition = WristPosition.BIG_EYES,
+        @JvmField var gripper: GripperPosition = GripperPosition.OPEN,
+        @JvmField var pivot: PivotPosition = PivotPosition.REST
+    )
+
+    var all: BulkClawData
+        get() = BulkClawData(wrist, gripper, pivot)
+        set(value) {
+            wrist = value.wrist
+            gripper = value.gripper
+            pivot = value.pivot
+        }
+
     /**
      * Manages applying values from the enum to the servos.
      *
