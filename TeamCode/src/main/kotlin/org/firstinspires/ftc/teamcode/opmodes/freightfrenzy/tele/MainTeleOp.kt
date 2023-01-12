@@ -78,23 +78,23 @@ class MainTeleOp : BaseOpMode() {
                     Pose2d( // left stick X
                         -gp1.leftStickY.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),
-                            -1.0,
-                            1.0,
                             0.0,
+                            1.0,
+                            drivetrainSpeed,
                             1.0
                         ),  // left sick Y
                         -gp1.leftStickX.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),
-                            -1.0,
-                            1.0,
                             0.0,
+                            1.0,
+                            drivetrainSpeed,
                             1.0
                         ),  // right stick X (rotation)
                         -gp1.rightStickX.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),
-                            -1.0,
-                            1.0,
                             0.0,
+                            1.0,
+                            drivetrainSpeed,
                             1.0
                         )
                     )
@@ -110,5 +110,9 @@ class MainTeleOp : BaseOpMode() {
                 //  it and move on.
                 opModeType = OpModeType.TeleOp
         }
+    }
+
+    companion object {
+        @JvmField var drivetrainSpeed = .4
     }
 }

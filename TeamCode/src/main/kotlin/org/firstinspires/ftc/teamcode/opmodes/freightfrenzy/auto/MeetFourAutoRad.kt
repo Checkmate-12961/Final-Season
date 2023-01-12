@@ -33,12 +33,11 @@ object MeetFourAutoRUtils {
                 robot.liftyLinkage.targetPosition = 1.0
                 robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
                 robot.currentLinkState = CheckmateRobot.LinkState.CAP
-                robot.sleep(300)
                 robot.t.position = d_capPos.lateralValue
                 robot.nightmareSlide.adjustment = d_capPos.forwardValue
-                robot.sleep(100)
+                robot.sleep(300)
                 robot.liftyLinkage.targetPosition = .8
-                robot.sleep(150)
+                robot.sleep(300)
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
                 robot.liftyLinkage.targetPosition = 1.0
                 robot.sleep(300)
@@ -50,13 +49,28 @@ object MeetFourAutoRUtils {
             .lineToSplineHeading(change(e_pos3.toPose2d()))
             // grab cone
             .addDisplacementMarker {
-
+                robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
+                robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
+                robot.sleep(200)
             }
             // move to score on medium pole
             .lineToSplineHeading(change(f_pos4.toPose2d()))
             // score & reset appendages
             .addDisplacementMarker {
-
+                robot.liftyLinkage.targetPosition = 0.7
+                robot.waitFor { robot.liftyLinkage.currentPosition > .6 }
+                robot.currentLinkState = CheckmateRobot.LinkState.CAP
+                robot.t.position = d_capPos.lateralValue
+                robot.nightmareSlide.adjustment = d_capPos.forwardValue
+                robot.sleep(300)
+                robot.liftyLinkage.targetPosition = .5
+                robot.sleep(300)
+                robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
+                robot.liftyLinkage.targetPosition = 1.0
+                robot.sleep(300)
+                robot.currentLinkState = CheckmateRobot.LinkState.REST
+                robot.sleep(300)
+                robot.liftyLinkage.targetPosition = .0
             }
             // colors
             .lineToSplineHeading(
