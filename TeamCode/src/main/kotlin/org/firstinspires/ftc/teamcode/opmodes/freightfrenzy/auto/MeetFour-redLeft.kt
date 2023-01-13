@@ -15,9 +15,9 @@ class RedLeft : BaseOpMode() {
                 robot.colorCone.leftColor
             ) {
                 Pose2d(
-                    it.x,
+                    -it.x,
                     it.y,
-                    it.heading
+                    Math.PI - it.heading
                 )
             }.build()
         )
