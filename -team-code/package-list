@@ -64,6 +64,7 @@ $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFo
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/b_pos1/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/b_pos1.html
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/c_pos2/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/c_pos2.html
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/d_capPos/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/d_cap-pos.html
+$dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/eA_pos3/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/e-a_pos3.html
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/e_pos3/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/e_pos3.html
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/f_pos4/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/f_pos4.html
 $dokka.location:org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/MeetFourAutoRUtils/g_colors/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto/-meet-four-auto-r-utils/g_colors.html
@@ -725,7 +726,7 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/currentLinkS
 $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/liftyLinkage/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/lifty-linkage.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/nightmareSlide/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/nightmare-slide.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/sleep/#kotlin.Long/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/sleep.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/t/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/t.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/turret/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/turret.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/waitFor/#kotlin.Function0[kotlin.Boolean]/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/wait-for.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot/CheckmateRobot/zelda/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-checkmate-robot/zelda.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot/HardwareNames.CRServos///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot/-hardware-names/-c-r-servos/index.html
