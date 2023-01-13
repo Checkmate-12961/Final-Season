@@ -66,7 +66,7 @@ class MainTeleOp : BaseOpMode() {
         robot.liftyLinkage.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
 
         robot.nightmareSlide.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
-        robot.t.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
+        robot.turret.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
             if (value >= 0) Range.scale(value, 0.0, 1.0, T.center, 1.0)
             else Range.scale(value, -1.0, 0.0, 0.0, T.center)
         }
