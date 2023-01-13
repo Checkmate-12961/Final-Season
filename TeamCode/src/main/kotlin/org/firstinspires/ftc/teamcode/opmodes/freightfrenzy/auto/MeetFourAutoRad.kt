@@ -20,8 +20,19 @@ object MeetFourAutoRUtils {
     fun gen(
         robot: CheckmateRobot,
         color: ColorCone.ConeColor,
+        startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
+        if (g_colors.RED == og_colors.RED) {
+            if (startsLeft) {
+                g_colors.RED = og_colors.GREEN
+                g_colors.GREEN = og_colors.RED
+            }
+        }
+        else if (!startsLeft) {
+            g_colors.RED = og_colors.RED
+            g_colors.GREEN = og_colors.GREEN
+        }
         // facing positive x axis
         return robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // rotate to face 270 (negative y axis)
@@ -61,11 +72,12 @@ object MeetFourAutoRUtils {
             // colors
             .lineToSplineHeading(
                 change(
-                    when (color) {
-                        ColorCone.ConeColor.RED -> g_colors.RED
-                        ColorCone.ConeColor.GREEN -> g_colors.GREEN
-                        ColorCone.ConeColor.BLUE -> g_colors.BLUE
-                    }.toPose2d()
+                        when (color) {
+                            ColorCone.ConeColor.RED -> g_colors.RED
+                            ColorCone.ConeColor.GREEN -> g_colors.GREEN
+                            ColorCone.ConeColor.BLUE -> g_colors.BLUE
+                        }.toPose2d()
+
                 )
             )
     }
@@ -101,7 +113,13 @@ object MeetFourAutoRUtils {
     @JvmField var f_pos4 = StupidPose(-12.0, -48.0)
     // score & reset appendages
 
-    @JvmField var g_colors = ForkColor(
+    @JvmField var og_colors = ForkColor(
+        RED = StupidPose(-12.0, -60.0),
+        GREEN = StupidPose(-12.0, -36.0),
+        BLUE = StupidPose(-12.0, -12.0)
+    )
+
+    var g_colors = ForkColor(
         RED = StupidPose(-12.0, -60.0),
         GREEN = StupidPose(-12.0, -36.0),
         BLUE = StupidPose(-12.0, -12.0)
