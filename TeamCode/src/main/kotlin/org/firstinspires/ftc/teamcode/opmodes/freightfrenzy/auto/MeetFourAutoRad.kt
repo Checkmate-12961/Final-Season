@@ -61,7 +61,12 @@ object MeetFourAutoRUtils {
             .lineToSplineHeading(change(e_pos3.toPose2d()))
             // grab cone
             .addDisplacementMarker {
-
+                robot.liftyLinkage.targetPosition = .3
+                robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
+                robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
+                robot.liftyLinkage.targetPosition = .0
+                robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+                robot.currentLinkState = CheckmateRobot.LinkState.REST
             }
             // move to score on medium pole
             .lineToSplineHeading(change(f_pos4.toPose2d()))
