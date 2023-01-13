@@ -12,7 +12,7 @@ class RedRight : BaseOpMode() {
         robot.zelda.followTrajectorySequenceAsync(
             MeetFourAutoRUtils.gen(
                 robot,
-                robot.colorCone.leftColor
+                robot.colorCone.rightColor
             ) {
                 Pose2d(
                     -it.x,
