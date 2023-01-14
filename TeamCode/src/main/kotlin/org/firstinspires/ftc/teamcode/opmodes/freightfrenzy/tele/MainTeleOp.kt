@@ -65,6 +65,10 @@ class MainTeleOp : BaseOpMode() {
     override fun runLoop() {
         robot.liftyLinkage.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
 
+        if (robot.liftyLinkage.isAboveMid && robot.currentLinkState != CheckmateRobot.LinkState.SNIFF) {
+            robot.liftyLinkage.lockedAboveMid = true
+        }
+
         robot.nightmareSlide.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
         robot.turret.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
             if (value >= 0) Range.scale(value, 0.0, 1.0, Turret.center, 1.0)

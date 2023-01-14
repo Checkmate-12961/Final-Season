@@ -116,7 +116,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
                     this.nightmareSlide.currentFrame = 0
-                    this.liftyLinkage.lockedAboveMid = false
+                    this.liftyLinkage.lockedAboveMid = this.liftyLinkage.isAboveMid
                 }
                 LinkState.CAP -> {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
