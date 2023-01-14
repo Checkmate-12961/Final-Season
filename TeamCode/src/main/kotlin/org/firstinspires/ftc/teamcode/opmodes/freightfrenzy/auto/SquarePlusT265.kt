@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequ
  *
  *  Basically, it uses T265 to go in a square.
  */
+@Disabled
 @Autonomous(name = "Square/T265", group = "test")
 class SquarePlusT265: BaseOpMode() {
     private lateinit var squareTrajectory: TrajectorySequence

@@ -4,9 +4,11 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
+@Disabled
 @Autonomous(name = "TwoFootTest", preselectTeleOp = "TeleOp")
 @Config
 class TwoFootTest : BaseOpMode() {

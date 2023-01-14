@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
+@Disabled
 @Autonomous(preselectTeleOp = "TeleOp")
 @Config
 class JustGo : BaseOpMode() {
