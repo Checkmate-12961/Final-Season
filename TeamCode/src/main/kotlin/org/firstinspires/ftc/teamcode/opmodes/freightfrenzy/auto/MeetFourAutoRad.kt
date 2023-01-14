@@ -120,7 +120,7 @@ object MeetFourAutoRUtils {
         @JvmField var y: Double = .0,
         @JvmField var heading: Double = .0
     ) {
-        fun toPose2d(): Pose2d = Pose2d(x, y, Math.toRadians(heading))
+        fun toPose2d(): Pose2d = Pose2d(x*(23.5/24.0), y*(23.5/24.0), Math.toRadians(heading))
     }
 
     data class ForkColor(
@@ -151,14 +151,14 @@ object MeetFourAutoRUtils {
     // score & reset appendages
 
     @JvmField var og_colors = ForkColor(
-        RED = StupidPose(-12.0, -60.0),
-        GREEN = StupidPose(-12.0, -36.1),
-        BLUE = StupidPose(-12.0, -12.0)
+        RED = StupidPose(-12.03, -60.03),
+        GREEN = StupidPose(-12.03, -36.03),
+        BLUE = StupidPose(-12.03, -12.03)
     )
 
     var g_colors = ForkColor(
-        RED = StupidPose(-12.0, -60.0),
-        GREEN = StupidPose(-12.0, -36.1),
-        BLUE = StupidPose(-12.0, -12.0)
+        RED = StupidPose(-12.03, -60.03),
+        GREEN = StupidPose(-12.03, -36.03),
+        BLUE = StupidPose(-12.03, -12.03)
     )
 }

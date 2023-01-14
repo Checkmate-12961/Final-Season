@@ -58,7 +58,7 @@ object MeetFourParkRad {
         @JvmField var y: Double = .0,
         @JvmField var heading: Double = .0
     ) {
-        fun toPose2d(): Pose2d = Pose2d(x, y, Math.toRadians(heading))
+        fun toPose2d(): Pose2d = Pose2d(x*(23.5/24.0), y*(23.5/24.0), Math.toRadians(heading))
     }
 
     data class ForkColor(
