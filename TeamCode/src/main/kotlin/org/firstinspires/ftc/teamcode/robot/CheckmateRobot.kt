@@ -63,9 +63,9 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     val nightmareSlide: NightmareSlide get() = subsystems.get<NightmareSlide>()!!
 
     /**
-     * Access the [T] subsystem.
+     * Access the [Turret] subsystem.
      */
-    val turret: T get() = subsystems.get<T>()!!
+    val turret: Turret get() = subsystems.get<Turret>()!!
 
     /**
      * Puts the thread to sleep.
@@ -99,11 +99,13 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                 LinkState.SNIFF -> {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
+                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
                     this.turret.locked = false
                     this.nightmareSlide.currentFrame = -1
                     this.liftyLinkage.lockedAboveMid = false
                 }
                 LinkState.REST -> {
+                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
                     this.turret.locked = true
                     if (currentLinkState == LinkState.CAP) {
                         this.nightmareSlide.currentFrame = 2
@@ -111,7 +113,6 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                         this.nightmareSlide.currentFrame = 1
                         sleep(400)
                     }
-                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
                     this.nightmareSlide.currentFrame = 0
@@ -120,6 +121,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                 LinkState.CAP -> {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
+                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
                     this.turret.locked = false
                     this.nightmareSlide.currentFrame = 1
                     this.liftyLinkage.lockedAboveMid = true
@@ -158,6 +160,6 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
         subsystems.register(NightmareSlide(hardwareMap))
 
         // Set up the t
-        subsystems.register(T(hardwareMap))
+        subsystems.register(Turret(hardwareMap))
     }
 }

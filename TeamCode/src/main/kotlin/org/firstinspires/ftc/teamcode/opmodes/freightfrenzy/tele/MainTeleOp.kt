@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
-import org.firstinspires.ftc.teamcode.robot.subsystems.T
+import org.firstinspires.ftc.teamcode.robot.subsystems.Turret
 
 @Config
 @TeleOp(name = "TeleOp")
@@ -67,8 +67,8 @@ class MainTeleOp : BaseOpMode() {
 
         robot.nightmareSlide.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
         robot.turret.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
-            if (value >= 0) Range.scale(value, 0.0, 1.0, T.center, 1.0)
-            else Range.scale(value, -1.0, 0.0, 0.0, T.center)
+            if (value >= 0) Range.scale(value, 0.0, 1.0, Turret.center, 1.0)
+            else Range.scale(value, -1.0, 0.0, 0.0, Turret.center)
         }
 
         when (opModeType) {

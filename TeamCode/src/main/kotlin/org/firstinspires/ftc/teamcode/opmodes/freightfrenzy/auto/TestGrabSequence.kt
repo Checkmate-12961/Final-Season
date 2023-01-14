@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 
 @Autonomous
 @Config
-class TestCapSequence : BaseOpMode() {
+class TestGrabSequence : BaseOpMode() {
     override fun preRunLoop() {
         robot.liftyLinkage.targetPosition = 1.0
         robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
@@ -18,12 +18,9 @@ class TestCapSequence : BaseOpMode() {
         robot.nightmareSlide.adjustment = forwardValue
         robot.sleep(1000)
         robot.liftyLinkage.targetPosition = .8
-        robot.waitFor { robot.liftyLinkage.currentPosition < .85 }
-        robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
         robot.sleep(1000)
+        robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
         robot.liftyLinkage.targetPosition = 1.0
-        robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
-        robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
         robot.sleep(1000)
         robot.currentLinkState = CheckmateRobot.LinkState.REST
         robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
@@ -36,6 +33,6 @@ class TestCapSequence : BaseOpMode() {
 
     companion object {
         @JvmField var lateralValue = .5
-        @JvmField var forwardValue = 1.0
+        @JvmField var forwardValue = .5
     }
 }

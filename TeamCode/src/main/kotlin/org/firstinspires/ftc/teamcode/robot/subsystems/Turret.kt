@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
 
 @Config
-class T(hardwareMap: HardwareMap) : AbstractSubsystem {
+class Turret(hardwareMap: HardwareMap) : AbstractSubsystem {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
 
@@ -35,6 +35,6 @@ class T(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     companion object {
-        @JvmField var center = 0.52
+        @JvmField var center = 0.55
     }
 }
