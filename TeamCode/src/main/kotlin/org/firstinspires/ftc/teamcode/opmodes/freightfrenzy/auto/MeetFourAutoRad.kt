@@ -23,15 +23,15 @@ object MeetFourAutoRUtils {
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
-        if (g_colors.RED == og_colors.RED) {
+        if (g_colors.RED.y == og_colors.RED.y) {
             if (startsLeft) {
-                g_colors.RED = og_colors.GREEN
-                g_colors.GREEN = og_colors.RED
+                g_colors.RED.y = og_colors.BLUE.y
+                g_colors.BLUE.y = og_colors.RED.y
             }
         }
         else if (!startsLeft) {
-            g_colors.RED = og_colors.RED
-            g_colors.GREEN = og_colors.GREEN
+            g_colors.RED.y = og_colors.RED.y
+            g_colors.BLUE.y = og_colors.BLUE.y
         }
         // facing positive x axis
         robot.zelda.poseEstimate = change(a_startPose.toPose2d())
@@ -41,7 +41,7 @@ object MeetFourAutoRUtils {
             // rotate to face 225 to score in tall junction
             .lineToSplineHeading(change(c_pos2.toPose2d()))
             // score & reset appendages
-            .addDisplacementMarker {
+            /*.addDisplacementMarker {
                 robot.liftyLinkage.targetPosition = 1.0
                 robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
                 robot.currentLinkState = CheckmateRobot.LinkState.CAP
@@ -61,23 +61,28 @@ object MeetFourAutoRUtils {
                 robot.sleep(1000)
                 robot.liftyLinkage.targetPosition = .0
                 robot.sleep(3000)
-            }
+            }*/
             // face 270 to grab
             .lineToSplineHeading(change(eA_pos3.toPose2d()))
+            .lineToSplineHeading(change(eB_pos3.toPose2d()))
             .lineToSplineHeading(change(e_pos3.toPose2d()))
+            .addDisplacementMarker(){
+                robot.sleep(2000)
+            }
+            .lineToSplineHeading(change(f_pos4.toPose2d()))
             // grab cone
-            .addDisplacementMarker {
+            /*.addDisplacementMarker {
                 robot.liftyLinkage.targetPosition = .3
                 robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
                 robot.liftyLinkage.targetPosition = .0
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
                 robot.currentLinkState = CheckmateRobot.LinkState.REST
-            }
+            }*/
             // move to score on medium pole
-            .lineToSplineHeading(change(f_pos4.toPose2d()))
+            .lineToSplineHeading(change(g_pos5.toPose2d()))
             // score & reset appendages
-            .addDisplacementMarker {
+            /*.addDisplacementMarker {
                 robot.liftyLinkage.targetPosition = .8
                 robot.waitFor { robot.liftyLinkage.currentPosition > .7 }
                 robot.currentLinkState = CheckmateRobot.LinkState.CAP
@@ -93,7 +98,7 @@ object MeetFourAutoRUtils {
                 robot.currentLinkState = CheckmateRobot.LinkState.REST
                 robot.sleep(300)
                 robot.liftyLinkage.targetPosition = .0
-            }
+            }*/
             // colors
             .lineToSplineHeading(
                 change(
@@ -105,6 +110,9 @@ object MeetFourAutoRUtils {
 
                 )
             )
+            .addDisplacementMarker(){
+                robot.sleep(5000)
+            }
     }
 
     data class StupidPose(
@@ -134,21 +142,23 @@ object MeetFourAutoRUtils {
     @JvmField var d_capPos = ExtensionPosition(.5, .5)
 
 
-    @JvmField var eA_pos3 = StupidPose(-12.0, -12.0, 240.0)
+    @JvmField var eA_pos3 = StupidPose(-32.0, -36.0, 300.0)
     @JvmField var e_pos3 = StupidPose(-12.0, -60.0, 270.0)
+    @JvmField var eB_pos3 = StupidPose(-18.0, -36.0, 320.0)
     // grab cone
-    @JvmField var f_pos4 = StupidPose(-12.0, -48.0)
+    @JvmField var f_pos4 = StupidPose(-12.0, -40.0)
+    @JvmField var g_pos5 = StupidPose(-12.0, -36.0, 135.0)
     // score & reset appendages
 
     @JvmField var og_colors = ForkColor(
         RED = StupidPose(-12.0, -60.0),
-        GREEN = StupidPose(-12.0, -36.0),
+        GREEN = StupidPose(-12.0, -36.1),
         BLUE = StupidPose(-12.0, -12.0)
     )
 
     var g_colors = ForkColor(
         RED = StupidPose(-12.0, -60.0),
-        GREEN = StupidPose(-12.0, -36.0),
+        GREEN = StupidPose(-12.0, -36.1),
         BLUE = StupidPose(-12.0, -12.0)
     )
 }
