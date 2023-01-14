@@ -12,12 +12,13 @@ class BlueLeft : BaseOpMode() {
         robot.zelda.followTrajectorySequenceAsync(
             MeetFourAutoRUtils.gen(
                 robot,
-                robot.colorCone.leftColor
+                robot.colorCone.leftColor,
+                true,
             ) {
                 Pose2d(
                     it.x,
-                    it.y,
-                    it.heading
+                    -it.y,
+                    -it.heading
                 )
             }.build()
         )

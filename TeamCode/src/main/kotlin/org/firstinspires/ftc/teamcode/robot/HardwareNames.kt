@@ -44,7 +44,7 @@ class HardwareNames {
         LEFT_REAR("leftRear", true),
 
         // Lift system
-        LIFTY_LINKAGE("motor3", true);
+        LIFTY_LINKAGE("motor3");
 
         fun get(hardwareMap: HardwareMap): DcMotorEx {
             val motor = hardwareMap.get(DcMotorEx::class.java, id)

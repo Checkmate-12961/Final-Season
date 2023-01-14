@@ -99,10 +99,10 @@ object DriveConstants {
 
      */
     // TODO: re-tune the robot
-    @JvmField var MAX_VEL = 30.0
-    @JvmField var MAX_ACCEL = 30.0
-    @JvmField var MAX_ANG_VEL = Math.toRadians(60.0)
-    @JvmField var MAX_ANG_ACCEL = Math.toRadians(60.0)
+    @JvmField var MAX_VEL = 20.0
+    @JvmField var MAX_ACCEL = 20.0
+    @JvmField var MAX_ANG_VEL = Math.toRadians(30.0)
+    @JvmField var MAX_ANG_ACCEL = Math.toRadians(40.0)
 
 
     @JvmStatic fun encoderTicksToInches(ticks: Double): Double {

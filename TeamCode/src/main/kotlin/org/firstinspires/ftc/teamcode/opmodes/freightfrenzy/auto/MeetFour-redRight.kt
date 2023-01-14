@@ -5,19 +5,20 @@ import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 
-@Autonomous(name = "Red-Left", preselectTeleOp = "TeleOp")
+@Autonomous(name = "Red-Right", preselectTeleOp = "TeleOp")
 @Config
-class RedLeft : BaseOpMode() {
+class RedRight : BaseOpMode() {
     override fun preRunLoop() {
         robot.zelda.followTrajectorySequenceAsync(
             MeetFourAutoRUtils.gen(
                 robot,
-                robot.colorCone.leftColor
+                robot.colorCone.rightColor,
+                false
             ) {
                 Pose2d(
-                    it.x,
-                    it.y,
-                    it.heading
+                    -it.x,
+                    -it.y,
+                    kotlin.math.PI + it.heading
                 )
             }.build()
         )

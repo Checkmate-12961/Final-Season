@@ -65,7 +65,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     /**
      * Access the [T] subsystem.
      */
-    val t: T get() = subsystems.get<T>()!!
+    val turret: T get() = subsystems.get<T>()!!
 
     /**
      * Puts the thread to sleep.
@@ -99,12 +99,12 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                 LinkState.SNIFF -> {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
-                    this.t.locked = false
+                    this.turret.locked = false
                     this.nightmareSlide.currentFrame = -1
                     this.liftyLinkage.lockedAboveMid = false
                 }
                 LinkState.REST -> {
-                    this.t.locked = true
+                    this.turret.locked = true
                     if (currentLinkState == LinkState.CAP) {
                         this.nightmareSlide.currentFrame = 2
                         sleep(300)
@@ -120,7 +120,7 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
                 LinkState.CAP -> {
                     this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
                     this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
-                    this.t.locked = false
+                    this.turret.locked = false
                     this.nightmareSlide.currentFrame = 1
                     this.liftyLinkage.lockedAboveMid = true
 

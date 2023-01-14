@@ -20,68 +20,99 @@ object MeetFourAutoRUtils {
     fun gen(
         robot: CheckmateRobot,
         color: ColorCone.ConeColor,
+        startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
+        if (g_colors.RED.y == og_colors.RED.y) {
+            if (startsLeft) {
+                g_colors.RED.y = og_colors.BLUE.y
+                g_colors.BLUE.y = og_colors.RED.y
+            }
+        }
+        else if (!startsLeft) {
+            g_colors.RED.y = og_colors.RED.y
+            g_colors.BLUE.y = og_colors.BLUE.y
+        }
         // facing positive x axis
+        robot.zelda.poseEstimate = change(a_startPose.toPose2d())
         return robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // rotate to face 270 (negative y axis)
             .lineToSplineHeading(change(b_pos1.toPose2d()))
             // rotate to face 225 to score in tall junction
             .lineToSplineHeading(change(c_pos2.toPose2d()))
             // score & reset appendages
-            .addDisplacementMarker {
+            /*.addDisplacementMarker {
                 robot.liftyLinkage.targetPosition = 1.0
                 robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
                 robot.currentLinkState = CheckmateRobot.LinkState.CAP
-                robot.t.position = d_capPos.lateralValue
+                robot.sleep(3000)
+                robot.turret.position = d_capPos.lateralValue
                 robot.nightmareSlide.adjustment = d_capPos.forwardValue
-                robot.sleep(300)
+                robot.sleep(1000)
                 robot.liftyLinkage.targetPosition = .8
-                robot.sleep(300)
+                robot.sleep(1500)
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
+                robot.sleep(150)
                 robot.liftyLinkage.targetPosition = 1.0
-                robot.sleep(300)
+                robot.sleep(3000)
                 robot.currentLinkState = CheckmateRobot.LinkState.REST
-                robot.sleep(300)
+                robot.sleep(2000)
+                robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
+                robot.sleep(1000)
                 robot.liftyLinkage.targetPosition = .0
-            }
+                robot.sleep(3000)
+            }*/
             // face 270 to grab
+            .lineToSplineHeading(change(eA_pos3.toPose2d()))
+            .lineToSplineHeading(change(eB_pos3.toPose2d()))
             .lineToSplineHeading(change(e_pos3.toPose2d()))
+            .addDisplacementMarker(){
+                robot.sleep(2000)
+            }
+            .lineToSplineHeading(change(f_pos4.toPose2d()))
             // grab cone
-            .addDisplacementMarker {
+            /*.addDisplacementMarker {
+                robot.liftyLinkage.targetPosition = .3
                 robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
-                robot.sleep(200)
-            }
+                robot.liftyLinkage.targetPosition = .0
+                robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+                robot.currentLinkState = CheckmateRobot.LinkState.REST
+            }*/
             // move to score on medium pole
-            .lineToSplineHeading(change(f_pos4.toPose2d()))
+            .lineToSplineHeading(change(g_pos5.toPose2d()))
             // score & reset appendages
-            .addDisplacementMarker {
-                robot.liftyLinkage.targetPosition = 0.7
-                robot.waitFor { robot.liftyLinkage.currentPosition > .6 }
+            /*.addDisplacementMarker {
+                robot.liftyLinkage.targetPosition = .8
+                robot.waitFor { robot.liftyLinkage.currentPosition > .7 }
                 robot.currentLinkState = CheckmateRobot.LinkState.CAP
-                robot.t.position = d_capPos.lateralValue
+                robot.sleep(300)
+                robot.turret.position = d_capPos.lateralValue
                 robot.nightmareSlide.adjustment = d_capPos.forwardValue
-                robot.sleep(300)
-                robot.liftyLinkage.targetPosition = .5
-                robot.sleep(300)
+                robot.sleep(100)
+                robot.liftyLinkage.targetPosition = .6
+                robot.sleep(150)
                 robot.clumsyClaw.gripper = ClumsyClaw.GripperPosition.OPEN
-                robot.liftyLinkage.targetPosition = 1.0
+                robot.liftyLinkage.targetPosition = .8
                 robot.sleep(300)
                 robot.currentLinkState = CheckmateRobot.LinkState.REST
                 robot.sleep(300)
                 robot.liftyLinkage.targetPosition = .0
-            }
+            }*/
             // colors
             .lineToSplineHeading(
                 change(
-                    when (color) {
-                        ColorCone.ConeColor.RED -> g_colors.RED
-                        ColorCone.ConeColor.GREEN -> g_colors.GREEN
-                        ColorCone.ConeColor.BLUE -> g_colors.BLUE
-                    }.toPose2d()
+                        when (color) {
+                            ColorCone.ConeColor.RED -> g_colors.RED
+                            ColorCone.ConeColor.GREEN -> g_colors.GREEN
+                            ColorCone.ConeColor.BLUE -> g_colors.BLUE
+                        }.toPose2d()
+
                 )
             )
+            .addDisplacementMarker(){
+                robot.sleep(5000)
+            }
     }
 
     data class StupidPose(
@@ -103,21 +134,31 @@ object MeetFourAutoRUtils {
         @JvmField var lateralValue: Double = .5
     )
 
-    @JvmField var a_startPose = StupidPose(-60.0, -36.0)
+    @JvmField var a_startPose = StupidPose(-64.0, -40.0)
     @JvmField var b_pos1 = StupidPose(-36.0, -36.0, 270.0)
     @JvmField var c_pos2 = StupidPose(-36.0, -12.0, 225.0)
 
     // score & reset appendages
     @JvmField var d_capPos = ExtensionPosition(.5, .5)
 
+
+    @JvmField var eA_pos3 = StupidPose(-32.0, -36.0, 300.0)
     @JvmField var e_pos3 = StupidPose(-12.0, -60.0, 270.0)
+    @JvmField var eB_pos3 = StupidPose(-18.0, -36.0, 320.0)
     // grab cone
-    @JvmField var f_pos4 = StupidPose(-12.0, -48.0)
+    @JvmField var f_pos4 = StupidPose(-12.0, -40.0)
+    @JvmField var g_pos5 = StupidPose(-12.0, -36.0, 135.0)
     // score & reset appendages
 
-    @JvmField var g_colors = ForkColor(
+    @JvmField var og_colors = ForkColor(
         RED = StupidPose(-12.0, -60.0),
-        GREEN = StupidPose(-12.0, -36.0),
+        GREEN = StupidPose(-12.0, -36.1),
+        BLUE = StupidPose(-12.0, -12.0)
+    )
+
+    var g_colors = ForkColor(
+        RED = StupidPose(-12.0, -60.0),
+        GREEN = StupidPose(-12.0, -36.1),
         BLUE = StupidPose(-12.0, -12.0)
     )
 }

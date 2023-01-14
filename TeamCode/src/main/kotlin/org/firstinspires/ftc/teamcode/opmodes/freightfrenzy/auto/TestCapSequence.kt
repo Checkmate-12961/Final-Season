@@ -14,7 +14,7 @@ class TestCapSequence : BaseOpMode() {
         robot.waitFor { robot.liftyLinkage.currentPosition > .9 }
         robot.currentLinkState = CheckmateRobot.LinkState.CAP
         robot.sleep(1000)
-        robot.t.position = lateralValue
+        robot.turret.position = lateralValue
         robot.nightmareSlide.adjustment = forwardValue
         robot.sleep(1000)
         robot.liftyLinkage.targetPosition = .8
