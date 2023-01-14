@@ -67,7 +67,7 @@ object MeetFourParkRad {
     )
 
     @JvmField var a_startPose = StupidPose(-64.0, -40.0)
-    @JvmField var b_posDodge = StupidPose(-36.0, -24.0)
+    @JvmField var b_posDodge = StupidPose(-36.0, -36.0)
 
 
     // Use to change c_colors for different spawnpoints
