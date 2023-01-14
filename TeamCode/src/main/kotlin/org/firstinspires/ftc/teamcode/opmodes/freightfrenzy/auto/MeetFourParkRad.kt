@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.MeetFourAutoRUtils.a_startPose
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
@@ -23,28 +22,30 @@ object MeetFourParkRad {
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
-        if (c_colors.RED == oc_colors.RED) {
+        if (d_colors.RED == od_colors.RED) {
             if (startsLeft) {
-                c_colors.RED = oc_colors.BLUE
-                c_colors.BLUE = oc_colors.RED
+                d_colors.RED = od_colors.BLUE
+                d_colors.BLUE = od_colors.RED
             }
         }
         else if (!startsLeft) {
-            c_colors.RED = oc_colors.RED
-            c_colors.BLUE = oc_colors.BLUE
+            d_colors.RED = od_colors.RED
+            d_colors.BLUE = od_colors.BLUE
         }
         // facing positive x axis
         robot.zelda.poseEstimate = change(a_startPose.toPose2d())
         return robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
+            // move to roughly the center of the spawn square
+            .lineToSplineHeading(change(b_posCenter.toPose2d()))
             // move foward to dodge obstacles
-            .lineToSplineHeading(change(b_posDodge.toPose2d()))
+            .lineToSplineHeading(change(c_posDodge.toPose2d()))
             // park in correct space
             .lineToSplineHeading(
                 change(
                         when (color) {
-                            ColorCone.ConeColor.RED -> c_colors.RED
-                            ColorCone.ConeColor.GREEN -> c_colors.GREEN
-                            ColorCone.ConeColor.BLUE -> c_colors.BLUE
+                            ColorCone.ConeColor.RED -> d_colors.RED
+                            ColorCone.ConeColor.GREEN -> d_colors.GREEN
+                            ColorCone.ConeColor.BLUE -> d_colors.BLUE
                         }.toPose2d()
 
                 )
@@ -67,21 +68,22 @@ object MeetFourParkRad {
     )
 
     @JvmField var a_startPose = StupidPose(-64.0, -40.0)
-    @JvmField var b_posDodge = StupidPose(-36.0, -36.0)
+    @JvmField var b_posCenter = StupidPose(-58.0, -36.0)
+    @JvmField var c_posDodge = StupidPose(-36.0, -36.0)
 
 
     // Use to change c_colors for different spawnpoints
     // .03 added to avoid possible empty path exceptions
-    @JvmField var oc_colors = ForkColor(
-        RED = StupidPose(-12.03, -60.03),
-        GREEN = StupidPose(-12.03, -36.03),
-        BLUE = StupidPose(-12.03, -12.03)
+    @JvmField var od_colors = ForkColor(
+        RED = StupidPose(-36.03, -60.03),
+        GREEN = StupidPose(-36.03, -36.03),
+        BLUE = StupidPose(-36.03, -12.03)
     )
 
     // Poses for color parking
-    @JvmField var c_colors = ForkColor(
-        RED = StupidPose(-12.03, -60.03),
-        GREEN = StupidPose(-12.03, -36.03),
-        BLUE = StupidPose(-12.03, -12.03)
+    @JvmField var d_colors = ForkColor(
+        RED = StupidPose(-36.03, -60.03),
+        GREEN = StupidPose(-36.03, -36.03),
+        BLUE = StupidPose(-36.03, -12.03)
     )
 }
