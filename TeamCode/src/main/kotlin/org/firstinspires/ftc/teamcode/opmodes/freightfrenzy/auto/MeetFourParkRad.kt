@@ -75,15 +75,15 @@ object MeetFourParkRad {
     // Use to change c_colors for different spawnpoints
     // .03 added to avoid possible empty path exceptions
     @JvmField var od_colors = ForkColor(
-        RED = StupidPose(-36.03, -60.03),
+        RED = StupidPose(-36.03, -12.03),
         GREEN = StupidPose(-36.03, -36.03),
-        BLUE = StupidPose(-36.03, -12.03)
+        BLUE = StupidPose(-36.03, -60.03)
     )
 
     // Poses for color parking
     @JvmField var d_colors = ForkColor(
-        RED = StupidPose(-36.03, -60.03),
+        RED = StupidPose(-36.03, -12.03),
         GREEN = StupidPose(-36.03, -36.03),
-        BLUE = StupidPose(-36.03, -12.03)
+        BLUE = StupidPose(-36.03, -60.03)
     )
 }
