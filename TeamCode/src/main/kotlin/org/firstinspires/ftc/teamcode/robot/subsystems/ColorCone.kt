@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
-import org.firstinspires.ftc.teamcode.robot.subsystems.barcode.ColorConeConstants
+import org.firstinspires.ftc.teamcode.robot.subsystems.colorcone.ColorConeConstants
 import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.core.Scalar
@@ -36,10 +36,10 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     val rightColor: ConeColor get() = pipeline.rightColor
-    val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
-
     val leftColor: ConeColor get() = pipeline.leftColor
-    val leftAnalysis: List<Int> get() = pipeline.leftAnalysis
+
+    private val rightAnalysis: List<Int> get() = pipeline.rightAnalysis
+    private val leftAnalysis: List<Int> get() = pipeline.leftAnalysis
 
     // getPosition returns where the barcode is located in a BarcodePosition
     enum class ConeColor(val scalar: Scalar) {

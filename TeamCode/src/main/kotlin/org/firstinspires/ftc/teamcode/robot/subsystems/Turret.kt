@@ -14,7 +14,7 @@ class Turret(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     private val turretServo = HardwareNames.Servos.TURRET.get(hardwareMap)
 
-    var locked: Boolean = true
+    var locked: Boolean = false
         set(value) {
             field = value
 
@@ -32,6 +32,14 @@ class Turret(hardwareMap: HardwareMap) : AbstractSubsystem {
     override fun generateTelemetry(telemetry: Telemetry) {
         telemetry.addData("position", "%.2f", position)
         telemetry.addData("locked", locked)
+    }
+
+    init {
+        locked = true
+    }
+
+    override fun preLoop() {
+        locked = false
     }
 
     companion object {

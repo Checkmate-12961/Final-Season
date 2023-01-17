@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot.subsystems.barcode
+package org.firstinspires.ftc.teamcode.robot.subsystems.colorcone
 
 import com.acmerobotics.dashboard.config.Config
 import org.opencv.core.Point
@@ -38,9 +38,8 @@ object ColorConeConstants {
  * @property y Top left corner y coordinate from the top.
  * @property width Box width.
  * @property height Box height.
- * @property threshold Minimum value to count as a detection.
  */
-class DetectionBox(
+data class DetectionBox(
     @JvmField var x: Int,
     @JvmField var y: Int,
     @JvmField var width: Int,
