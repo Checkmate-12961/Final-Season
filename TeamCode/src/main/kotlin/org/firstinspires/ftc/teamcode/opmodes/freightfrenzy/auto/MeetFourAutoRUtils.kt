@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.util.AbstractAutoRoot
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
-import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
 
 @Config
-object MeetFourAutoRUtils {
+object MeetFourAutoRUtils : AbstractAutoRoot() {
     /**
      * Generates a [TrajectorySequenceBuilder] for a given starting on the field.
      *
@@ -17,11 +17,11 @@ object MeetFourAutoRUtils {
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
      * @return The generated [TrajectorySequenceBuilder].
      */
-    fun gen(
+    override fun gen(
         robot: CheckmateRobot,
         color: ColorCone.ConeColor,
         startsLeft: Boolean,
-        change: (Pose2d) -> Pose2d = { it }
+        change: (Pose2d) -> Pose2d
     ): TrajectorySequenceBuilder {
         if (startsLeft) {
             g_colors.RED.y = og_colors.BLUE.y
@@ -112,25 +112,6 @@ object MeetFourAutoRUtils {
                 robot.sleep(5000)
             }
     }
-
-    data class StupidPose(
-        @JvmField var x: Double = .0,
-        @JvmField var y: Double = .0,
-        @JvmField var heading: Double = .0
-    ) {
-        fun toPose2d(): Pose2d = Pose2d(x*(23.5/24.0), y*(23.5/24.0), Math.toRadians(heading))
-    }
-
-    data class ForkColor(
-        @JvmField var RED: StupidPose = StupidPose(),
-        @JvmField var GREEN: StupidPose = StupidPose(),
-        @JvmField var BLUE: StupidPose = StupidPose()
-    )
-
-    data class ExtensionPosition(
-        @JvmField var forwardValue: Double = .5,
-        @JvmField var lateralValue: Double = .5
-    )
 
     @JvmField var a_startPose = StupidPose(-64.0, -40.0)
     @JvmField var b_pos1 = StupidPose(-36.0, -36.0, 270.0)
