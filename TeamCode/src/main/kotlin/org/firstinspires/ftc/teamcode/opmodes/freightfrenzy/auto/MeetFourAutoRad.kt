@@ -23,13 +23,11 @@ object MeetFourAutoRUtils {
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
-        if (g_colors.RED.y == og_colors.RED.y) {
-            if (startsLeft) {
-                g_colors.RED.y = og_colors.BLUE.y
-                g_colors.BLUE.y = og_colors.RED.y
-            }
+        if (startsLeft) {
+            g_colors.RED.y = og_colors.BLUE.y
+            g_colors.BLUE.y = og_colors.RED.y
         }
-        else if (!startsLeft) {
+        else {
             g_colors.RED.y = og_colors.RED.y
             g_colors.BLUE.y = og_colors.BLUE.y
         }

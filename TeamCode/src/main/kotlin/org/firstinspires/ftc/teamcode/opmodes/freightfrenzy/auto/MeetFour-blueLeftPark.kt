@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 
-@Disabled
+//@Disabled
 @Autonomous(name = "-PARK-Blue-Left-", preselectTeleOp = "TeleOp")
 class BlueLeftPark : BaseOpMode() {
     override fun preRunLoop() {

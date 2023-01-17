@@ -17,19 +17,17 @@ object ColorConeConstants {
         30,
         90,
         50,
-        75,
-        150
+        75
     )
 
     /**
      * [DetectionBox] for the detection to occur in.
      */
     @JvmField var boxLeft = DetectionBox(
-        180,
-        85,
-        60,
-        70,
-        150
+        220,
+        75,
+        50,
+        70
     )
 }
 
@@ -46,8 +44,7 @@ class DetectionBox(
     @JvmField var x: Int,
     @JvmField var y: Int,
     @JvmField var width: Int,
-    @JvmField var height: Int,
-    @JvmField var threshold: Int
+    @JvmField var height: Int
 ) {
     /**
      * Top left point of the box
