@@ -22,13 +22,12 @@ object MeetFourParkRad {
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequenceBuilder {
-        if (d_colors.RED == od_colors.RED) {
-            if (startsLeft) {
-                d_colors.RED = od_colors.BLUE
-                d_colors.BLUE = od_colors.RED
-            }
+        if (startsLeft) {
+            d_colors.RED = od_colors.BLUE
+            d_colors.BLUE = od_colors.RED
         }
-        else if (!startsLeft) {
+
+        else {
             d_colors.RED = od_colors.RED
             d_colors.BLUE = od_colors.BLUE
         }
@@ -81,7 +80,7 @@ object MeetFourParkRad {
     )
 
     // Poses for color parking
-    @JvmField var d_colors = ForkColor(
+    var d_colors = ForkColor(
         RED = StupidPose(-36.03, -12.03),
         GREEN = StupidPose(-36.03, -36.03),
         BLUE = StupidPose(-36.03, -60.03)
