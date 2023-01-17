@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.VoltageSensor
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Motors
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
@@ -261,9 +262,37 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
         }
 
         telemetry.addData("LF", leftFront.velocity)
+        leftFront.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "LF current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
+        }
         telemetry.addData("RF", rightFront.velocity)
+        rightFront.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "RF current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
+        }
         telemetry.addData("LB", leftRear.velocity)
+        leftRear.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "LR current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
+        }
         telemetry.addData("RB", rightRear.velocity)
+        rightRear.getCurrent(CurrentUnit.AMPS).let { current ->
+            telemetry.addData(
+                "RR current",
+                "%.2fA (%.2f%%)",
+                current, current * 10.0
+            )
+        }
     }
 
     init {
