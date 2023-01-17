@@ -87,6 +87,44 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
      */
     fun waitFor(callback: () -> Boolean) { while (!callback()) continue }
 
+    private fun toSniff() {
+        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
+        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
+        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret.locked = false
+        this.nightmareSlide.currentFrame = -1
+        this.liftyLinkage.lockedAboveMid = false
+    }
+
+    private fun toRest() {
+        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret.locked = true
+        if (currentLinkState == LinkState.CAP) {
+            this.nightmareSlide.currentFrame = 2
+            sleep(300)
+            this.nightmareSlide.currentFrame = 1
+            sleep(400)
+        }
+        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
+        this.nightmareSlide.currentFrame = 0
+        this.liftyLinkage.lockedAboveMid = this.liftyLinkage.isAboveMid
+    }
+
+    private fun toCap() {
+        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
+        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret.locked = false
+        this.nightmareSlide.currentFrame = 1
+        this.liftyLinkage.lockedAboveMid = true
+
+        sleep(300)
+        this.nightmareSlide.currentFrame = 2
+        sleep(400)
+        this.nightmareSlide.currentFrame = 3
+    }
+
     var currentLinkState = LinkState.REST
         set(value) {
             // Checks
@@ -97,39 +135,17 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
 
             when (value) {
                 LinkState.SNIFF -> {
-                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
-                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
-                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-                    this.turret.locked = false
-                    this.nightmareSlide.currentFrame = -1
-                    this.liftyLinkage.lockedAboveMid = false
+                    if (currentLinkState == LinkState.CAP) {
+                        toRest()
+                    }
+
+                    toSniff()
                 }
                 LinkState.REST -> {
-                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-                    this.turret.locked = true
-                    if (currentLinkState == LinkState.CAP) {
-                        this.nightmareSlide.currentFrame = 2
-                        sleep(300)
-                        this.nightmareSlide.currentFrame = 1
-                        sleep(400)
-                    }
-                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
-                    this.nightmareSlide.currentFrame = 0
-                    this.liftyLinkage.lockedAboveMid = this.liftyLinkage.isAboveMid
+                    toRest()
                 }
                 LinkState.CAP -> {
-                    this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-                    this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
-                    this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-                    this.turret.locked = false
-                    this.nightmareSlide.currentFrame = 1
-                    this.liftyLinkage.lockedAboveMid = true
-
-                    sleep(300)
-                    this.nightmareSlide.currentFrame = 2
-                    sleep(400)
-                    this.nightmareSlide.currentFrame = 3
+                    toCap()
                 }
             }
         }
