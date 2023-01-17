@@ -348,19 +348,19 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables.Trig
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables.TriggerDirection///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/-trigger-direction/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.abstracts/Triggerables/Triggerables/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.abstracts/-triggerables/-triggerables.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/index.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/ColorConeConstants///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-color-cone-constants/index.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/ColorConeConstants/boxLeft/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-color-cone-constants/box-left.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/ColorConeConstants/boxRight/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-color-cone-constants/box-right.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/index.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/DetectionBox/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/-detection-box.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/height/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/height.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/pointA/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/point-a.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/pointB/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/point-b.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/rectangle/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/rectangle.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/width/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/width.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/x/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/x.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.barcode/DetectionBox/y/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.barcode/-detection-box/y.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/ColorConeConstants///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-color-cone-constants/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/ColorConeConstants/boxLeft/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-color-cone-constants/box-left.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/ColorConeConstants/boxRight/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-color-cone-constants/box-right.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/index.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/DetectionBox/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/-detection-box.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/height/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/height.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/pointA/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/point-a.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/pointB/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/point-b.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/rectangle/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/rectangle.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/width/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/width.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/x/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/x.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/DetectionBox/y/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.colorcone/-detection-box/y.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers////PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/TrackingWheelLocalizer.Companion///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/-tracking-wheel-localizer/-companion/index.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/TrackingWheelLocalizer.Companion/GEAR_RATIO/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers/-tracking-wheel-localizer/-companion/-g-e-a-r_-r-a-t-i-o.html
@@ -579,10 +579,8 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone///Poin
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/ColorCone/#com.qualcomm.robotcore.hardware.HardwareMap/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/-color-cone.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/generateTelemetry/#org.firstinspires.ftc.robotcore.external.Telemetry/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/generate-telemetry.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/isStreaming/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/is-streaming.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/leftAnalysis/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/left-analysis.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/leftColor/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/left-color.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/preLoop/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/pre-loop.html
-$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/rightAnalysis/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/right-analysis.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/rightColor/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/right-color.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/subsystems/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/subsystems.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/ColorCone/tag/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-color-cone/tag.html
@@ -637,6 +635,7 @@ $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/Turret/#c
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/generateTelemetry/#org.firstinspires.ftc.robotcore.external.Telemetry/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/generate-telemetry.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/locked/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/locked.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/position/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/position.html
+$dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/preLoop/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/pre-loop.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/subsystems/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/subsystems.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Turret/tag/#/PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-turret/tag.html
 $dokka.location:org.firstinspires.ftc.teamcode.robot.subsystems/Zelda.Companion///PointingToDeclaration/-team-code/org.firstinspires.ftc.teamcode.robot.subsystems/-zelda/-companion/index.html
@@ -838,7 +837,7 @@ org.firstinspires.ftc.teamcode.robot
 org.firstinspires.ftc.teamcode.robot.abstracts
 org.firstinspires.ftc.teamcode.robot.abstracts.exceptions
 org.firstinspires.ftc.teamcode.robot.subsystems
-org.firstinspires.ftc.teamcode.robot.subsystems.barcode
+org.firstinspires.ftc.teamcode.robot.subsystems.colorcone
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers
 org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence
