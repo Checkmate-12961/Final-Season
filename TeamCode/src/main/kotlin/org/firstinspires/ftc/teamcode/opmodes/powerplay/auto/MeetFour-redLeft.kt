@@ -1,18 +1,17 @@
-package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
+package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
+import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 
-@Disabled
-@Autonomous(name = "-PARK-Red-Left-", preselectTeleOp = "TeleOp")
-class RedLeftPark : BaseOpMode() {
-    override fun preRunLoop() {
+@Autonomous(name = "Red-Left", group = "FULL", preselectTeleOp = "TeleOp")
+class RedLeft : BaseOpMode() {
+    override fun setup() {
         robot.zelda.followTrajectorySequenceAsync(
-            MeetFourParkRad.gen(
+            MeetFourAutoRoot.gen(
                 robot,
-                robot.colorCone.leftColor,
+                ColorCone::leftColor,
                 true
             ) {
                 Pose2d(
@@ -20,7 +19,7 @@ class RedLeftPark : BaseOpMode() {
                     it.y,
                     Math.PI - it.heading
                 )
-            }.build()
+            }
         )
     }
 }

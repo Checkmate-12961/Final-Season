@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
+package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
@@ -6,13 +6,14 @@ import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
+import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
 @Disabled
-@Autonomous(name = "TwoFootTest", preselectTeleOp = "TeleOp")
+@Autonomous(name = "TerribleMeetOne", preselectTeleOp = "TeleOp")
 @Config
-class TwoFootTest : BaseOpMode() {
-    private lateinit var traj: TrajectorySequence
+class TerribleMeetOneThatDoesntWork : BaseOpMode() {
+    lateinit var traj: TrajectorySequence
 
     /*fun lift(up: Boolean, level: String) {
         val levelTimes = mapOf("1" to 100, "2" to 200, "3" to 300)
@@ -23,18 +24,18 @@ class TwoFootTest : BaseOpMode() {
 
     override fun setup() {
         // Make an array of the poses so we can iterate over them
-        val poses = arrayOf(pose1/*, pose2, poseIntake, pose3, poseIntake, pose4, pose5*/)
+        val poses = arrayOf(pose1, pose2, poseIntake, pose3, poseIntake, pose4, pose5)
 
         // Dimensions for blue left
-        pose0.x = 0.0
-        pose0.y = 0.0
+        pose0.x = 31.5
+        pose0.y = 7.5
 
         // pose1 scores low
-        pose1.x = 0.0
-        pose1.y = 24.0
-        pose1.h = 180.0
+        pose1.x = 48.0
+        pose1.y = 13.0
+        pose1.h = 0.0
 
-        /*pose2.x = 36.0
+        pose2.x = 36.0
         pose2.y = 50.0
 
         poseIntake.x = 10.0
@@ -65,7 +66,7 @@ class TwoFootTest : BaseOpMode() {
         poseGreen.y = 60.0
 
         poseBlue.x = 59.0
-        poseBlue.y = 60.0*/
+        poseBlue.y = 60.0
 
         //val poses = arrayOf(pose1, pose2)
 
@@ -78,7 +79,8 @@ class TwoFootTest : BaseOpMode() {
                 trajBuilder.splineTo(pose.toVector2d(), pose.hR)
             } else break
         }
-        /*if (robot.colorCone.leftColor == ColorCone.ConeColor.RED) {
+        pose1.y = 1.0
+        if (robot.colorCone.leftColor == ColorCone.ConeColor.RED) {
             trajBuilder.splineTo(poseRed.toVector2d(), poseRed.hR)
         }
         else if (robot.colorCone.leftColor == ColorCone.ConeColor.GREEN) {
@@ -86,10 +88,10 @@ class TwoFootTest : BaseOpMode() {
         }
         else {
             trajBuilder.splineTo(poseBlue.toVector2d(), poseBlue.hR)
-        }*/
+        }
         // Add poses that have been set to the trajectory builder
 
-        //trajBuilder.splineTo(pose1.toVector2d(), pose1.hR)
+        trajBuilder.splineTo(pose1.toVector2d(), pose1.hR)
 
 
         // Build the trajectory

@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
+package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.util.AbstractAutoRoot
+import org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util.AbstractAutoRoot
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
 
 @Config
-object MeetFourParkRad : AbstractAutoRoot() {
+object MeetFourParkRoot : AbstractAutoRoot() {
     /**
      * Generates a [TrajectorySequenceBuilder] for a given starting on the field.
      *
@@ -19,10 +20,10 @@ object MeetFourParkRad : AbstractAutoRoot() {
      */
     override fun gen(
         robot: CheckmateRobot,
-        color: ColorCone.ConeColor,
+        getColor: (ColorCone) -> ColorCone.ConeColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d
-    ): TrajectorySequenceBuilder {
+    ): TrajectorySequence {
         if (startsLeft) {
             d_colors.RED = od_colors.BLUE
             d_colors.BLUE = od_colors.RED
@@ -42,7 +43,7 @@ object MeetFourParkRad : AbstractAutoRoot() {
             // park in correct space
             .lineToSplineHeading(
                 change(
-                        when (color) {
+                        when (getColor(robot.colorCone)) {
                             ColorCone.ConeColor.RED -> d_colors.RED
                             ColorCone.ConeColor.GREEN -> d_colors.GREEN
                             ColorCone.ConeColor.BLUE -> d_colors.BLUE
@@ -50,6 +51,7 @@ object MeetFourParkRad : AbstractAutoRoot() {
 
                 )
             )
+            .build()
     }
 
     @JvmField var a_startPose = StupidPose(-64.0, -40.0)

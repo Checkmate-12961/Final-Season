@@ -1,28 +1,28 @@
-package org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto
+package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.opmodes.freightfrenzy.auto.util.AbstractAutoRoot
+import org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util.AbstractAutoRoot
 import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
-import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
+import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
 @Config
-object MeetFourAutoRUtils : AbstractAutoRoot() {
+object MeetFourAutoRoot : AbstractAutoRoot() {
     /**
-     * Generates a [TrajectorySequenceBuilder] for a given starting on the field.
+     * Generates a [TrajectorySequence] for a given starting on the field.
      *
      * @param robot The [CheckmateRobot] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
-     * @param color The [ColorCone.ConeColor] representing the rotation of the cone.
+     * @param getColor A function to get the correct [ColorCone.ConeColor] from the [ColorCone].
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
-     * @return The generated [TrajectorySequenceBuilder].
+     * @return The generated [TrajectorySequence].
      */
     override fun gen(
         robot: CheckmateRobot,
-        color: ColorCone.ConeColor,
+        getColor: (ColorCone) -> ColorCone.ConeColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d
-    ): TrajectorySequenceBuilder {
+    ): TrajectorySequence {
         if (startsLeft) {
             g_colors.RED.y = og_colors.BLUE.y
             g_colors.BLUE.y = og_colors.RED.y
@@ -31,9 +31,14 @@ object MeetFourAutoRUtils : AbstractAutoRoot() {
             g_colors.RED.y = og_colors.RED.y
             g_colors.BLUE.y = og_colors.BLUE.y
         }
+
+        lateinit var parkPathRed: TrajectorySequence
+        lateinit var parkPathGreen: TrajectorySequence
+        lateinit var parkPathBlue: TrajectorySequence
+
         // facing positive x axis
         robot.zelda.poseEstimate = change(a_startPose.toPose2d())
-        return robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
+        val fullPath = robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // rotate to face 270 (negative y axis)
             .lineToSplineHeading(change(b_pos1.toPose2d()))
             // rotate to face 225 to score in tall junction
@@ -64,7 +69,7 @@ object MeetFourAutoRUtils : AbstractAutoRoot() {
             .lineToSplineHeading(change(eA_pos3.toPose2d()))
             .lineToSplineHeading(change(eB_pos3.toPose2d()))
             .lineToSplineHeading(change(e_pos3.toPose2d()))
-            .addDisplacementMarker(){
+            .addDisplacementMarker {
                 robot.sleep(2000)
             }
             .lineToSplineHeading(change(f_pos4.toPose2d()))
@@ -98,19 +103,28 @@ object MeetFourAutoRUtils : AbstractAutoRoot() {
                 robot.liftyLinkage.targetPosition = .0
             }*/
             // colors
-            .lineToSplineHeading(
-                change(
-                        when (color) {
-                            ColorCone.ConeColor.RED -> g_colors.RED
-                            ColorCone.ConeColor.GREEN -> g_colors.GREEN
-                            ColorCone.ConeColor.BLUE -> g_colors.BLUE
-                        }.toPose2d()
-
+            .addDisplacementMarker {
+                robot.zelda.followTrajectorySequenceAsync(
+                    when (getColor(robot.colorCone)) {
+                        ColorCone.ConeColor.RED -> parkPathRed
+                        ColorCone.ConeColor.GREEN -> parkPathGreen
+                        ColorCone.ConeColor.BLUE -> parkPathBlue
+                    }
                 )
-            )
-            .addDisplacementMarker(){
-                robot.sleep(5000)
             }
+            .build()
+
+        parkPathRed = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+            .lineToSplineHeading(change(g_colors.RED.toPose2d()))
+            .build()
+        parkPathGreen = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+            .lineToSplineHeading(change(g_colors.GREEN.toPose2d()))
+            .build()
+        parkPathBlue = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+            .lineToSplineHeading(change(g_colors.BLUE.toPose2d()))
+            .build()
+
+        return fullPath
     }
 
     @JvmField var a_startPose = StupidPose(-64.0, -40.0)
@@ -135,7 +149,7 @@ object MeetFourAutoRUtils : AbstractAutoRoot() {
         BLUE = StupidPose(-12.03, -12.03)
     )
 
-    var g_colors = ForkColor(
+    private var g_colors = ForkColor(
         RED = StupidPose(-12.03, -60.03),
         GREEN = StupidPose(-12.03, -36.03),
         BLUE = StupidPose(-12.03, -12.03)
