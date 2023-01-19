@@ -38,13 +38,13 @@ class HardwareNames {
      */
     enum class Motors(private val id: String, private val reverse: Boolean = false) {
         // Drivetrain
-        RIGHT_FRONT("rightFront"),
-        RIGHT_REAR("rightRear"),
-        LEFT_FRONT("leftFront",true),
-        LEFT_REAR("leftRear", true),
+        RIGHT_FRONT("motor_c0"),
+        RIGHT_REAR("motor_c1"),
+        LEFT_REAR("motor_e3", true),
+        LEFT_FRONT("motor_e2"),
 
         // Lift system
-        LIFTY_LINKAGE("motor3");
+        LIFTY_LINKAGE("motor_c3", true);
 
         fun get(hardwareMap: HardwareMap): DcMotorEx {
             val motor = hardwareMap.get(DcMotorEx::class.java, id)
@@ -64,9 +64,9 @@ class HardwareNames {
      * @property get Get an [Encoder] with this id from the [HardwareMap].
      */
     enum class Encoders(private val id: String, private val reverse: Boolean = false) {
-        FRONT("motor0"),
-        CENTER("motor2", true),
-        REAR("motor1", true);
+        FRONT("motor_e0"),
+        CENTER("motor_c2"),
+        REAR("motor_e1", true);
 
         fun get(hardwareMap: HardwareMap): Encoder {
             val encoder = Encoder(hardwareMap.get(DcMotorEx::class.java, id))

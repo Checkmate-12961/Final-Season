@@ -20,7 +20,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.localizers
 
-import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer
 import com.qualcomm.robotcore.hardware.HardwareMap
@@ -39,7 +38,6 @@ import org.firstinspires.ftc.teamcode.robot.HardwareNames
  *    \--------------/
  *
  */
-@Config
 class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocalizer(
     /*
      * Our robot this season has the dead wheels rotated 90 degrees from the normal setup. The

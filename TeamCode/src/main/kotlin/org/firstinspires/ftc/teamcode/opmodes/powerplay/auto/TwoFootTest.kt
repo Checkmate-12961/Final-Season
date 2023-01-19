@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
 @Disabled
-@Autonomous(name = "TwoFootTest", preselectTeleOp = "TeleOp")
+@Autonomous(name = "TwoFootTest", group = "TEST")
 @Config
 class TwoFootTest : BaseOpMode() {
     private lateinit var traj: TrajectorySequence
@@ -70,7 +70,7 @@ class TwoFootTest : BaseOpMode() {
         //val poses = arrayOf(pose1, pose2)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
+        val trajBuilder = robot.zelda!!.trajectorySequenceBuilder(pose0.toPose2d())
 
 
         for (pose in poses) {
@@ -98,7 +98,7 @@ class TwoFootTest : BaseOpMode() {
 
     override fun preRunLoop() {
         // Follow the trajectory
-        robot.zelda.followTrajectorySequenceAsync(traj)
+        robot.zelda!!.followTrajectorySequenceAsync(traj)
     }
 
     companion object {

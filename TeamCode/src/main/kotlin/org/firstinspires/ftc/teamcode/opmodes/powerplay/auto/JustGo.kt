@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
 @Disabled
-@Autonomous(preselectTeleOp = "TeleOp")
+@Autonomous(group = "TEST")
 @Config
 class JustGo : BaseOpMode() {
     lateinit var traj: TrajectorySequence
@@ -18,7 +18,7 @@ class JustGo : BaseOpMode() {
         val poses = arrayOf(pose1, pose2, pose3, pose4, pose5, pose6, pose7, pose8, pose9)
 
         // Initialize a trajectory builder
-        val trajBuilder = robot.zelda.trajectorySequenceBuilder(pose0.toPose2d())
+        val trajBuilder = robot.zelda!!.trajectorySequenceBuilder(pose0.toPose2d())
 
         // Add poses that have been set to the trajectory builder
         for (pose in poses) {
@@ -33,7 +33,7 @@ class JustGo : BaseOpMode() {
 
     override fun preRunLoop() {
         // Follow the trajectory
-        robot.zelda.followTrajectorySequenceAsync(traj)
+        robot.zelda!!.followTrajectorySequenceAsync(traj)
     }
 
     class Pose(

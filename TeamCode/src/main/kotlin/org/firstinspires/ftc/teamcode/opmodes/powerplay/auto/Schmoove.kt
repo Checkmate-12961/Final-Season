@@ -15,11 +15,11 @@ class Schmoove : BaseOpMode() {
      */
     override fun preRunLoop() {
         // go
-        robot.zelda.setWeightedDrivePower(Pose2d(1.0, 0.0, 0.0))
+        robot.zelda!!.setWeightedDrivePower(Pose2d(1.0, 0.0, 0.0))
         // wait
         sleep(schmooveLength)
         // stop going
-        robot.zelda.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
+        robot.zelda!!.setWeightedDrivePower(Pose2d(0.0, 0.0, 0.0))
     }
 
     companion object {

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 @Autonomous(name = "Blue-Left", group = "FULL", preselectTeleOp = "TeleOp")
 class BlueLeft : BaseOpMode() {
     override fun setup() {
-        robot.zelda.followTrajectorySequenceAsync(
+        robot.zelda!!.followTrajectorySequenceAsync(
             MeetFourAutoRoot.gen(
                 robot,
                 ColorCone::leftColor,

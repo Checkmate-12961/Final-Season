@@ -34,8 +34,8 @@ object MeetFourParkRoot : AbstractAutoRoot() {
             d_colors.BLUE = od_colors.BLUE
         }
         // facing positive x axis
-        robot.zelda.poseEstimate = change(a_startPose.toPose2d())
-        return robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
+        robot.zelda!!.poseEstimate = change(a_startPose.toPose2d())
+        return robot.zelda!!.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // move to roughly the center of the spawn square
             .lineToSplineHeading(change(b_posCenter.toPose2d()))
             // move foward to dodge obstacles
@@ -43,7 +43,7 @@ object MeetFourParkRoot : AbstractAutoRoot() {
             // park in correct space
             .lineToSplineHeading(
                 change(
-                        when (getColor(robot.colorCone)) {
+                        when (getColor(robot.colorCone!!)) {
                             ColorCone.ConeColor.RED -> d_colors.RED
                             ColorCone.ConeColor.GREEN -> d_colors.GREEN
                             ColorCone.ConeColor.BLUE -> d_colors.BLUE

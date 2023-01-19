@@ -20,6 +20,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractRobot
@@ -34,38 +35,39 @@ import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
  *
  * @param hardwareMap Passed in from [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
  */
+@Config
 class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     override val tag = "CheckmateRobot"
 
     /**
      * Access the [Zelda] subsystem.
      */
-    val zelda: Zelda get() = subsystems.get<Zelda>()!!
+    val zelda: Zelda? get() = subsystems.get<Zelda>()
 
     /**
-     * Access the [ColorCone] subsystem.
+     * Accmaybe youy ess the [ColorCone] subsystem.
      */
-    val colorCone: ColorCone get() = subsystems.get<ColorCone>()!!
+    val colorCone: ColorCone? get() = subsystems.get<ColorCone>()
 
     /**
      * Access the [LiftyLinkage] subsystem.
      */
-    val liftyLinkage: LiftyLinkage get() = subsystems.get<LiftyLinkage>()!!
+    val liftyLinkage: LiftyLinkage? get() = subsystems.get<LiftyLinkage>()
 
     /**
      * Access the [ClumsyClaw] subsystem.
      */
-    val clumsyClaw: ClumsyClaw get() = subsystems.get<ClumsyClaw>()!!
+    val clumsyClaw: ClumsyClaw? get() = subsystems.get<ClumsyClaw>()
 
     /**
      * Access the [NightmareSlide] subsystem.
      */
-    val nightmareSlide: NightmareSlide get() = subsystems.get<NightmareSlide>()!!
+    val nightmareSlide: NightmareSlide? get() = subsystems.get<NightmareSlide>()
 
     /**
      * Access the [Turret] subsystem.
      */
-    val turret: Turret get() = subsystems.get<Turret>()!!
+    val turret: Turret? get() = subsystems.get<Turret>()
 
     /**
      * Puts the thread to sleep.
@@ -88,48 +90,50 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
     fun waitFor(callback: () -> Boolean) { while (!callback()) continue }
 
     private fun toSniff() {
-        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.BIG_EYES
-        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.GRAB
-        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-        this.turret.locked = false
-        this.nightmareSlide.currentFrame = -1
-        this.liftyLinkage.lockedAboveMid = false
+        this.clumsyClaw?.wrist = ClumsyClaw.WristPosition.BIG_EYES
+        this.clumsyClaw?.pivot = ClumsyClaw.PivotPosition.GRAB
+        this.clumsyClaw?.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret?.locked = false
+        this.nightmareSlide?.currentFrame = -1
+        this.liftyLinkage?.lockedAboveMid = false
     }
 
     private fun toRest() {
-        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-        this.turret.locked = true
+        this.clumsyClaw?.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret?.locked = true
         if (currentLinkState == LinkState.CAP) {
-            this.nightmareSlide.currentFrame = 2
+            this.nightmareSlide?.currentFrame = 2
             sleep(300)
-            this.nightmareSlide.currentFrame = 1
+            this.nightmareSlide?.currentFrame = 1
             sleep(400)
         }
-        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.REST
-        this.nightmareSlide.currentFrame = 0
-        this.liftyLinkage.lockedAboveMid = this.liftyLinkage.isAboveMid
+        this.clumsyClaw?.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+        this.clumsyClaw?.pivot = ClumsyClaw.PivotPosition.REST
+        this.nightmareSlide?.currentFrame = 0
+        this.liftyLinkage?.let {
+            it.lockedAboveMid = it.isAboveMid
+        }
     }
 
     private fun toCap() {
-        this.clumsyClaw.wrist = ClumsyClaw.WristPosition.SMALL_EYES
-        this.clumsyClaw.pivot = ClumsyClaw.PivotPosition.CAP
-        this.clumsyClaw.gripper = ClumsyClaw.GripperPosition.CLOSED
-        this.turret.locked = false
-        this.nightmareSlide.currentFrame = 1
-        this.liftyLinkage.lockedAboveMid = true
+        this.clumsyClaw?.wrist = ClumsyClaw.WristPosition.SMALL_EYES
+        this.clumsyClaw?.pivot = ClumsyClaw.PivotPosition.CAP
+        this.clumsyClaw?.gripper = ClumsyClaw.GripperPosition.CLOSED
+        this.turret?.locked = false
+        this.nightmareSlide?.currentFrame = 1
+        this.liftyLinkage?.lockedAboveMid = true
 
         sleep(300)
-        this.nightmareSlide.currentFrame = 2
+        this.nightmareSlide?.currentFrame = 2
         sleep(400)
-        this.nightmareSlide.currentFrame = 3
+        this.nightmareSlide?.currentFrame = 3
     }
 
     var currentLinkState = LinkState.REST
         set(value) {
             // Checks
             if (currentLinkState != LinkState.REST && value != LinkState.REST) return
-            if (value == LinkState.CAP && !this.liftyLinkage.isAboveMid) return
+            if (value == LinkState.CAP && this.liftyLinkage?.isAboveMid == false) return
 
             field = value
 
@@ -161,21 +165,37 @@ class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
         }
 
         // Set up the drivetrain
-        subsystems.register(Zelda(hardwareMap))
+        if (enableZelda)
+            subsystems.register(Zelda(hardwareMap))
 
         // Set up the camera (ColorCone)
-        subsystems.register(ColorCone(hardwareMap))
+        if (enableColorCone)
+            subsystems.register(ColorCone(hardwareMap))
 
         // Set up the lift mechanism
-        subsystems.register(LiftyLinkage(hardwareMap))
+        if (enableLiftyLinkage)
+            subsystems.register(LiftyLinkage(hardwareMap))
 
         // Set up the claw mechanism
-        subsystems.register(ClumsyClaw(hardwareMap))
+        if (enableClumsyClaw)
+            subsystems.register(ClumsyClaw(hardwareMap))
 
         // Set up the nightmare of a slide mechanism
-        subsystems.register(NightmareSlide(hardwareMap))
+        if (enableNightmareSlide)
+            subsystems.register(NightmareSlide(hardwareMap))
 
         // Set up the t
-        subsystems.register(Turret(hardwareMap))
+        if (enableTurret)
+            subsystems.register(Turret(hardwareMap))
+    }
+
+    companion object {
+        @JvmField var enableZelda = true
+        @JvmField var enableColorCone = true
+        @JvmField var enableLiftyLinkage = true
+        @JvmField var enableClumsyClaw = true
+        @JvmField var enableNightmareSlide = true
+        @JvmField var enableTurret = true
+
     }
 }

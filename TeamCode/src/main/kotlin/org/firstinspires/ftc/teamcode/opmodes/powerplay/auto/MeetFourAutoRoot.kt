@@ -37,8 +37,8 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
         lateinit var parkPathBlue: TrajectorySequence
 
         // facing positive x axis
-        robot.zelda.poseEstimate = change(a_startPose.toPose2d())
-        val fullPath = robot.zelda.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
+        robot.zelda!!.poseEstimate = change(a_startPose.toPose2d())
+        val fullPath = robot.zelda!!.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // rotate to face 270 (negative y axis)
             .lineToSplineHeading(change(b_pos1.toPose2d()))
             // rotate to face 225 to score in tall junction
@@ -104,8 +104,8 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
             }*/
             // colors
             .addDisplacementMarker {
-                robot.zelda.followTrajectorySequenceAsync(
-                    when (getColor(robot.colorCone)) {
+                robot.zelda!!.followTrajectorySequenceAsync(
+                    when (getColor(robot.colorCone!!)) {
                         ColorCone.ConeColor.RED -> parkPathRed
                         ColorCone.ConeColor.GREEN -> parkPathGreen
                         ColorCone.ConeColor.BLUE -> parkPathBlue
@@ -114,13 +114,13 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
             }
             .build()
 
-        parkPathRed = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+        parkPathRed = robot.zelda!!.trajectorySequenceBuilder(fullPath.end())
             .lineToSplineHeading(change(g_colors.RED.toPose2d()))
             .build()
-        parkPathGreen = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+        parkPathGreen = robot.zelda!!.trajectorySequenceBuilder(fullPath.end())
             .lineToSplineHeading(change(g_colors.GREEN.toPose2d()))
             .build()
-        parkPathBlue = robot.zelda.trajectorySequenceBuilder(fullPath.end())
+        parkPathBlue = robot.zelda!!.trajectorySequenceBuilder(fullPath.end())
             .lineToSplineHeading(change(g_colors.BLUE.toPose2d()))
             .build()
 

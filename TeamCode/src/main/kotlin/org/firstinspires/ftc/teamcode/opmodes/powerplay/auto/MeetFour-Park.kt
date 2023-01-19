@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 @Autonomous(name = "-PARK-", group = "PARK", preselectTeleOp = "TeleOp")
 class BlueRightPark : BaseOpMode() {
     override fun preRunLoop() {
-        robot.zelda.followTrajectorySequenceAsync(
+        robot.zelda!!.followTrajectorySequenceAsync(
             MeetFourParkRoot.gen(
                 robot,
                 ColorCone::rightColor,

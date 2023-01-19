@@ -20,7 +20,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.opmodes.powerplay.tele
 
-import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
@@ -29,7 +28,6 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.Turret
 
-@Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
     override fun preRunLoop() {
@@ -52,9 +50,9 @@ class MainTeleOp : BaseOpMode() {
         // If the pivot is in the rest position, do nothing.
         listOf(gp1, gp2).forEach {
             it.b.onActivate = {
-                robot.clumsyClaw.gripper =
+                robot.clumsyClaw?.gripper =
                     if (
-                        robot.clumsyClaw.gripper == ClumsyClaw.GripperPosition.OPEN
+                        robot.clumsyClaw?.gripper == ClumsyClaw.GripperPosition.OPEN
                         || robot.currentLinkState == CheckmateRobot.LinkState.REST
                     ) ClumsyClaw.GripperPosition.CLOSED
                     else ClumsyClaw.GripperPosition.OPEN
@@ -63,14 +61,16 @@ class MainTeleOp : BaseOpMode() {
     }
 
     override fun runLoop() {
-        robot.liftyLinkage.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
-
-        if (robot.liftyLinkage.isAboveMid && robot.currentLinkState != CheckmateRobot.LinkState.SNIFF) {
-            robot.liftyLinkage.lockedAboveMid = true
+        robot.liftyLinkage?.let {
+            it.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
         }
 
-        robot.nightmareSlide.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
-        robot.turret.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
+        if (robot.liftyLinkage?.isAboveMid == true && robot.currentLinkState != CheckmateRobot.LinkState.SNIFF) {
+            robot.liftyLinkage?.lockedAboveMid = true
+        }
+
+        robot.nightmareSlide?.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
+        robot.turret?.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
             if (value >= 0) Range.scale(value, 0.0, 1.0, Turret.center, 1.0)
             else Range.scale(value, -1.0, 0.0, 0.0, Turret.center)
         }
@@ -78,7 +78,7 @@ class MainTeleOp : BaseOpMode() {
         when (opModeType) {
             OpModeType.TeleOp ->
                 // Moves the robot based on the GP1 left stick
-                robot.zelda.setWeightedDrivePower(
+                robot.zelda?.setWeightedDrivePower(
                     Pose2d( // left stick X
                         -gp1.leftStickY.correctedValue * Range.scale(
                             gp1.rightTrigger.correctedValue.toDouble(),
