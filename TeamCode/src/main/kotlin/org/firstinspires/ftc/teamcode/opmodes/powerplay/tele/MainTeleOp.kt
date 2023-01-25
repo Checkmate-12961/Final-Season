@@ -23,7 +23,7 @@ package org.firstinspires.ftc.teamcode.opmodes.powerplay.tele
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
-import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
+import org.firstinspires.ftc.teamcode.robot.TheLegend
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.Turret
@@ -33,17 +33,17 @@ class MainTeleOp : BaseOpMode() {
     override fun preRunLoop() {
         // Move the mechanism to the grab position.
         gp2.dpadDown.onActivate = {
-            robot.currentLinkState = CheckmateRobot.LinkState.SNIFF
+            robot.currentLinkState = TheLegend.LinkState.SNIFF
         }
 
         // Move the mechanism to the rest position.
         gp2.dpadLeft.onActivate = {
-            robot.currentLinkState = CheckmateRobot.LinkState.REST
+            robot.currentLinkState = TheLegend.LinkState.REST
         }
 
         // Move the mechanism to the cap position.
         gp2.dpadUp.onActivate = {
-            robot.currentLinkState = CheckmateRobot.LinkState.CAP
+            robot.currentLinkState = TheLegend.LinkState.CAP
         }
 
         // Toggle the gripper when B is pressed.
@@ -53,7 +53,7 @@ class MainTeleOp : BaseOpMode() {
                 robot.clumsyClaw?.gripper =
                     if (
                         robot.clumsyClaw?.gripper == ClumsyClaw.GripperPosition.OPEN
-                        || robot.currentLinkState == CheckmateRobot.LinkState.REST
+                        || robot.currentLinkState == TheLegend.LinkState.REST
                     ) ClumsyClaw.GripperPosition.CLOSED
                     else ClumsyClaw.GripperPosition.OPEN
             }
@@ -65,7 +65,7 @@ class MainTeleOp : BaseOpMode() {
             it.targetPosition -= 0.03 * gp2.leftStickY.correctedValue
         }
 
-        if (robot.liftyLinkage?.isAboveMid == true && robot.currentLinkState != CheckmateRobot.LinkState.SNIFF) {
+        if (robot.liftyLinkage?.isAboveMid == true && robot.currentLinkState != TheLegend.LinkState.SNIFF) {
             robot.liftyLinkage?.lockedAboveMid = true
         }
 

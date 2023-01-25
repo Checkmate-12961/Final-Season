@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util.AbstractAutoRoot
-import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
+import org.firstinspires.ftc.teamcode.robot.TheLegend
 import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
@@ -12,13 +12,13 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
     /**
      * Generates a [TrajectorySequence] for a given starting on the field.
      *
-     * @param robot The [CheckmateRobot] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
+     * @param robot The [TheLegend] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
      * @param getColor A function to get the correct [ColorCone.ConeColor] from the [ColorCone].
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
      * @return The generated [TrajectorySequence].
      */
     override fun gen(
-        robot: CheckmateRobot,
+        robot: TheLegend,
         getColor: (ColorCone) -> ColorCone.ConeColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d

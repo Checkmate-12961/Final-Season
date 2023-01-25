@@ -23,13 +23,13 @@ package org.firstinspires.ftc.teamcode.robot.abstracts
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.robot.CheckmateRobot
+import org.firstinspires.ftc.teamcode.robot.TheLegend
 
 /**
  * Basic OpMode class that all OpModes should extend
  */
 abstract class BaseOpMode : LinearOpMode() {
-    protected lateinit var robot: CheckmateRobot
+    protected lateinit var robot: TheLegend
     protected lateinit var gp1: SuperController
     protected lateinit var gp2: SuperController
 
@@ -91,7 +91,7 @@ abstract class BaseOpMode : LinearOpMode() {
             opModeType = OpModeType.Autonomous
         }
         preSetup()
-        robot = CheckmateRobot(hardwareMap)
+        robot = TheLegend(hardwareMap)
         gp1 = SuperController(gamepad1)
         gp2 = SuperController(gamepad2)
         setup()

@@ -36,7 +36,7 @@ import org.firstinspires.ftc.teamcode.robot.util.LynxModuleUtil
  * @param hardwareMap Passed in from [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
  */
 @Config
-class CheckmateRobot(hardwareMap: HardwareMap) : AbstractRobot() {
+class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
     override val tag = "CheckmateRobot"
 
     /**

@@ -87,13 +87,13 @@ class HardwareNames {
      */
     enum class Servos(private val id: String, private val reversed: Boolean = false) {
         // CHub servos in port order 0-4
-        WRIST("wrist"),
-        GRIPPER("gripper"),
-        SLIDE_A("slide", true),
-        SLIDE_B("slide2", true),
-        TURRET("turret"),
-        PIVOT_A("pivotA"),
-        PIVOT_B("pivotB", true);
+        WRIST("servo_e0"),
+        GRIPPER("servo_e1"),
+        TURRET("servo_e2"),
+        PIVOT_A("servo_e3"),
+        PIVOT_B("servo_e4", true),
+        SLIDE_A("servo_c0", true),
+        SLIDE_B("servo_c1", true);
 
         fun get(hardwareMap: HardwareMap): Servo {
             val servo = hardwareMap.get(Servo::class.java, id)
@@ -112,6 +112,7 @@ class HardwareNames {
      *
      * @property get Get a [CRServo] with this id from the [HardwareMap].
      */
+    @Suppress("unused")
     enum class CRServos(private val id: String, private val reverse: Boolean = false) {
         ;
 
@@ -147,6 +148,7 @@ class HardwareNames {
      *
      * @property get Get a [DigitalChannel] with this id from the [HardwareMap].
      */
+    @Suppress("unused")
     enum class DigitalChannels(private val id: String, private val mode: DigitalChannel.Mode) {
         ;
 

@@ -13,7 +13,7 @@ import kotlin.reflect.KProperty
  * It's a claw that can flip around in annoying-to-program ways.
  *
  * @param hardwareMap Map of the hardware passed in from
- * [org.firstinspires.ftc.teamcode.robot.CheckmateRobot].
+ * [org.firstinspires.ftc.teamcode.robot.TheLegend].
  */
 @Config
 @Suppress("unused")
