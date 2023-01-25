@@ -93,6 +93,6 @@ class LiftyLinkage(hardwareMap: HardwareMap) : AbstractSubsystem {
 
         @JvmField var maxPower = 0.9
 
-        @JvmField var ticksPerRevolution = 1425.1
+        @JvmField var ticksPerRevolution = 3895.9
     }
 }
