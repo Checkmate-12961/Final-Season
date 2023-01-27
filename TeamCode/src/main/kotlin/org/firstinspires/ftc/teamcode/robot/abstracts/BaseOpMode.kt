@@ -124,7 +124,7 @@ abstract class BaseOpMode : LinearOpMode() {
             telemetry.addData("mspt", "%.2f", mspt)
         }
 
-        robot.subsystems.list.forEach {
+        robot.recursiveAction(robot.subsystems) {
             telemetry.addLine("\n${it.tag}")
             it.generateTelemetry(telemetry)
         }

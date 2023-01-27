@@ -66,7 +66,7 @@ abstract class AbstractRobot {
      *
      * @param subsystemMap The initial [SubsystemMap] to recurse from.
      */
-    private fun recursiveAction(
+    fun recursiveAction(
         subsystemMap: SubsystemMap, action: (AbstractSubsystem) -> Unit
     ) {
         for (subsystem in subsystemMap.list) {
