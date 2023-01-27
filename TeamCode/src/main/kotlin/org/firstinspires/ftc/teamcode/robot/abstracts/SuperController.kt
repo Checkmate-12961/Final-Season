@@ -38,37 +38,19 @@ class SuperController(
     /**
      * Update all triggerables
      */
-    fun update() {
-        leftBumper.update()
-        rightBumper.update()
-        a.update()
-        b.update()
-        x.update()
-        y.update()
-        dpadUp.update()
-        dpadDown.update()
-        dpadLeft.update()
-        dpadRight.update()
-        start.update()
-        back.update()
-        leftStickButton.update()
-        rightStickButton.update()
-        guide.update()
-        share.update()
-        options.update()
-        touchpad.update()
-        cross.update()
-        circle.update()
-        square.update()
-        triangle.update()
-        ps.update()
-        leftTrigger.update()
-        rightTrigger.update()
-        leftStickX.update()
-        leftStickY.update()
-        rightStickX.update()
-        rightStickY.update()
-    }
+    fun update() = listOf(
+        leftBumper, rightBumper,
+        a, b, x, y,
+        dpadUp, dpadDown, dpadLeft, dpadRight,
+        start, back, guide,
+        share, options, ps,
+        leftStickButton, rightStickButton,
+        touchpad,
+        cross, circle, square, triangle,
+        leftTrigger, rightTrigger,
+        leftStickX, leftStickY,
+        rightStickX, rightStickY
+    ).forEach(Triggerables.AbstractTriggerable::update)
 
     /**
      * Minimum dead zone threshold
