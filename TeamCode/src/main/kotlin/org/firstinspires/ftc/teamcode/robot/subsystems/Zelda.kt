@@ -55,6 +55,7 @@ import kotlin.math.abs
  * @see org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain
  */
 @Config
+@Suppress("unused")
 class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
     DriveConstants.kV,
     DriveConstants.kA,
@@ -67,10 +68,10 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
     override val subsystems = SubsystemMap{ tag }
 
     private val trajectorySequenceRunner: SuperTrajectorySequenceRunner
-    val leftFront = Motors.LEFT_FRONT.get(hardwareMap)
-    val leftRear = Motors.LEFT_REAR.get(hardwareMap)
-    val rightRear = Motors.RIGHT_REAR.get(hardwareMap)
-    val rightFront = Motors.RIGHT_FRONT.get(hardwareMap)
+    private val leftFront = Motors.LEFT_FRONT.get(hardwareMap)
+    private val leftRear = Motors.LEFT_REAR.get(hardwareMap)
+    private val rightRear = Motors.RIGHT_REAR.get(hardwareMap)
+    private val rightFront = Motors.RIGHT_FRONT.get(hardwareMap)
     private val motors = listOf(leftFront, leftRear, rightRear, rightFront)
     private val batteryVoltageSensor: VoltageSensor
 
@@ -150,7 +151,7 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
     val isBusy: Boolean
         get() = trajectorySequenceRunner.isBusy
 
-    fun setMode(runMode: DcMotor.RunMode?) {
+    fun setMode(runMode: RunMode?) {
         for (motor in motors) {
             motor.mode = runMode
         }
@@ -214,40 +215,6 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
 
     override fun getExternalHeadingVelocity() = 0.0
 
-    companion object {
-        @JvmField var TRANSLATIONAL_PID = PIDCoefficients(8.0, 0.0, 1.0)
-        @JvmField var HEADING_PID = PIDCoefficients(8.0, 0.0, 1.0)
-        @JvmField var LATERAL_MULTIPLIER = 1.0
-        @JvmField var VX_WEIGHT = 1.0
-        @JvmField var VY_WEIGHT = 1.0
-        @JvmField var OMEGA_WEIGHT = 1.0
-        val VEL_CONSTRAINT
-            get() = getVelocityConstraint(
-                DriveConstants.MAX_VEL,
-                DriveConstants.MAX_ANG_VEL,
-                DriveConstants.TRACK_WIDTH
-            )
-        val ACCEL_CONSTRAINT
-            get() = getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-
-        private fun getVelocityConstraint(
-            maxVel: Double,
-            maxAngularVel: Double,
-            trackWidth: Double
-        ): TrajectoryVelocityConstraint {
-            return MinVelocityConstraint(
-                listOf(
-                    AngularVelocityConstraint(maxAngularVel),
-                    MecanumVelocityConstraint(maxVel, trackWidth)
-                )
-            )
-        }
-
-        private fun getAccelerationConstraint(maxAccel: Double): TrajectoryAccelerationConstraint {
-            return ProfileAccelerationConstraint(maxAccel)
-        }
-    }
-
     override fun generateTelemetry(telemetry: Telemetry) {
         poseEstimate.let {
             telemetry.addData("x", it.x)
@@ -302,7 +269,7 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
         )
 
         if (RUN_USING_ENCODER) {
-            setMode(DcMotor.RunMode.RUN_USING_ENCODER)
+            setMode(RunMode.RUN_USING_ENCODER)
         }
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next()
@@ -311,16 +278,55 @@ class Zelda(hardwareMap: HardwareMap) : MecanumDrive(
             val motorConfigurationType = motor.motorType.clone()
             motorConfigurationType.achieveableMaxRPMFraction = 1.0
             motor.motorType = motorConfigurationType
-            motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+            motor.zeroPowerBehavior = if (unlockWheels) DcMotor.ZeroPowerBehavior.FLOAT
+                else DcMotor.ZeroPowerBehavior.BRAKE
         }
 
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
-            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
+            setPIDFCoefficients(RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID)
         }
 
         // DONE: if desired, use setLocalizer() to change the localization method
-        localizer = TrackingWheelLocalizer(hardwareMap)
+        val trackingWheelLocalizer = TrackingWheelLocalizer(hardwareMap)
+        localizer = trackingWheelLocalizer
+        subsystems.register(trackingWheelLocalizer)
 
         trajectorySequenceRunner = SuperTrajectorySequenceRunner(follower, HEADING_PID)
+    }
+
+    companion object {
+        @JvmField var unlockWheels = false
+
+        @JvmField var TRANSLATIONAL_PID = PIDCoefficients(8.0, 0.0, 1.0)
+        @JvmField var HEADING_PID = PIDCoefficients(8.0, 0.0, 1.0)
+        @JvmField var LATERAL_MULTIPLIER = 1.0
+        @JvmField var VX_WEIGHT = 1.0
+        @JvmField var VY_WEIGHT = 1.0
+        @JvmField var OMEGA_WEIGHT = 1.0
+        val VEL_CONSTRAINT
+            get() = getVelocityConstraint(
+                DriveConstants.MAX_VEL,
+                DriveConstants.MAX_ANG_VEL,
+                DriveConstants.TRACK_WIDTH
+            )
+        val ACCEL_CONSTRAINT
+            get() = getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+
+        private fun getVelocityConstraint(
+            maxVel: Double,
+            maxAngularVel: Double,
+            trackWidth: Double
+        ): TrajectoryVelocityConstraint {
+            return MinVelocityConstraint(
+                listOf(
+                    AngularVelocityConstraint(maxAngularVel),
+                    MecanumVelocityConstraint(maxVel, trackWidth)
+                )
+            )
+        }
+
+        private fun getAccelerationConstraint(maxAccel: Double): TrajectoryAccelerationConstraint {
+            return ProfileAccelerationConstraint(maxAccel)
+        }
     }
 }
