@@ -72,6 +72,8 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         Mode mode = Mode.TUNING_MODE;
 
+        assert MOTOR_VELO_PID != null;
+
         double lastKp = MOTOR_VELO_PID.p;
         double lastKi = MOTOR_VELO_PID.i;
         double lastKd = MOTOR_VELO_PID.d;
