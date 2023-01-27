@@ -25,7 +25,9 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
     var isStreaming: Boolean? = null
         private set
 
-    // Closes the camera after the initialization period is over
+    /**
+     * Closes the camera after the initialization period is over.
+     */
     override fun preLoop() {
         if (isStreaming == true) {
             webcam.stopStreaming()
@@ -50,6 +52,9 @@ class ColorCone(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     private val pipeline = ColorConeDeterminationPipeline()
 
+    /**
+     * Pipeline for determining the color in front of the camera.
+     */
     private class ColorConeDeterminationPipeline : OpenCvPipeline() {
         // channel materials
         private val r = Mat()

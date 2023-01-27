@@ -72,9 +72,23 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : ThreeTrackingWheelLocal
     override fun getWheelVelocities(): List<Double> =
         mulList(onEachEncoder(Encoder::getCorrectedVelocity), multipliers)
 
+    /**
+     * Do something on each of the encoders and return the result
+     *
+     * @param T The return type of the thing you're doing on each encoder
+     * @param callback The thing to do on each encoder
+     * @return A [List] of elements of type [T] containing the results
+     */
     private fun <T> onEachEncoder(callback: (Encoder) -> T): List<T> =
         listOf(frontEncoder, rearEncoder, centerEncoder).map(callback)
 
+    /**
+     * Multiply the elements of two [List]s of [Double]
+     *
+     * @param a The first [List]
+     * @param b The second [List]
+     * @return The product of [a] and [b]
+     */
     private fun mulList(a: List<Double>, b: List<Double>) = a.zip(b) { x: Double, y: Double ->
         x * y
     }

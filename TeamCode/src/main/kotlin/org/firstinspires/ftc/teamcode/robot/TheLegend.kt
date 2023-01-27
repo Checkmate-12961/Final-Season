@@ -196,6 +196,5 @@ class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
         @JvmField var enableClumsyClaw = true
         @JvmField var enableNightmareSlide = true
         @JvmField var enableTurret = true
-
     }
 }

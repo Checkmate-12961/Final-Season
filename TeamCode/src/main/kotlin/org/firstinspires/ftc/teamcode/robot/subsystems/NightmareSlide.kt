@@ -123,22 +123,6 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         FRAME_A2
     )
 
-    companion object {
-        @JvmField var FRAME_B1 = Keyframe(-1.0, 90.0)
-        @JvmField var FRAME_0 = Keyframe(90.0, 90.0)
-        @JvmField var FRAME_A1 = Keyframe(45.0, 135.0)
-        @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
-        @JvmField var FRAME_A3 = Keyframe(0.0, -1.0)
-
-        @JvmField var A_LOCK_BOUNDS = Bounds(190.0, 300.0)
-        @JvmField var B_LOCK_BOUNDS = Bounds(100.0, 135.0)
-
-        @JvmField var FRAME_INIT = Keyframe(90.0, 90.0)
-
-        @JvmField var bottomServoIntrinsic = 50.0
-        @JvmField var topServoIntrinsic = 185.0
-    }
-
     override fun generateTelemetry(telemetry: Telemetry) {
         telemetry.addData("bottomAngle", Math.toDegrees(bottom))
         telemetry.addData("topAngle", Math.toDegrees(top))
@@ -153,5 +137,21 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     override fun preLoop() {
         currentFrame = 0
+    }
+
+    companion object {
+        @JvmField var FRAME_B1 = Keyframe(-1.0, 90.0)
+        @JvmField var FRAME_0 = Keyframe(90.0, 90.0)
+        @JvmField var FRAME_A1 = Keyframe(45.0, 135.0)
+        @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
+        @JvmField var FRAME_A3 = Keyframe(0.0, -1.0)
+
+        @JvmField var A_LOCK_BOUNDS = Bounds(190.0, 300.0)
+        @JvmField var B_LOCK_BOUNDS = Bounds(100.0, 135.0)
+
+        @JvmField var FRAME_INIT = Keyframe(90.0, 90.0)
+
+        @JvmField var bottomServoIntrinsic = 50.0
+        @JvmField var topServoIntrinsic = 185.0
     }
 }
