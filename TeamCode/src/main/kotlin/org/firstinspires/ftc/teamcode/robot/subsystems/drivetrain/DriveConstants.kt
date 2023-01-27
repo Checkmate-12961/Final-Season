@@ -44,8 +44,8 @@ object DriveConstants {
     @JvmField var TICKS_PER_REV = 537.7
     @JvmField var MAX_RPM = 312.0
 
-    const val RUN_USING_ENCODER = true;
-    @JvmField var MOTOR_VELO_PID = PIDFCoefficients(0.0, 0.0, 0.0, 14.376)
+    const val RUN_USING_ENCODER = true
+    @JvmField val MOTOR_VELO_PID: PIDFCoefficients? = null // PIDFCoefficients(0.0, 0.0, 0.0, 14.376)
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -66,9 +66,9 @@ object DriveConstants {
      * empirically tuned.
      */
     // TODO: tune for the robot
-    @JvmField var kV = 0.0173
-    @JvmField var kA = 0.005
-    @JvmField var kStatic = 0.0
+    @JvmField var kV = 0.01583
+    @JvmField var kA = 0.00064
+    @JvmField var kStatic = 0.001825
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -99,10 +99,10 @@ object DriveConstants {
 
      */
     // TODO: re-tune the robot
-    @JvmField var MAX_VEL = 20.0
-    @JvmField var MAX_ACCEL = 20.0
-    @JvmField var MAX_ANG_VEL = Math.toRadians(30.0)
-    @JvmField var MAX_ANG_ACCEL = Math.toRadians(40.0)
+    @JvmField var MAX_VEL = 30.0
+    @JvmField var MAX_ACCEL = 30.0
+    @JvmField var MAX_ANG_VEL = Math.toRadians(180.0)
+    @JvmField var MAX_ANG_ACCEL = Math.toRadians(30.0)
 
 
     @JvmStatic fun encoderTicksToInches(ticks: Double): Double {
