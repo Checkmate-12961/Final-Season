@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util.AbstractAutoRoot
 import org.firstinspires.ftc.teamcode.robot.TheLegend
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SignalPipeline
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 
 @Config
@@ -13,16 +13,18 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
      * Generates a [TrajectorySequence] for a given starting on the field.
      *
      * @param robot The [TheLegend] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
-     * @param getColor A function to get the correct [ColorCone.ConeColor] from the [ColorCone].
+     * @param getColor A function to get the correct [SignalPipeline.SignalColor] from the [SignalPipeline].
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
      * @return The generated [TrajectorySequence].
      */
     override fun gen(
         robot: TheLegend,
-        getColor: (ColorCone) -> ColorCone.ConeColor,
+        getColor: (SignalPipeline) -> SignalPipeline.SignalColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d
     ): TrajectorySequence {
+        robot.colorCone!!.pipeline = SignalPipeline()
+
         if (startsLeft) {
             g_colors.RED.y = og_colors.BLUE.y
             g_colors.BLUE.y = og_colors.RED.y
@@ -105,10 +107,10 @@ object MeetFourAutoRoot : AbstractAutoRoot() {
             // colors
             .addDisplacementMarker {
                 robot.zelda!!.followTrajectorySequenceAsync(
-                    when (getColor(robot.colorCone!!)) {
-                        ColorCone.ConeColor.RED -> parkPathRed
-                        ColorCone.ConeColor.GREEN -> parkPathGreen
-                        ColorCone.ConeColor.BLUE -> parkPathBlue
+                    when (getColor((robot.colorCone?.pipeline as? SignalPipeline)!!)) {
+                        SignalPipeline.SignalColor.RED -> parkPathRed
+                        SignalPipeline.SignalColor.GREEN -> parkPathGreen
+                        SignalPipeline.SignalColor.BLUE -> parkPathBlue
                     }
                 )
             }

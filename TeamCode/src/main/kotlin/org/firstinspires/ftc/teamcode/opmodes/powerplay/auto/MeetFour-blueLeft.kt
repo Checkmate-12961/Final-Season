@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SignalPipeline
 
 @Autonomous(name = "Blue-Left", group = "FULL", preselectTeleOp = "TeleOp")
 class BlueLeft : BaseOpMode() {
@@ -11,7 +11,7 @@ class BlueLeft : BaseOpMode() {
         robot.zelda!!.followTrajectorySequenceAsync(
             MeetFourAutoRoot.gen(
                 robot,
-                ColorCone::leftColor,
+                SignalPipeline::leftColor,
                 true,
             ) {
                 Pose2d(

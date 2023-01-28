@@ -45,9 +45,9 @@ class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
     val zelda: Zelda? get() = subsystems.get<Zelda>()
 
     /**
-     * Accmaybe youy ess the [ColorCone] subsystem.
+     * Access the [Camera] subsystem.
      */
-    val colorCone: ColorCone? get() = subsystems.get<ColorCone>()
+    val colorCone: Camera? get() = subsystems.get<Camera>()
 
     /**
      * Access the [LiftyLinkage] subsystem.
@@ -168,9 +168,9 @@ class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
         if (enableZelda)
             subsystems.register(Zelda(hardwareMap))
 
-        // Set up the camera (ColorCone)
-        if (enableColorCone)
-            subsystems.register(ColorCone(hardwareMap))
+        // Set up the camera
+        if (enableCamera)
+            subsystems.register(Camera(hardwareMap))
 
         // Set up the lift mechanism
         if (enableLiftyLinkage)
@@ -179,6 +179,7 @@ class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
         // Set up the claw mechanism
         if (enableClumsyClaw)
             subsystems.register(ClumsyClaw(hardwareMap))
+
 
         // Set up the nightmare of a slide mechanism
         if (enableNightmareSlide)
@@ -191,7 +192,7 @@ class TheLegend(hardwareMap: HardwareMap) : AbstractRobot() {
 
     companion object {
         @JvmField var enableZelda = true
-        @JvmField var enableColorCone = true
+        @JvmField var enableCamera = true
         @JvmField var enableLiftyLinkage = true
         @JvmField var enableClumsyClaw = true
         @JvmField var enableNightmareSlide = true

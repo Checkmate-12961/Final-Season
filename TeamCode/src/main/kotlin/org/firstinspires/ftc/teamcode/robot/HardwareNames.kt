@@ -158,4 +158,11 @@ class HardwareNames {
             return digitalChannel
         }
     }
+
+    enum class DistanceSensors(private val id: String) {
+        CLAW_SENSOR("claw_sensor");
+
+        fun get(hardwareMap: HardwareMap): DistanceSensor =
+            hardwareMap.get(DistanceSensor::class.java, id)
+    }
 }

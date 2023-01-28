@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util.AbstractAutoRoot
 import org.firstinspires.ftc.teamcode.robot.TheLegend
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SignalPipeline
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
 
@@ -14,16 +14,18 @@ object MeetFourParkRoot : AbstractAutoRoot() {
      * Generates a [TrajectorySequenceBuilder] for a given starting on the field.
      *
      * @param robot The [TheLegend] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
-     * @param getColor Callback to get the [ColorCone.ConeColor] representing the rotation of the cone.
+     * @param getColor Callback to get the [SignalPipeline.SignalColor] representing the rotation of the cone.
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
      * @return The generated [TrajectorySequenceBuilder].
      */
     override fun gen(
         robot: TheLegend,
-        getColor: (ColorCone) -> ColorCone.ConeColor,
+        getColor: (SignalPipeline) -> SignalPipeline.SignalColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d
     ): TrajectorySequence {
+        robot.colorCone!!.pipeline = SignalPipeline()
+
         if (startsLeft) {
             d_colors.RED = od_colors.BLUE
             d_colors.BLUE = od_colors.RED
@@ -38,15 +40,15 @@ object MeetFourParkRoot : AbstractAutoRoot() {
         return robot.zelda!!.trajectorySequenceBuilder(change(a_startPose.toPose2d()))
             // move to roughly the center of the spawn square
             .lineToSplineHeading(change(b_posCenter.toPose2d()))
-            // move foward to dodge obstacles
+            // move forward to dodge obstacles
             .lineToSplineHeading(change(c_posDodge.toPose2d()))
             // park in correct space
             .lineToSplineHeading(
                 change(
-                        when (getColor(robot.colorCone!!)) {
-                            ColorCone.ConeColor.RED -> d_colors.RED
-                            ColorCone.ConeColor.GREEN -> d_colors.GREEN
-                            ColorCone.ConeColor.BLUE -> d_colors.BLUE
+                        when (getColor((robot.colorCone?.pipeline as? SignalPipeline)!!)) {
+                            SignalPipeline.SignalColor.RED -> d_colors.RED
+                            SignalPipeline.SignalColor.GREEN -> d_colors.GREEN
+                            SignalPipeline.SignalColor.BLUE -> d_colors.BLUE
                         }.toPose2d()
 
                 )
@@ -58,7 +60,7 @@ object MeetFourParkRoot : AbstractAutoRoot() {
     @JvmField var b_posCenter = StupidPose(-58.0, -36.0)
     @JvmField var c_posDodge = StupidPose(-36.0, -36.0)
 
-    // Use to change c_colors for different spawnpoints
+    // Use to change c_colors for different spawn points
     // .03 added to avoid possible empty path exceptions
     @JvmField var od_colors = ForkColor(
         RED = StupidPose(-36.03, -12.03),

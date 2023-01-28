@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.powerplay.auto.util
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import org.firstinspires.ftc.teamcode.robot.TheLegend
-import org.firstinspires.ftc.teamcode.robot.subsystems.ColorCone
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SignalPipeline
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequence
 import org.firstinspires.ftc.teamcode.robot.subsystems.drivetrain.trajectorysequence.TrajectorySequenceBuilder
 
@@ -11,13 +11,13 @@ abstract class AbstractAutoRoot {
      * Generates a [TrajectorySequenceBuilder] for a given starting on the field.
      *
      * @param robot The [TheLegend] class passed in from the [org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode].
-     * @param getColor Callback to get the [ColorCone.ConeColor] representing the rotation of the cone.
+     * @param getColor Callback to get the [SignalPipeline.SignalColor] representing the rotation of the cone.
      * @param change A lambda to change each position by to re-arrange and re-orient the sequence for each corner.
      * @return The generated [TrajectorySequenceBuilder].
      */
     abstract fun gen(
         robot: TheLegend,
-        getColor: (ColorCone) -> ColorCone.ConeColor,
+        getColor: (SignalPipeline) -> SignalPipeline.SignalColor,
         startsLeft: Boolean,
         change: (Pose2d) -> Pose2d = { it }
     ): TrajectorySequence

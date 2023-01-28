@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames.Servos
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
+import org.firstinspires.ftc.teamcode.robot.subsystems.clumsyclaw.ClawSensor
 import kotlin.reflect.KProperty
 
 /**
@@ -20,6 +21,8 @@ import kotlin.reflect.KProperty
 class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
+
+    val sensor = ClawSensor(hardwareMap)
 
     // Servos
     private val wristServo = Servos.WRIST.get(hardwareMap)
@@ -83,12 +86,12 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     enum class WristPosition(override val position: () -> Double): PositionEnum {
-        BIG_EYES({ wristPositions.grab }),
-        SMALL_EYES({ wristPositions.cap })
+        BIG_EYES({ wristPositions.bigEyes }),
+        SMALL_EYES({ wristPositions.smallEyes })
     }
     data class WristPositions(
-        @JvmField var grab: Double,
-        @JvmField var cap: Double
+        @JvmField var bigEyes: Double,
+        @JvmField var smallEyes: Double
     )
 
     enum class GripperPosition(override val position: () -> Double): PositionEnum {
@@ -120,13 +123,15 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     init {
+        subsystems.register(sensor)
+
         wrist = WristPosition.SMALL_EYES
         gripper = GripperPosition.CLOSED
         pivot = PivotPosition.START
     }
 
     companion object {
-        @JvmField var wristPositions = WristPositions(0.33, 1.0)
+        @JvmField var wristPositions = WristPositions(1.0, 0.33)
         @JvmField var gripperPositions = GripperPositions(0.96, 0.7)
         @JvmField var pivotPositions = PivotPositions(0.9, 0.65, 0.08, 0.15)
     }

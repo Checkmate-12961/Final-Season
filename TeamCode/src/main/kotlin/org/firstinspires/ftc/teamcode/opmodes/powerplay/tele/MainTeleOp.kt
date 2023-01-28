@@ -20,6 +20,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode.opmodes.powerplay.tele
 
+import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.Range
@@ -27,9 +28,21 @@ import org.firstinspires.ftc.teamcode.robot.TheLegend
 import org.firstinspires.ftc.teamcode.robot.abstracts.BaseOpMode
 import org.firstinspires.ftc.teamcode.robot.subsystems.ClumsyClaw
 import org.firstinspires.ftc.teamcode.robot.subsystems.Turret
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.ConePositionPipeline
 
+@Config
 @TeleOp(name = "TeleOp")
 class MainTeleOp : BaseOpMode() {
+    override fun setup() {
+        robot.colorCone?.pipeline = ConePositionPipeline()
+    }
+
+    enum class AutoAction {
+        GRAB, ALIGN
+    }
+
+    private var autoAction: AutoAction? = null
+
     override fun preRunLoop() {
         // Move the mechanism to the grab position.
         gp2.dpadDown.onActivate = {
@@ -46,10 +59,31 @@ class MainTeleOp : BaseOpMode() {
             robot.currentLinkState = TheLegend.LinkState.CAP
         }
 
+        gp2.x.onActivate = {
+            if (robot.currentLinkState == TheLegend.LinkState.SNIFF) {
+                ConePositionPipeline.allianceColor = ConePositionPipeline.AllianceColor.BLUE
+                //autoAction = AutoAction.ALIGN
+                opModeType = OpModeType.Autonomous
+            }
+        }
+
+        gp2.b.onActivate = {
+            if (robot.currentLinkState == TheLegend.LinkState.SNIFF) {
+                ConePositionPipeline.allianceColor = ConePositionPipeline.AllianceColor.RED
+                //autoAction = AutoAction.ALIGN
+                opModeType = OpModeType.Autonomous
+            }
+        }
+
+        gp2.rightTrigger.onActivate = {
+            autoAction = AutoAction.GRAB
+            opModeType = OpModeType.Autonomous
+        }
+
         // Toggle the gripper when B is pressed.
         // If the pivot is in the rest position, do nothing.
         listOf(gp1, gp2).forEach {
-            it.b.onActivate = {
+            it.a.onActivate = {
                 robot.clumsyClaw?.gripper =
                     if (
                         robot.clumsyClaw?.gripper == ClumsyClaw.GripperPosition.OPEN
@@ -75,7 +109,7 @@ class MainTeleOp : BaseOpMode() {
             else Range.scale(value, -1.0, 0.0, 0.0, Turret.center)
         }
 
-        when (opModeType) {
+        when (opModeType ?: OpModeType.TeleOp) {
             OpModeType.TeleOp ->
                 // Moves the robot based on the GP1 left stick
                 robot.zelda?.setWeightedDrivePower(
@@ -104,19 +138,52 @@ class MainTeleOp : BaseOpMode() {
                     )
                 )
             OpModeType.Autonomous -> {
-                // Replace false here with a check to cancel the sequence
-                // if (false) robot.longSchlong.cancelSequence()
-                // if (!robot.longSchlong.isBusy) opModeType = OpModeType.TeleOp
+                if (gamepad1.y || gamepad2.y) autoAction = null
+
+                when (autoAction) {
+                    AutoAction.GRAB -> {
+                        robot.turret?.position = Turret.center
+
+                        if (robot.clumsyClaw?.sensor?.close == false){
+                            robot.zelda?.setWeightedDrivePower(Pose2d(autoForwardSpeed))
+                        } else {
+                            robot.zelda?.setWeightedDrivePower(Pose2d())
+                            robot.clumsyClaw?.gripper = ClumsyClaw.GripperPosition.CLOSED
+                            opModeType = OpModeType.TeleOp
+                        }
+                    }
+                    AutoAction.ALIGN -> {
+                        val coneDirection = (robot.colorCone?.pipeline as? ConePositionPipeline)!!.coneDirection
+
+                        if (kotlin.math.abs(coneDirection) > .1) {
+                            robot.nightmareSlide?.adjustment = -1.0
+                            robot.liftyLinkage?.targetPosition = .2
+                            robot.waitFor { (robot.liftyLinkage?.currentPosition ?: 1.0) > .15 }
+
+                            robot.zelda?.setWeightedDrivePower(
+                                Pose2d(
+                                    0.0,
+                                    0.0,
+                                    kotlin.math.sign(
+                                        coneDirection
+                                    ) * autoRotationSpeed
+                                )
+                            )
+                        } else {
+                            autoAction = null
+                        }
+                    }
+                    else -> {
+                        opModeType = OpModeType.TeleOp
+                    }
+                }
             }
-            else ->
-                // If we end up here, something went horribly wrong.
-                // Generally, the best plan of action is to ignore
-                //  it and move on.
-                opModeType = OpModeType.TeleOp
         }
     }
 
     companion object {
         @JvmField var drivetrainSpeed = .4
+        @JvmField var autoRotationSpeed = -.08
+        @JvmField var autoForwardSpeed = .08
     }
 }
