@@ -6,6 +6,10 @@ import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SignalPipeline
 
 @Autonomous(name = "-PARK-", group = "PARK", preselectTeleOp = "TeleOp")
 class BlueRightPark : BaseOpMode() {
+    override fun setup() {
+        robot.colorCone!!.pipeline = SignalPipeline()
+    }
+
     override fun preRunLoop() {
         robot.zelda!!.followTrajectorySequenceAsync(
             MeetFourParkRoot.gen(

@@ -34,8 +34,9 @@ class Camera(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     var pipeline: SubsystemOpenCvPipeline? = null
         set(value) {
+            pipeline?.let(subsystems::unregister)
             field = value!!
-            pipeline?.cleanup()
+            subsystems.register(value)
             webcam.setPipeline(value)
         }
 

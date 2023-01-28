@@ -51,4 +51,9 @@ class SubsystemMap(private val tag: () -> String) {
         }
         return removed
     }
+
+    fun unregister(subsystem: AbstractSubsystem): Boolean {
+        subsystem.cleanup()
+        return list.remove(subsystem)
+    }
 }
