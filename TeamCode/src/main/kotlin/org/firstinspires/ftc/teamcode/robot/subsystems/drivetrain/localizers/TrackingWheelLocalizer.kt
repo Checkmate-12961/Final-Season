@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
-import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
+import org.firstinspires.ftc.teamcode.robot.abstracts.DefaultSubsystem
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -43,7 +43,7 @@ import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
  *
  */
 @Config
-class TrackingWheelLocalizer(hardwareMap: HardwareMap) : AbstractSubsystem, ThreeTrackingWheelLocalizer(
+class TrackingWheelLocalizer(hardwareMap: HardwareMap) : AbstractSubsystem by DefaultSubsystem(), ThreeTrackingWheelLocalizer(
     /*
      * Our robot this season has the dead wheels rotated 90 degrees from the normal setup. The
      * changes made here are to reflect that rotation.
@@ -54,9 +54,6 @@ class TrackingWheelLocalizer(hardwareMap: HardwareMap) : AbstractSubsystem, Thre
         Pose2d(0.0, Y_OFFSET, 0.0) // center
     )
 ) {
-    override val tag = this.javaClass.simpleName
-    override val subsystems = SubsystemMap { tag }
-
     private val frontEncoder = HardwareNames.Encoders.FRONT.get(hardwareMap)
     private val rearEncoder = HardwareNames.Encoders.REAR.get(hardwareMap)
     private val centerEncoder = HardwareNames.Encoders.CENTER.get(hardwareMap)

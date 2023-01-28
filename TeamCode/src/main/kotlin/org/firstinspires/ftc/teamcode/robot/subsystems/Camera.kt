@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.robot.HardwareNames
 import org.firstinspires.ftc.teamcode.robot.abstracts.AbstractSubsystem
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
+import org.firstinspires.ftc.teamcode.robot.subsystems.camera.EmptyPipeline
 import org.firstinspires.ftc.teamcode.robot.subsystems.camera.SubsystemOpenCvPipeline
 import org.opencv.core.Scalar
 import org.openftc.easyopencv.OpenCvCamera
@@ -35,9 +36,11 @@ class Camera(hardwareMap: HardwareMap) : AbstractSubsystem {
     var pipeline: SubsystemOpenCvPipeline? = null
         set(value) {
             pipeline?.let(subsystems::unregister)
-            field = value!!
-            subsystems.register(value)
-            webcam.setPipeline(value)
+            (value ?: EmptyPipeline()).let {
+                field = it
+                subsystems.register(it)
+                webcam.setPipeline(it)
+            }
         }
 
     init {
@@ -49,6 +52,8 @@ class Camera(hardwareMap: HardwareMap) : AbstractSubsystem {
                 hardwareMap.appContext.packageName
             )
         )
+
+        pipeline = EmptyPipeline()
 
         // listens for when the camera is opened
         webcam.openCameraDeviceAsync(object : OpenCvCamera.AsyncCameraOpenListener {

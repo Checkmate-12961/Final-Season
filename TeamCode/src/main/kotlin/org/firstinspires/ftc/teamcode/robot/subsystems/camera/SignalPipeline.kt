@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems.camera
 
+import com.acmerobotics.dashboard.config.Config
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.robot.abstracts.SubsystemMap
-import org.firstinspires.ftc.teamcode.robot.subsystems.colorcone.ColorConeConstants
 import org.firstinspires.ftc.teamcode.robot.subsystems.value
-import org.opencv.core.Core
-import org.opencv.core.Mat
-import org.opencv.core.Scalar
+import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 
+@Config
 class SignalPipeline : SubsystemOpenCvPipeline() {
     override val tag = this.javaClass.simpleName
     override val subsystems = SubsystemMap { tag }
@@ -60,13 +59,13 @@ class SignalPipeline : SubsystemOpenCvPipeline() {
     override fun init(firstFrame: Mat) {
         extractChannels(firstFrame)
 
-        boxRightR = r.submat(ColorConeConstants.boxRight.rectangle)
-        boxRightG = g.submat(ColorConeConstants.boxRight.rectangle)
-        boxRightB = b.submat(ColorConeConstants.boxRight.rectangle)
+        boxRightR = r.submat(boxRight.rectangle)
+        boxRightG = g.submat(boxRight.rectangle)
+        boxRightB = b.submat(boxRight.rectangle)
 
-        boxLeftR = r.submat(ColorConeConstants.boxLeft.rectangle)
-        boxLeftG = g.submat(ColorConeConstants.boxLeft.rectangle)
-        boxLeftB = b.submat(ColorConeConstants.boxLeft.rectangle)
+        boxLeftR = r.submat(boxLeft.rectangle)
+        boxLeftG = g.submat(boxLeft.rectangle)
+        boxLeftB = b.submat(boxLeft.rectangle)
     }
 
     override fun processFrame(input: Mat): Mat {
@@ -90,15 +89,15 @@ class SignalPipeline : SubsystemOpenCvPipeline() {
 
         Imgproc.rectangle(
             input,  // Buffer to draw on
-            ColorConeConstants.boxRight.pointA,  // First point which defines the rectangle
-            ColorConeConstants.boxRight.pointB,  // Second point which defines the rectangle
+            boxRight.pointA,  // First point which defines the rectangle
+            boxRight.pointB,  // Second point which defines the rectangle
             rightColor.scalar,  // The color the rectangle is drawn in
             3 // Thickness of indicator rectangle
         )
         Imgproc.rectangle(
             input,  // Buffer to draw on
-            ColorConeConstants.boxLeft.pointA,  //First point which defines the rectangle
-            ColorConeConstants.boxLeft.pointB,  // Second point which defines the rectangle
+            boxLeft.pointA,  //First point which defines the rectangle
+            boxLeft.pointB,  // Second point which defines the rectangle
             leftColor.scalar, // Thickness of the indicator rectangle
             3
         )
@@ -119,5 +118,62 @@ class SignalPipeline : SubsystemOpenCvPipeline() {
         RED(Scalar(255.0, 0.0, 0.0)),
         GREEN(Scalar(0.0, 255.0, 0.0)),
         BLUE(Scalar(0.0, 0.0, 255.0))
+    }
+
+    /**
+     * 2d area for EOCV to use.
+     *
+     * @property x Top left corner x coordinate from the right.
+     * @property y Top left corner y coordinate from the top.
+     * @property width Box width.
+     * @property height Box height.
+     */
+    data class DetectionBox(
+        @JvmField var x: Int,
+        @JvmField var y: Int,
+        @JvmField var width: Int,
+        @JvmField var height: Int
+    ) {
+        /**
+         * Top left [Point] of the box
+         */
+        val pointA: Point
+            get() = Point(x.toDouble(), y.toDouble())
+
+        /**
+         * Bottom right [Point] of the box.
+         */
+        val pointB: Point
+            get() = Point((x + width).toDouble(), (y + height).toDouble())
+
+        /**
+         * [Rect] representation of the box.
+         */
+        val rectangle: Rect
+            get() = Rect(pointA, pointB)
+    }
+
+    companion object {
+        /**
+         * [DetectionBox] for the detection to occur in.
+         */
+        @JvmField
+        var boxRight = DetectionBox(
+            30,
+            90,
+            50,
+            75
+        )
+
+        /**
+         * [DetectionBox] for the detection to occur in.
+         */
+        @JvmField
+        var boxLeft = DetectionBox(
+            220,
+            75,
+            50,
+            70
+        )
     }
 }

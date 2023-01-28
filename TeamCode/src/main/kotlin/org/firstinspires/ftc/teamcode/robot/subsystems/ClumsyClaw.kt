@@ -131,8 +131,8 @@ class ClumsyClaw(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     companion object {
-        @JvmField var wristPositions = WristPositions(1.0, 0.33)
-        @JvmField var gripperPositions = GripperPositions(0.96, 0.7)
-        @JvmField var pivotPositions = PivotPositions(0.9, 0.65, 0.08, 0.15)
+        @JvmField var wristPositions = WristPositions(.85, .0)
+        @JvmField var gripperPositions = GripperPositions(0.77, 0.5)
+        @JvmField var pivotPositions = PivotPositions(0.9, 0.6, 0.08, 0.15)
     }
 }

@@ -20,13 +20,13 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     private var bottom: Double by ServoDelegate(
         bottomServo,
-        Math.toRadians(bottomServoIntrinsic),
+        { Math.toRadians(bottomServoIntrinsic) },
         Math.toRadians(270.0),
         Math.toRadians(90.0)
     )
     private var top: Double by ServoDelegate(
         topServo,
-        Math.toRadians(topServoIntrinsic),
+        { Math.toRadians(topServoIntrinsic) },
         Math.toRadians(270.0),
         Math.toRadians(90.0)
     )
@@ -45,12 +45,12 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
      */
     private class ServoDelegate(
         private val servo: Servo,
-        private val pointFiveAngle: Double,
+        private val getPointFiveAngle: () -> Double,
         private val rangeOfMotion: Double,
         default: Double
     ) {
-        private val upperBound = pointFiveAngle + rangeOfMotion / 2
-        private val lowerBound = pointFiveAngle - rangeOfMotion / 2
+        private val upperBound = getPointFiveAngle() + rangeOfMotion / 2
+        private val lowerBound = getPointFiveAngle() - rangeOfMotion / 2
 
         /**
          * Current position of [servo].
@@ -69,7 +69,7 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
         }
 
         private fun scale(value: Double): Double {
-            return (normalize(value) - (pointFiveAngle - rangeOfMotion / 2)) / rangeOfMotion
+            return (normalize(value) - (getPointFiveAngle() - rangeOfMotion / 2)) / rangeOfMotion
         }
 
         operator fun getValue(thisRef: Any?, property: KProperty<*>): Double = field
@@ -91,17 +91,17 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
 
             val frame = when (field) {
                 -1 -> Keyframe(
+                    FRAME_B1.bottomPos,
                     Range.scale(
-                        adjustment,
+                        1.0 - adjustment,
                         0.0,
                         1.0,
                         B_LOCK_BOUNDS.lowerBound,
                         B_LOCK_BOUNDS.upperBound
-                    ),
-                    FRAME_B1.topPos
+                    )
                 )
                 keyframes.size -> Keyframe(
-                    FRAME_A3.bottomPos,
+                    (FRAME_A3.bottomPos - kotlin.math.sign(adjustment) * FRAME_A3.bottomPos) / 2.0,
                     Range.scale(
                         1.0 - adjustment,
                         0.0,
@@ -140,18 +140,18 @@ class NightmareSlide(hardwareMap: HardwareMap) : AbstractSubsystem {
     }
 
     companion object {
-        @JvmField var FRAME_B1 = Keyframe(-1.0, 90.0)
+        @JvmField var FRAME_B1 = Keyframe(135.0, -1.0)
         @JvmField var FRAME_0 = Keyframe(90.0, 90.0)
         @JvmField var FRAME_A1 = Keyframe(45.0, 135.0)
         @JvmField var FRAME_A2 = Keyframe(45.0, 180.0)
-        @JvmField var FRAME_A3 = Keyframe(0.0, -1.0)
+        @JvmField var FRAME_A3 = Keyframe(15.0, -1.0)
 
         @JvmField var A_LOCK_BOUNDS = Bounds(190.0, 300.0)
-        @JvmField var B_LOCK_BOUNDS = Bounds(100.0, 135.0)
+        @JvmField var B_LOCK_BOUNDS = Bounds(45.0, 135.0)
 
         @JvmField var FRAME_INIT = Keyframe(90.0, 90.0)
 
-        @JvmField var bottomServoIntrinsic = 50.0
-        @JvmField var topServoIntrinsic = 185.0
+        @JvmField var bottomServoIntrinsic = 20.0
+        @JvmField var topServoIntrinsic = 165.0
     }
 }

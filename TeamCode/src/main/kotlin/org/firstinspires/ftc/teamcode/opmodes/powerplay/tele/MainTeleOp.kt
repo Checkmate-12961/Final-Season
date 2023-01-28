@@ -58,7 +58,7 @@ class MainTeleOp : BaseOpMode() {
         gp2.dpadUp.onActivate = {
             robot.currentLinkState = TheLegend.LinkState.CAP
         }
-
+/*
         gp2.x.onActivate = {
             if (robot.currentLinkState == TheLegend.LinkState.SNIFF) {
                 ConePositionPipeline.allianceColor = ConePositionPipeline.AllianceColor.BLUE
@@ -73,23 +73,24 @@ class MainTeleOp : BaseOpMode() {
                 //autoAction = AutoAction.ALIGN
                 opModeType = OpModeType.Autonomous
             }
-        }
+        }*/
 
         gp2.rightTrigger.onActivate = {
             autoAction = AutoAction.GRAB
             opModeType = OpModeType.Autonomous
         }
 
-        // Toggle the gripper when B is pressed.
-        // If the pivot is in the rest position, do nothing.
+        // Toggle the gripper when A is pressed.
         listOf(gp1, gp2).forEach {
             it.a.onActivate = {
-                robot.clumsyClaw?.gripper =
-                    if (
-                        robot.clumsyClaw?.gripper == ClumsyClaw.GripperPosition.OPEN
-                        || robot.currentLinkState == TheLegend.LinkState.REST
-                    ) ClumsyClaw.GripperPosition.CLOSED
-                    else ClumsyClaw.GripperPosition.OPEN
+                robot.clumsyClaw?.let { clumsyClaw ->
+                    clumsyClaw.gripper =
+                        if (
+                            robot.clumsyClaw?.gripper == ClumsyClaw.GripperPosition.OPEN
+                            || robot.currentLinkState == TheLegend.LinkState.REST
+                        ) ClumsyClaw.GripperPosition.CLOSED
+                        else ClumsyClaw.GripperPosition.OPEN
+                }
             }
         }
     }
@@ -104,10 +105,10 @@ class MainTeleOp : BaseOpMode() {
         }
 
         robot.nightmareSlide?.adjustment = (-gp2.rightStickY.rawValue() + 1.0) / 2.0
-        robot.turret?.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
+        /*robot.turret?.position = (-gp2.rightStickX.rawValue().toDouble()).let { value ->
             if (value >= 0) Range.scale(value, 0.0, 1.0, Turret.center, 1.0)
             else Range.scale(value, -1.0, 0.0, 0.0, Turret.center)
-        }
+        }*/
 
         when (opModeType ?: OpModeType.TeleOp) {
             OpModeType.TeleOp ->
@@ -132,7 +133,7 @@ class MainTeleOp : BaseOpMode() {
                             gp1.rightTrigger.correctedValue.toDouble(),
                             0.0,
                             1.0,
-                            drivetrainSpeed,
+                            drivetrainRotationSpeed,
                             1.0
                         )
                     )
@@ -183,6 +184,7 @@ class MainTeleOp : BaseOpMode() {
 
     companion object {
         @JvmField var drivetrainSpeed = .4
+        @JvmField var drivetrainRotationSpeed = .3
         @JvmField var autoRotationSpeed = -.08
         @JvmField var autoForwardSpeed = .08
     }

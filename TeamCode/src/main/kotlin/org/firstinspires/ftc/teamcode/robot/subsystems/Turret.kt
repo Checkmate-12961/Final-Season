@@ -16,9 +16,9 @@ class Turret(hardwareMap: HardwareMap) : AbstractSubsystem {
 
     var locked: Boolean = false
         set(value) {
-            field = value
+            field = true/*value*/
 
-            if (value) {
+            if (/*value*/true) {
                 position = center
             }
         }
